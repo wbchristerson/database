@@ -1,6 +1,9 @@
 # https://artofproblemsolving.com/community/u53544h1559064p9530694
 from tkinter import *
 
+# Credit for multi-page structure skeleton to
+# https://pythonprogramming.net/change-show-new-frame-tkinter/
+
 class Transition(Tk):
     def __init__(self):
         Tk.__init__(self)
@@ -26,7 +29,6 @@ class Transition(Tk):
         frame = self.frames[cont]
         frame.tkraise()
 
-# https://pythonprogramming.net/change-show-new-frame-tkinter/
 
 class Application(Frame):
     """ Main page for database """
