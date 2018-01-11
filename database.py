@@ -6,6 +6,13 @@ class Transition(Tk):
         Tk.__init__(self)
         container = Frame(self)
 
+        # Structure to be possibly removed
+        container.pack(side="top", fill="both", expand = True)
+
+        container.grid_rowconfigure(0, weight=1)
+        container.grid_columnconfigure(0, weight=1)
+        # Structure to be possibly removed
+
         self.title("Database")
         self.geometry("200x200")
         self.frames = {}
@@ -38,30 +45,27 @@ class Application(Frame):
         self.grid()
         lbl = Label(self, text = "Welcome!")
         lbl.grid()
-#    def __init__(self, master, controller):
-#        super(Application, self).__init__(master)
-#       self.grid()
-#        self.set_buttons(controller)
+        self.set_buttons(controller)
 
-#    def set_buttons(self, controller):
-#        """ Create text introduction """
-#        lbl = Label(self, text = "Welcome!")
-#        lbl.grid()
+    def set_buttons(self, controller):
+        """ Create text introduction """
+        lbl = Label(self, text = "Welcome!")
+        lbl.grid()
 
-#       self.bttn1 = Button(self, text = "Look Up An Entry",
-#                            command=lambda: controller.show_frame(WritePage))
-#        self.bttn1.grid()
+        self.bttn1 = Button(self, text = "Look Up An Entry",
+                            command=lambda: controller.show_frame(WritePage))
+        self.bttn1.grid()
 
-#       self.bttn2 = Button(self, text = "Browse Entries")
-#        self.bttn2.grid()
+        self.bttn2 = Button(self, text = "Browse Entries")
+        self.bttn2.grid()
 
-#        self.bttn3 = Button(self)
-#        self.bttn3.grid()
-#        self.bttn3.configure(text = "Add An Entry")
+        self.bttn3 = Button(self)
+        self.bttn3.grid()
+        self.bttn3.configure(text = "Add An Entry")
 
-#        self.bttn4 = Button(self)
-#        self.bttn4.grid()
-#        self.bttn4["text"] = "Edit An Entry"
+        self.bttn4 = Button(self)
+        self.bttn4.grid()
+        self.bttn4["text"] = "Edit An Entry"
 
 
 class WritePage(Frame):
