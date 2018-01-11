@@ -6,12 +6,9 @@ class Transition(Tk):
         Tk.__init__(self)
         container = Frame(self)
 
-        # Structure to be possibly removed
         container.pack(side="top", fill="both", expand = True)
-
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
-        # Structure to be possibly removed
 
         self.title("Database")
         self.geometry("200x200")
@@ -21,11 +18,6 @@ class Transition(Tk):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
-
-        #self.frames[Application] = Application(self, container)
-        #self.frame[Application] = Application(container, self)
-        #self.frames[WritePage] = WritePage(self, container)
-        #self.frame[WritePage] = WritePage(container, self)
 
         self.show_frame(Application)
         
@@ -49,8 +41,6 @@ class Application(Frame):
 
     def set_buttons(self, controller):
         """ Create text introduction """
-        lbl = Label(self, text = "Welcome!")
-        lbl.grid()
 
         self.bttn1 = Button(self, text = "Look Up An Entry",
                             command=lambda: controller.show_frame(WritePage))
@@ -74,9 +64,9 @@ class WritePage(Frame):
         For The Absolute Beginner """
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
-        #self.grid()
-        #lbl = Label(self, text = "Bienvenidos!")
-        #lbl.grid()
+        self.grid()
+        lbl = Label(self, text = "Bienvenidos!")
+        lbl.grid()
 #    def __init__(self, master, controller):
 #        super(WritePage, self).__init__(master)
 #        self.grid()
