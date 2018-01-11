@@ -1,3 +1,4 @@
+# https://artofproblemsolving.com/community/u53544h1559064p9530694
 from tkinter import *
 
 class Transition(Tk):
