@@ -14,7 +14,7 @@ class Transition(Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.title("Database")
-        self.geometry("200x200")
+        self.geometry("300x300")
         self.frames = {}
 
         for F in (Application, WritePage):
@@ -38,7 +38,7 @@ class Application(Frame):
         Frame.__init__(self, parent)
         self.grid()
         lbl = Label(self, text = "Welcome!")
-        lbl.grid()
+        lbl.grid(row=1,column=3)
         self.set_buttons(controller)
 
     def set_buttons(self, controller):
@@ -46,17 +46,17 @@ class Application(Frame):
 
         self.bttn1 = Button(self, text = "Look Up An Entry",
                             command=lambda: controller.show_frame(WritePage))
-        self.bttn1.grid()
+        self.bttn1.grid(row=2,column=3)
 
         self.bttn2 = Button(self, text = "Browse Entries")
-        self.bttn2.grid()
+        self.bttn2.grid(row=4,column=3)
 
         self.bttn3 = Button(self)
-        self.bttn3.grid()
+        self.bttn3.grid(row=6,column=3)
         self.bttn3.configure(text = "Add An Entry")
 
         self.bttn4 = Button(self)
-        self.bttn4.grid()
+        self.bttn4.grid(row=8,column=1)
         self.bttn4["text"] = "Edit An Entry"
 
 
