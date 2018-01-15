@@ -12,6 +12,7 @@ class Transition(Tk):
         container.pack(side="top", fill="both", expand = True)
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
+        #container.grid_columnconfigure(1, weight=1)
 
         # Added Weight
         #container.grid_columnconfigure(2, weight=1)
@@ -24,10 +25,12 @@ class Transition(Tk):
         for F in (Application, WritePage):
             frame = F(container, self)
             self.frames[F] = frame
+            #frame.grid(row=0, column=0, sticky="nsew")
+            #frame.grid(row=0, column=0, sticky="ew")
             frame.grid(row=0, column=0, sticky="nsew")
-            #frame.grid(row=0, column=0)
 
         self.show_frame(Application)
+        #self.show_frame(WritePage)
         
 
     def show_frame(self, cont):
@@ -42,13 +45,20 @@ class Application(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.grid()
+
+        #spacer = Label(self, text = "       ")
+        #spacer = Label(self, text="")
+        #spacer.grid(row=1,column=0)
+        #spacer.grid_columnconfigure(0, weight=1)
         
         lbl = Label(self, text = "Welcome!")
+        lbl.pack(pady=10,padx=10)
         #lbl.grid(row=1,column=3)
         #lbl.grid_rowconfigure(0, weight=2)
         lbl.grid(row=1,column=1)
-        lbl.grid_columnconfigure(1, weight=1)
+        #lbl.grid_columnconfigure(1, weight=1)
         self.set_buttons(controller)
+
 
     def set_buttons(self, controller):
         """ Create text introduction """
@@ -83,6 +93,8 @@ class WritePage(Frame):
         self.grid()
         lbl = Label(self, text = "Bienvenidos!")
         lbl.grid()
+
+        
 #    def __init__(self, master, controller):
 #        super(WritePage, self).__init__(master)
 #        self.grid()
