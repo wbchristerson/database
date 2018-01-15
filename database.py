@@ -91,8 +91,15 @@ class WritePage(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.grid()
-        lbl = Label(self, text = "Bienvenidos!")
+        lbl = Label(self, text = "Search Page", font= ("Verdana", 12))
         lbl.grid()
+        self.bttn1 = Button(self, text = "Return To Menu",
+                            command=lambda: controller.show_frame(Application))
+        self.bttn1.grid(row=1,column=0)
+
+        Label(self, text = "Match By:").grid(row = 2, column = 0, sticky = W)
+
+        
 
         
 #    def __init__(self, master, controller):
