@@ -92,37 +92,33 @@ class WritePage(Frame):
         Frame.__init__(self, parent)
         self.grid()
         lbl = Label(self, text = "Search Page", font= ("Verdana", 12))
-        lbl.grid()
+        lbl.grid(column = 1)
+
+        # Menu return button
         self.bttn1 = Button(self, text = "Return To Menu",
                             command=lambda: controller.show_frame(Application))
-        self.bttn1.grid(row=1,column=0)
+        self.bttn1.grid(row=1,column=1)
 
+        # 'Match By' label
         Label(self, text = "Match By:").grid(row = 2, column = 0, sticky = W)
 
+        # Radio Button
+        self.query_type = StringVar()
+        self.query_type.set(None)
+        query_options = ['Tags', 'Mentioned Words', 'Topic']
+        column = 0
+        for query in query_options:
+            Radiobutton(self,
+                        text = query,
+                        variable = self.query_type,
+                        value = query
+                        ).grid(row = 3, column = column, sticky = W)
+            column += 1
+
+        # 'Inputs' entry label
         
 
-        
-#    def __init__(self, master, controller):
-#        super(WritePage, self).__init__(master)
-#        self.grid()
-#        self.set_buttons()
 
-#    def set_buttons(self):
-#        """ Create text introduction """
-#        lbl = Label(self, text = "Write Page!")
-#        lbl.grid()
-
-#        self.bttn1 = Button(self, text = "Write In An Entry")
-#        self.bttn1.grid()
-
-
-# main
-
-#root = Tk()
-#root.title("Database")
-#root.geometry("200x150")
-#app = Application(root)
-#root.mainloop()
 
 app = Transition()
 app.mainloop()
