@@ -17,19 +17,19 @@ class Transition(Tk):
         self.geometry("300x300")
         self.frames = {}
 
-        for F in (Application, WritePage):
+        for F in (Home, SearchPage, WritePage):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame(Application)        
+        self.show_frame(Home)        
 
     def show_frame(self, cont):
         frame = self.frames[cont]
         frame.tkraise()
 
 
-class Application(Frame):
+class Home(Frame):
     """ Main page for database """
     """ Object-oriented design based on Michael Dawson's Python Programming
         For The Absolute Beginner """
@@ -40,14 +40,14 @@ class Application(Frame):
         lbl = Label(self, text = "Welcome!")
         lbl.pack(pady=10,padx=10)
         lbl.grid(row=1,column=1)
-        self.set_buttons(controller)
+        self.set_format(controller)
 
 
-    def set_buttons(self, controller):
+    def set_format(self, controller):
         """ Create text introduction """
 
         self.bttn1 = Button(self, text = "Look Up An Entry",
-                            command=lambda: controller.show_frame(WritePage))
+                            command=lambda: controller.show_frame(SearchPage))
         self.bttn1.grid(row=2,column=1, pady=10)
         self.bttn1.grid_rowconfigure(2, weight=1)
         self.bttn1.config(bg="#4bc423")
@@ -55,7 +55,8 @@ class Application(Frame):
         self.bttn2 = Button(self, text = "Browse Entries")
         self.bttn2.grid(row=4,column=1, pady=10)
 
-        self.bttn3 = Button(self)
+        self.bttn3 = Button(self,
+                            command=lambda: controller.show_frame(WritePage))
         self.bttn3.grid(row=6,column=1, pady=10)
         self.bttn3.configure(text = "Add An Entry")
 
@@ -64,19 +65,23 @@ class Application(Frame):
         self.bttn4["text"] = "Edit An Entry"
 
 
-class WritePage(Frame):
+class SearchPage(Frame):
     """ Main page for database """
     """ Object-oriented design based on Michael Dawson's Python Programming
         For The Absolute Beginner """
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.grid()
+        self.set_format(controller)
+
+    def set_format(self, controller):
+        # Page title
         lbl = Label(self, text = "Search Page", font= ("Verdana", 12))
         lbl.grid(column = 1)
 
         # Menu return button
         self.bttn1 = Button(self, text = "Return To Menu",
-                            command=lambda: controller.show_frame(Application))
+                            command=lambda: controller.show_frame(Home))
         self.bttn1.grid(row=1,column=1)
 
         # 'Match By' label
@@ -126,6 +131,20 @@ class WritePage(Frame):
         self.results_txt.insert(0.0, 'hello')
 
 
+class WritePage(Frame):
+     def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
+        self.grid()
+        lbl = Label(self, text = "Write Page", font= ("Verdana", 12))
+        lbl.grid(column = 1)
+
+        # Menu return button
+        self.bttn1 = Button(self, text = "Return To Menu",
+                            command=lambda: controller.show_frame(Home))
+        self.bttn1.grid(row=1,column=1)
+
+
+    
 
 app = Transition()
 app.mainloop()
