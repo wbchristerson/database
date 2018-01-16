@@ -97,7 +97,9 @@ class WritePage(Frame):
         # 'Inputs' entry label
         Label(self, text = "Inputs").grid(row = 4, column = 0, sticky = W)
 
-        
+        # Input entry
+        self.inputs = Entry(self)
+        self.inputs.grid(row = 4, column = 1, columnspan = 1, sticky = W)
 
 
 
