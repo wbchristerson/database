@@ -14,7 +14,7 @@ class Transition(Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.title("Database")
-        self.geometry("300x300")
+        self.geometry("300x550")
         self.frames = {}
 
         for F in (Home, SearchPage, WritePage):
@@ -50,7 +50,7 @@ class Home(Frame):
                             command=lambda: controller.show_frame(SearchPage))
         self.bttn1.grid(row=2,column=1, pady=10)
         self.bttn1.grid_rowconfigure(2, weight=1)
-        self.bttn1.config(bg="#4bc423")
+        self.bttn1.config(bg="#4bc423", activebackground="#4bc423")
 
         self.bttn2 = Button(self, text = "Browse Entries")
         self.bttn2.grid(row=4,column=1, pady=10)
@@ -59,6 +59,7 @@ class Home(Frame):
                             command=lambda: controller.show_frame(WritePage))
         self.bttn3.grid(row=6,column=1, pady=10)
         self.bttn3.configure(text = "Add An Entry")
+        self.bttn3.config(bg="#e53c12", activebackground="#e53c12")
 
         self.bttn4 = Button(self)
         self.bttn4.grid(row=8,column=1, pady=10)
@@ -122,6 +123,7 @@ class SearchPage(Frame):
         # 'Items' label
         Label(self, text = "Items").grid(row = 7, column = 0, sticky = W)
 
+        # Items text box
         self.results_txt = Text(self, width = 30, height = 5, wrap = WORD)
         self.results_txt.grid(row = 8, column = 0, columnspan = 3)
         
@@ -132,18 +134,74 @@ class SearchPage(Frame):
 
 
 class WritePage(Frame):
-     def __init__(self, parent, controller):
+    def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.grid()
         lbl = Label(self, text = "Write Page", font= ("Verdana", 12))
         lbl.grid(column = 1)
+        self.set_format(controller)
 
+    def set_format(self, controller):
         # Menu return button
         self.bttn1 = Button(self, text = "Return To Menu",
                             command=lambda: controller.show_frame(Home))
-        self.bttn1.grid(row=1,column=1)
+        self.bttn1.grid(row = 1,column = 1)
+
+        # 'Tags' label
+        Label(self, text = "Tags").grid(row = 2, column = 0, sticky = W)
+
+        # Tags input entry
+        self.tags_input = Entry(self)
+        self.tags_input.grid(row = 2, column = 1, sticky = W)
+
+        # 'Topic' label
+        Label(self, text = "Topic").grid(row = 3, column = 0, sticky = W)
+
+        # Topic input entry
+        self.topic_input = Entry(self)
+        self.topic_input.grid(row = 3, column = 1, sticky = W)
+
+        # 'Statement' label
+        Label(self, text = "Statement").grid(row = 4, column = 0, sticky = W)
+
+        # Statement text box
+        self.statement_txt = Text(self, width = 30, height = 5, wrap = WORD)
+        self.statement_txt.grid(row = 5, column = 0, columnspan = 3)
+
+        # 'Solution' (without latex) label
+        Label(self, text = "Solution (no latex)").grid(row = 6,
+                                                       column = 0, sticky = W)
+
+        # Solution without latex text box
+        self.solution_no_latex_txt = Text(self, width = 30, height = 5,
+                                          wrap = WORD)
+        self.solution_no_latex_txt.grid(row = 7, column = 0, columnspan = 3)
+
+        # 'Solution' (with latex) label
+        Label(self, text = "Solution (with latex)").grid(row = 8,
+                                                         column = 0, sticky = W)
+
+        # Solution with latex text box
+        self.solution_latex_txt = Text(self, width = 30, height = 5,
+                                          wrap = WORD)
+        self.solution_latex_txt.grid(row = 9, column = 0, columnspan = 3)
+
+        # 'Notes' label
+        Label(self, text = "Notes").grid(row = 10, column = 0, sticky = W)
+
+        # Notes text box
+        self.notes_txt = Text(self, width = 30, height = 5,
+                                          wrap = WORD)
+        self.notes_txt.grid(row = 11, column = 0, columnspan = 3)
+
+        # 'Add Entry' button
+        self.bttn2 = Button(self, text = "Add Entry",
+                            command=lambda: controller.show_frame(Home))
+        self.bttn2.grid(row = 12,column = 1)
+        
 
 
+        
     
 
 app = Transition()
