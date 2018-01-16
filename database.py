@@ -39,7 +39,7 @@ class Home(Frame):
         
         lbl = Label(self, text = "Welcome!")
         lbl.pack(pady=10,padx=10)
-        lbl.grid(row=1,column=1)
+        lbl.grid(row=0,column=1)
         self.set_format(controller)
 
 
@@ -48,26 +48,26 @@ class Home(Frame):
 
         self.bttn1 = Button(self, text = "Look Up An Entry",
                             command=lambda: controller.show_frame(SearchPage))
-        self.bttn1.grid(row=2,column=1, pady=10)
-        self.bttn1.grid_rowconfigure(2, weight=1)
+        self.bttn1.grid(row=1,column=1, pady=10)
+        self.bttn1.grid_rowconfigure(1, weight=1)
         self.bttn1.config(bg="#4bc423", activebackground="#4bc423")
 
-        self.bttn2 = Button(self, text = "Browse Entries")
-        self.bttn2.grid(row=4,column=1, pady=10)
+        self.bttn2 = Button(self, text = "Browse Entries",
+                            command=lambda: controller.show_frame(BrowsePage))
+        self.bttn2.grid(row=2,column=1, pady=10)
 
         self.bttn3 = Button(self,
                             command=lambda: controller.show_frame(WritePage))
-        self.bttn3.grid(row=6,column=1, pady=10)
+        self.bttn3.grid(row=3,column=1, pady=10)
         self.bttn3.configure(text = "Add An Entry")
         self.bttn3.config(bg="#e53c12", activebackground="#e53c12")
 
         self.bttn4 = Button(self)
-        self.bttn4.grid(row=8,column=1, pady=10)
+        self.bttn4.grid(row=4,column=1, pady=10)
         self.bttn4["text"] = "Edit An Entry"
 
 
 class SearchPage(Frame):
-    """ Main page for database """
     """ Object-oriented design based on Michael Dawson's Python Programming
         For The Absolute Beginner """
     def __init__(self, parent, controller):
@@ -78,7 +78,7 @@ class SearchPage(Frame):
     def set_format(self, controller):
         # Page title
         lbl = Label(self, text = "Search Page", font= ("Verdana", 12))
-        lbl.grid(column = 1)
+        lbl.grid(row = 0, column = 1)
 
         # Menu return button
         self.bttn1 = Button(self, text = "Return To Menu",
@@ -138,7 +138,7 @@ class WritePage(Frame):
         Frame.__init__(self, parent)
         self.grid()
         lbl = Label(self, text = "Write Page", font= ("Verdana", 12))
-        lbl.grid(column = 1)
+        lbl.grid(row = 0, column = 1)
         self.set_format(controller)
 
     def set_format(self, controller):
@@ -200,6 +200,18 @@ class WritePage(Frame):
         self.bttn2.grid(row = 12,column = 1)
         
 
+class BrowsePage(Frame):
+    """ Object-oriented design based on Michael Dawson's Python Programming
+        For The Absolute Beginner """
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
+        self.grid()
+        self.set_format(controller)
+
+    def set_format(self, controller):
+        # Page title
+        lbl = Label(self, text = "Search Page", font= ("Verdana", 12))
+        lbl.grid(column = 1)
 
         
     
