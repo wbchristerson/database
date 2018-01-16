@@ -99,7 +99,30 @@ class WritePage(Frame):
 
         # Input entry
         self.inputs = Entry(self)
-        self.inputs.grid(row = 4, column = 1, columnspan = 1, sticky = W)
+        self.inputs.grid(row = 4, column = 1, sticky = W)
+
+        # Expanded view option
+        self.expanded_view = BooleanVar()
+        Checkbutton(self,
+                    text = "expanded view",
+                    variable = self.expanded_view
+                    ).grid(row = 5, column = 1, sticky = W)
+
+        # Button to list items
+        self.bttn2 = Button(self, text = "List Items",
+                            command = self.get_items)
+        self.bttn2.grid(row = 6, column = 1)
+
+        # 'Items' label
+        Label(self, text = "Items").grid(row = 7, column = 0, sticky = W)
+
+        self.results_txt = Text(self, width = 30, height = 5, wrap = WORD)
+        self.results_txt.grid(row = 8, column = 0, columnspan = 3)
+        
+
+    def get_items(self):
+        self.results_txt.delete(0.0, END)
+        self.results_txt.insert(0.0, 'hello')
 
 
 
