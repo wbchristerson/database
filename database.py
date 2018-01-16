@@ -50,6 +50,7 @@ class Application(Frame):
                             command=lambda: controller.show_frame(WritePage))
         self.bttn1.grid(row=2,column=1, pady=10)
         self.bttn1.grid_rowconfigure(2, weight=1)
+        self.bttn1.config(bg="#4bc423")
 
         self.bttn2 = Button(self, text = "Browse Entries")
         self.bttn2.grid(row=4,column=1, pady=10)
