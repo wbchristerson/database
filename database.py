@@ -12,11 +12,6 @@ class Transition(Tk):
         container.pack(side="top", fill="both", expand = True)
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
-        #container.grid_columnconfigure(1, weight=1)
-
-        # Added Weight
-        #container.grid_columnconfigure(2, weight=1)
-        # Added Weight
 
         self.title("Database")
         self.geometry("300x300")
@@ -25,13 +20,9 @@ class Transition(Tk):
         for F in (Application, WritePage):
             frame = F(container, self)
             self.frames[F] = frame
-            #frame.grid(row=0, column=0, sticky="nsew")
-            #frame.grid(row=0, column=0, sticky="ew")
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame(Application)
-        #self.show_frame(WritePage)
-        
+        self.show_frame(Application)        
 
     def show_frame(self, cont):
         frame = self.frames[cont]
@@ -45,18 +36,10 @@ class Application(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.grid()
-
-        #spacer = Label(self, text = "       ")
-        #spacer = Label(self, text="")
-        #spacer.grid(row=1,column=0)
-        #spacer.grid_columnconfigure(0, weight=1)
         
         lbl = Label(self, text = "Welcome!")
         lbl.pack(pady=10,padx=10)
-        #lbl.grid(row=1,column=3)
-        #lbl.grid_rowconfigure(0, weight=2)
         lbl.grid(row=1,column=1)
-        #lbl.grid_columnconfigure(1, weight=1)
         self.set_buttons(controller)
 
 
@@ -65,21 +48,17 @@ class Application(Frame):
 
         self.bttn1 = Button(self, text = "Look Up An Entry",
                             command=lambda: controller.show_frame(WritePage))
-        #self.bttn1.grid(row=2,column=3)
         self.bttn1.grid(row=2,column=1, pady=10)
         self.bttn1.grid_rowconfigure(2, weight=1)
 
         self.bttn2 = Button(self, text = "Browse Entries")
-        #self.bttn2.grid(row=4,column=3)
         self.bttn2.grid(row=4,column=1, pady=10)
 
         self.bttn3 = Button(self)
-        #self.bttn3.grid(row=6,column=3)
         self.bttn3.grid(row=6,column=1, pady=10)
         self.bttn3.configure(text = "Add An Entry")
 
         self.bttn4 = Button(self)
-        #self.bttn4.grid(row=8,column=3)
         self.bttn4.grid(row=8,column=1, pady=10)
         self.bttn4["text"] = "Edit An Entry"
 
@@ -116,6 +95,8 @@ class WritePage(Frame):
             column += 1
 
         # 'Inputs' entry label
+        Label(self, text = "Inputs").grid(row = 4, column = 0, sticky = W)
+
         
 
 
