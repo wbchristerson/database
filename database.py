@@ -14,7 +14,7 @@ class Transition(Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.title("Database")
-        self.geometry("300x600")
+        self.geometry("350x620")
         self.frames = {}
 
         for F in (Home, SearchPage, BrowsePage, WritePage, EditPage):
@@ -93,7 +93,7 @@ class SearchPage(Frame):
         # Radio Button
         self.query_type = StringVar()
         self.query_type.set(None)
-        query_options = ['Tags', 'Mentioned Words', 'Topic']
+        query_options = ['Tags', 'Mentioned Words', 'Topic', 'ID', 'Source']
         column = 0
         for query in query_options:
             Radiobutton(self,
@@ -179,7 +179,7 @@ class WritePage(Frame):
         # 'Add Entry' button
         self.bttn2 = Button(self, text = "Add Entry",
                             command=lambda: controller.show_frame(Home))
-        self.bttn2.grid(row = 12,column = 1)
+        self.bttn2.grid(row = 13, column = 1)
 
     def set_intro(self, controller):
         # Page title
@@ -207,42 +207,50 @@ class WritePage(Frame):
         self.topic_input = Entry(self)
         self.topic_input.grid(row = 1 + offset, column = 1, sticky = W)
 
+        # 'Source' label
+        Label(self, text = "Source").grid(row = 2 + offset,
+                                          column = 0, sticky = W)
+
+        # Source input entry
+        self.source_input = Entry(self)
+        self.source_input.grid(row = 2 + offset, column = 1, sticky = W)
+
         # 'Statement' label
-        Label(self, text = "Statement").grid(row = 2 + offset,
+        Label(self, text = "Statement").grid(row = 3 + offset,
                                              column = 0, sticky = W)
 
         # Statement text box
         self.statement_txt = Text(self, width = 30, height = 5, wrap = WORD)
-        self.statement_txt.grid(row = 3 + offset, column = 0, columnspan = 3)
+        self.statement_txt.grid(row = 4 + offset, column = 0, columnspan = 3)
 
         # 'Solution' (without latex) label
-        Label(self, text = "Solution (no latex)").grid(row = 4 + offset,
+        Label(self, text = "Solution (no latex)").grid(row = 5 + offset,
                                                        column = 0, sticky = W)
 
         # Solution without latex text box
         self.solution_no_latex_txt = Text(self, width = 30, height = 5,
                                           wrap = WORD)
-        self.solution_no_latex_txt.grid(row = 5 + offset,
+        self.solution_no_latex_txt.grid(row = 6 + offset,
                                         column = 0, columnspan = 3)
 
         # 'Solution' (with latex) label
-        Label(self, text = "Solution (with latex)").grid(row = 6 + offset,
+        Label(self, text = "Solution (with latex)").grid(row = 7 + offset,
                                                          column = 0, sticky = W)
 
         # Solution with latex text box
         self.solution_latex_txt = Text(self, width = 30, height = 5,
                                           wrap = WORD)
-        self.solution_latex_txt.grid(row = 7 + offset,
+        self.solution_latex_txt.grid(row = 8 + offset,
                                      column = 0, columnspan = 3)
 
         # 'Notes' label
-        Label(self, text = "Notes").grid(row = 8 + offset,
+        Label(self, text = "Notes").grid(row = 9 + offset,
                                          column = 0, sticky = W)
 
         # Notes text box
         self.notes_txt = Text(self, width = 30, height = 5,
                                           wrap = WORD)
-        self.notes_txt.grid(row = 9 + offset, column = 0, columnspan = 3)
+        self.notes_txt.grid(row = 10 + offset, column = 0, columnspan = 3)
 
 
 class EditPage(Frame):
@@ -280,15 +288,12 @@ class EditPage(Frame):
         # Save button
         self.bttn3 = Button(self, text = "Save",
                             command=lambda: controller.show_frame(Home))
-        self.bttn3.grid(row = 14,column = 0)
+        self.bttn3.grid(row = 15,column = 0)
 
         # Cancel button
         self.bttn4 = Button(self, text = "Cancel",
                             command=lambda: controller.show_frame(Home))
-        self.bttn4.grid(row = 14,column = 1)
-
-        
-
+        self.bttn4.grid(row = 15,column = 1)
 
 
 app = Transition()
