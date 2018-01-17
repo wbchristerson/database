@@ -28,8 +28,7 @@ class Transition(Tk):
     def show_frame(self, cont):
         frame = self.frames[cont]
         if not (cont == Home):
-            print('hello')
-        #frame.clear()
+            frame.clear()
         frame.tkraise()
 
 
@@ -131,11 +130,18 @@ class SearchPage(Frame):
         # Items text box
         self.results_txt = Text(self, width = 30, height = 5, wrap = WORD)
         self.results_txt.grid(row = 8, column = 0, columnspan = 3)
-        
 
     def get_items(self):
         self.results_txt.delete(0.0, END)
         self.results_txt.insert(0.0, 'hello')
+
+    # clear the entry and text boxes of any data from previous uses
+    def clear(self):
+        self.inputs.delete(0, END)
+        self.results_txt.delete(0.0, END)
+        self.expanded_view.set(False)
+        self.query_type.set(None)
+        
 
 
 class BrowsePage(Frame):
@@ -199,6 +205,10 @@ class BrowsePage(Frame):
         
         tags_file.close()
         topics_file.close()
+
+    def clear(self):
+        self.expanded_view.set(False)
+        self.results_txt.delete(0.0, END)
 
 
 class WritePage(Frame):
@@ -285,6 +295,15 @@ class WritePage(Frame):
                                           wrap = WORD)
         self.notes_txt.grid(row = 10 + offset, column = 0, columnspan = 3)
 
+    def clear(self):
+        self.tags_input.delete(0, END)
+        self.topic_input.delete(0, END)
+        self.source_input.delete(0, END)
+        self.statement_txt.delete(0.0, END)
+        self.solution_no_latex_txt.delete(0.0, END)
+        self.solution_latex_txt.delete(0.0, END)
+        self.notes_txt.delete(0.0, END)
+
 
 class EditPage(Frame):
     """ Edit an entry based on the ID """
@@ -307,15 +326,15 @@ class EditPage(Frame):
         Label(self, text = "ID").grid(row = 2, column = 0, sticky = W)
 
         # ID input entry
-        self.tags_input = Entry(self)
-        self.tags_input.grid(row = 2, column = 1, sticky = W)
+        self.id_input = Entry(self)
+        self.id_input.grid(row = 2, column = 1, sticky = W)
 
         # Entry display button
         self.bttn2 = Button(self, text = "Edit",
                             command=lambda: controller.show_frame(Home))
         self.bttn2.grid(row = 3,column = 1)
 
-        # Set page format similar to write page
+        # Set page format similarly to write page
         WritePage.set_format(self,controller, 4)
 
         # Save button
@@ -327,6 +346,17 @@ class EditPage(Frame):
         self.bttn4 = Button(self, text = "Cancel",
                             command=lambda: controller.show_frame(Home))
         self.bttn4.grid(row = 15,column = 1)
+
+    def clear(self):
+        self.id_input.delete(0, END)
+        self.tags_input.delete(0, END)
+        self.topic_input.delete(0, END)
+        self.source_input.delete(0, END)
+        self.statement_txt.delete(0.0, END)
+        self.solution_no_latex_txt.delete(0.0, END)
+        self.solution_latex_txt.delete(0.0, END)
+        self.notes_txt.delete(0.0, END)
+        
 
 
 app = Transition()
