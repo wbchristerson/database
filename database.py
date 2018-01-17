@@ -67,6 +67,7 @@ class Home(Frame):
                             command=lambda: controller.show_frame(EditPage))
         self.bttn4.grid(row=4,column=1, pady=10)
         self.bttn4["text"] = "Edit An Entry"
+        self.bttn4.config(bg="#e6ef64", activebackground="#e6ef64")
 
 
 class SearchPage(Frame):
@@ -174,6 +175,11 @@ class WritePage(Frame):
         self.grid()
         self.set_intro(controller)
         self.set_format(controller, 2)
+        
+        # 'Add Entry' button
+        self.bttn2 = Button(self, text = "Add Entry",
+                            command=lambda: controller.show_frame(Home))
+        self.bttn2.grid(row = 12,column = 1)
 
     def set_intro(self, controller):
         # Page title
@@ -238,11 +244,6 @@ class WritePage(Frame):
                                           wrap = WORD)
         self.notes_txt.grid(row = 9 + offset, column = 0, columnspan = 3)
 
-        # 'Add Entry' button
-        self.bttn2 = Button(self, text = "Add Entry",
-                            command=lambda: controller.show_frame(Home))
-        self.bttn2.grid(row = 10 + offset,column = 1)
-
 
 class EditPage(Frame):
     """ Edit an entry based on the ID """
@@ -273,7 +274,18 @@ class EditPage(Frame):
                             command=lambda: controller.show_frame(Home))
         self.bttn2.grid(row = 3,column = 1)
 
+        # Set page format similar to write page
         WritePage.set_format(self,controller, 4)
+
+        # Save button
+        self.bttn3 = Button(self, text = "Save",
+                            command=lambda: controller.show_frame(Home))
+        self.bttn3.grid(row = 14,column = 0)
+
+        # Cancel button
+        self.bttn4 = Button(self, text = "Cancel",
+                            command=lambda: controller.show_frame(Home))
+        self.bttn4.grid(row = 14,column = 1)
 
         
 
