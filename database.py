@@ -17,7 +17,7 @@ class Transition(Tk):
         self.geometry("300x550")
         self.frames = {}
 
-        for F in (Home, SearchPage, WritePage):
+        for F in (Home, SearchPage, BrowsePage, WritePage):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
@@ -55,6 +55,7 @@ class Home(Frame):
         self.bttn2 = Button(self, text = "Browse Entries",
                             command=lambda: controller.show_frame(BrowsePage))
         self.bttn2.grid(row=2,column=1, pady=10)
+        self.bttn2.config(bg="#74eef2", activebackground="#74eef2")
 
         self.bttn3 = Button(self,
                             command=lambda: controller.show_frame(WritePage))
@@ -108,7 +109,7 @@ class SearchPage(Frame):
         self.inputs = Entry(self)
         self.inputs.grid(row = 4, column = 1, sticky = W)
 
-        # Expanded view option
+        # Expanded view check button
         self.expanded_view = BooleanVar()
         Checkbutton(self,
                     text = "expanded view",
@@ -133,15 +134,50 @@ class SearchPage(Frame):
         self.results_txt.insert(0.0, 'hello')
 
 
+class BrowsePage(Frame):
+    """ Object-oriented design based on Michael Dawson's Python Programming
+        For The Absolute Beginner """
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
+        self.grid()
+        self.set_format(controller)
+
+    def set_format(self, controller):
+        # Page title
+        lbl = Label(self, text = "Browse Page", font= ("Verdana", 12))
+        lbl.grid(column = 1, sticky = W)
+
+        # Menu return button
+        self.bttn1 = Button(self, text = "Return To Menu",
+                            command=lambda: controller.show_frame(Home))
+        self.bttn1.grid(row=1,column=1, sticky = W)
+
+        # Expanded view check button
+        self.expanded_view = BooleanVar()
+        Checkbutton(self,
+                    text = "expanded view",
+                    variable = self.expanded_view
+                    ).grid(row = 2, column = 0, sticky = W)
+
+        # 'Items' label
+        Label(self, text = "Items").grid(row = 3, column = 1, sticky = W)
+
+        # Items text box
+        self.results_txt = Text(self, width = 35, height = 25, wrap = WORD)
+        self.results_txt.grid(row = 4, column = 0, columnspan = 3)
+
+
 class WritePage(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.grid()
-        lbl = Label(self, text = "Write Page", font= ("Verdana", 12))
-        lbl.grid(row = 0, column = 1)
         self.set_format(controller)
 
     def set_format(self, controller):
+        # Page title
+        lbl = Label(self, text = "Write Page", font= ("Verdana", 12))
+        lbl.grid(row = 0, column = 1)
+        
         # Menu return button
         self.bttn1 = Button(self, text = "Return To Menu",
                             command=lambda: controller.show_frame(Home))
@@ -198,23 +234,8 @@ class WritePage(Frame):
         self.bttn2 = Button(self, text = "Add Entry",
                             command=lambda: controller.show_frame(Home))
         self.bttn2.grid(row = 12,column = 1)
-        
 
-class BrowsePage(Frame):
-    """ Object-oriented design based on Michael Dawson's Python Programming
-        For The Absolute Beginner """
-    def __init__(self, parent, controller):
-        Frame.__init__(self, parent)
-        self.grid()
-        self.set_format(controller)
 
-    def set_format(self, controller):
-        # Page title
-        lbl = Label(self, text = "Search Page", font= ("Verdana", 12))
-        lbl.grid(column = 1)
-
-        
-    
 
 app = Transition()
 app.mainloop()
