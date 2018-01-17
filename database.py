@@ -38,6 +38,8 @@ class Home(Frame):
         For The Absolute Beginner """
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
+        # Add background color here
+        # self.configure(background="#fbff8e")
         self.grid()
         
         lbl = Label(self, text = "Welcome!")
@@ -47,7 +49,7 @@ class Home(Frame):
 
 
     def set_format(self, controller):
-        """ Create text introduction """
+        """ Create menu buttons """
         self.bttn1 = Button(self, text = "Look Up An Entry",
                             command=lambda: controller.show_frame(SearchPage))
         self.bttn1.grid(row=1,column=1, pady=10)
