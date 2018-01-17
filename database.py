@@ -1,7 +1,8 @@
+# Inspiration for project:
 # https://artofproblemsolving.com/community/u53544h1559064p9530694
 from tkinter import *
 
-# Credit for multi-page structure skeleton to
+# Credit for multi-page structure skeleton:
 # https://pythonprogramming.net/change-show-new-frame-tkinter/
 
 class Transition(Tk):
@@ -45,7 +46,6 @@ class Home(Frame):
 
     def set_format(self, controller):
         """ Create text introduction """
-
         self.bttn1 = Button(self, text = "Look Up An Entry",
                             command=lambda: controller.show_frame(SearchPage))
         self.bttn1.grid(row=1,column=1, pady=10)
@@ -151,7 +151,7 @@ class BrowsePage(Frame):
         # Menu return button
         self.bttn1 = Button(self, text = "Return To Menu",
                             command=lambda: controller.show_frame(Home))
-        self.bttn1.grid(row=1,column=1, sticky = W)
+        self.bttn1.grid(row = 1,column = 1, sticky = W)
 
         # Expanded view check button
         self.expanded_view = BooleanVar()
@@ -160,12 +160,17 @@ class BrowsePage(Frame):
                     variable = self.expanded_view
                     ).grid(row = 2, column = 0, sticky = W)
 
+        # Entry appearance button
+        self.bttn2 = Button(self, text = "Browse",
+                            command=lambda: controller.show_frame(Home))
+        self.bttn2.grid(row = 3, column = 0, sticky = W)
+
         # 'Items' label
-        Label(self, text = "Items").grid(row = 3, column = 1, sticky = W)
+        Label(self, text = "Items").grid(row = 4, column = 1, sticky = W)
 
         # Items text box
         self.results_txt = Text(self, width = 35, height = 25, wrap = WORD)
-        self.results_txt.grid(row = 4, column = 0, columnspan = 3)
+        self.results_txt.grid(row = 5, column = 0, columnspan = 3)
 
 
 class WritePage(Frame):
