@@ -14,10 +14,10 @@ class Transition(Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.title("Database")
-        self.geometry("300x550")
+        self.geometry("300x600")
         self.frames = {}
 
-        for F in (Home, SearchPage, BrowsePage, WritePage):
+        for F in (Home, SearchPage, BrowsePage, WritePage, EditPage):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
@@ -63,14 +63,14 @@ class Home(Frame):
         self.bttn3.configure(text = "Add An Entry")
         self.bttn3.config(bg="#e53c12", activebackground="#e53c12")
 
-        self.bttn4 = Button(self)
+        self.bttn4 = Button(self,
+                            command=lambda: controller.show_frame(EditPage))
         self.bttn4.grid(row=4,column=1, pady=10)
         self.bttn4["text"] = "Edit An Entry"
 
 
 class SearchPage(Frame):
-    """ Object-oriented design based on Michael Dawson's Python Programming
-        For The Absolute Beginner """
+    """ Search for entries based on various pieces of information """
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.grid()
@@ -135,8 +135,8 @@ class SearchPage(Frame):
 
 
 class BrowsePage(Frame):
-    """ Object-oriented design based on Michael Dawson's Python Programming
-        For The Absolute Beginner """
+    """ See a full list of database items in either of a concise or expanded
+        view """
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.grid()
@@ -168,12 +168,14 @@ class BrowsePage(Frame):
 
 
 class WritePage(Frame):
+    """ Add a database entry """
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.grid()
-        self.set_format(controller)
+        self.set_intro(controller)
+        self.set_format(controller, 2)
 
-    def set_format(self, controller):
+    def set_intro(self, controller):
         # Page title
         lbl = Label(self, text = "Write Page", font= ("Verdana", 12))
         lbl.grid(row = 0, column = 1)
@@ -181,59 +183,99 @@ class WritePage(Frame):
         # Menu return button
         self.bttn1 = Button(self, text = "Return To Menu",
                             command=lambda: controller.show_frame(Home))
-        self.bttn1.grid(row = 1,column = 1)
+        self.bttn1.grid(row = 1, column = 1)
 
+    def set_format(self, controller, offset):
         # 'Tags' label
-        Label(self, text = "Tags").grid(row = 2, column = 0, sticky = W)
+        Label(self, text = "Tags").grid(row = offset, column = 0, sticky = W)
 
         # Tags input entry
         self.tags_input = Entry(self)
-        self.tags_input.grid(row = 2, column = 1, sticky = W)
+        self.tags_input.grid(row = offset, column = 1, sticky = W)
 
         # 'Topic' label
-        Label(self, text = "Topic").grid(row = 3, column = 0, sticky = W)
+        Label(self, text = "Topic").grid(row = 1 + offset,
+                                         column = 0, sticky = W)
 
         # Topic input entry
         self.topic_input = Entry(self)
-        self.topic_input.grid(row = 3, column = 1, sticky = W)
+        self.topic_input.grid(row = 1 + offset, column = 1, sticky = W)
 
         # 'Statement' label
-        Label(self, text = "Statement").grid(row = 4, column = 0, sticky = W)
+        Label(self, text = "Statement").grid(row = 2 + offset,
+                                             column = 0, sticky = W)
 
         # Statement text box
         self.statement_txt = Text(self, width = 30, height = 5, wrap = WORD)
-        self.statement_txt.grid(row = 5, column = 0, columnspan = 3)
+        self.statement_txt.grid(row = 3 + offset, column = 0, columnspan = 3)
 
         # 'Solution' (without latex) label
-        Label(self, text = "Solution (no latex)").grid(row = 6,
+        Label(self, text = "Solution (no latex)").grid(row = 4 + offset,
                                                        column = 0, sticky = W)
 
         # Solution without latex text box
         self.solution_no_latex_txt = Text(self, width = 30, height = 5,
                                           wrap = WORD)
-        self.solution_no_latex_txt.grid(row = 7, column = 0, columnspan = 3)
+        self.solution_no_latex_txt.grid(row = 5 + offset,
+                                        column = 0, columnspan = 3)
 
         # 'Solution' (with latex) label
-        Label(self, text = "Solution (with latex)").grid(row = 8,
+        Label(self, text = "Solution (with latex)").grid(row = 6 + offset,
                                                          column = 0, sticky = W)
 
         # Solution with latex text box
         self.solution_latex_txt = Text(self, width = 30, height = 5,
                                           wrap = WORD)
-        self.solution_latex_txt.grid(row = 9, column = 0, columnspan = 3)
+        self.solution_latex_txt.grid(row = 7 + offset,
+                                     column = 0, columnspan = 3)
 
         # 'Notes' label
-        Label(self, text = "Notes").grid(row = 10, column = 0, sticky = W)
+        Label(self, text = "Notes").grid(row = 8 + offset,
+                                         column = 0, sticky = W)
 
         # Notes text box
         self.notes_txt = Text(self, width = 30, height = 5,
                                           wrap = WORD)
-        self.notes_txt.grid(row = 11, column = 0, columnspan = 3)
+        self.notes_txt.grid(row = 9 + offset, column = 0, columnspan = 3)
 
         # 'Add Entry' button
         self.bttn2 = Button(self, text = "Add Entry",
                             command=lambda: controller.show_frame(Home))
-        self.bttn2.grid(row = 12,column = 1)
+        self.bttn2.grid(row = 10 + offset,column = 1)
+
+
+class EditPage(Frame):
+    """ Edit an entry based on the ID """
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
+        self.grid()
+        self.set_format(controller)
+
+    def set_format(self, controller):
+        # Page title
+        lbl = Label(self, text = "Edit Page", font= ("Verdana", 12))
+        lbl.grid(row = 0, column = 1)
+        
+        # Menu return button
+        self.bttn1 = Button(self, text = "Return To Menu",
+                            command=lambda: controller.show_frame(Home))
+        self.bttn1.grid(row = 1,column = 1)
+
+        # 'ID' label
+        Label(self, text = "ID").grid(row = 2, column = 0, sticky = W)
+
+        # ID input entry
+        self.tags_input = Entry(self)
+        self.tags_input.grid(row = 2, column = 1, sticky = W)
+
+        # Entry display button
+        self.bttn2 = Button(self, text = "Edit",
+                            command=lambda: controller.show_frame(Home))
+        self.bttn2.grid(row = 3,column = 1)
+
+        WritePage.set_format(self,controller, 4)
+
+        
 
 
 
