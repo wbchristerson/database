@@ -1,4 +1,4 @@
 #primes
-#algorithms #lexicographic-ordering #induction
-#graphs #induction
-#algorithms #invariants #induction
+#algorithms#lexicographic ordering#induction
+#graphs#induction
+#algorithms#invariants#induction

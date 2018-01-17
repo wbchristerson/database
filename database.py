@@ -27,6 +27,9 @@ class Transition(Tk):
 
     def show_frame(self, cont):
         frame = self.frames[cont]
+        if not (cont == Home):
+            print('hello')
+        #frame.clear()
         frame.tkraise()
 
 
@@ -162,7 +165,7 @@ class BrowsePage(Frame):
 
         # Entry appearance button
         self.bttn2 = Button(self, text = "Browse",
-                            command=lambda: controller.show_frame(Home))
+                            command=lambda: self.populate_browser())
         self.bttn2.grid(row = 3, column = 0, sticky = W)
 
         # 'Items' label
@@ -171,6 +174,31 @@ class BrowsePage(Frame):
         # Items text box
         self.results_txt = Text(self, width = 35, height = 25, wrap = WORD)
         self.results_txt.grid(row = 5, column = 0, columnspan = 3)
+
+    def display(self, tags_lines, topics_lines):
+        message = ""
+        for i in range(len(tags_lines)):
+            message += 'ID: ' + str(i) + '\n'
+            message += 'Topic: ' + topics_lines[i]
+            tags = ', '.join(tags_lines[i].split('#'))
+            if (len(tags) > 0):
+                tags = tags[2:]
+            message += 'Tags: ' + tags + '\n'
+        return message
+
+    def populate_browser(self):
+        tags_file = open("tags.txt", "r")
+        topics_file = open("topics.txt", "r")
+        tags_lines = tags_file.readlines()
+        topics_lines = topics_file.readlines()
+
+        # assume that tags_lines and topics_lines have the same length
+        self.results_txt.delete(0.0, END)
+        message = self.display(tags_lines, topics_lines)
+        self.results_txt.insert(0.0, message)        
+        
+        tags_file.close()
+        topics_file.close()
 
 
 class WritePage(Frame):
