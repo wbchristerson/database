@@ -224,7 +224,7 @@ class WritePage(Frame):
         
         # 'Add Entry' button
         self.bttn2 = Button(self, text = "Add Entry",
-                            command=lambda: self.save_inputs)
+                            command=lambda: self.save_inputs())
         self.bttn2.grid(row = 13, column = 1)
 
         # 'Cancel' button
@@ -303,6 +303,7 @@ class WritePage(Frame):
                                           wrap = WORD)
         self.notes_txt.grid(row = 10 + offset, column = 0, columnspan = 3)
 
+    # clear write page of inputs
     def clear(self):
         self.tags_input.delete(0, END)
         self.topic_input.delete(0, END)
@@ -312,12 +313,36 @@ class WritePage(Frame):
         self.solution_latex_txt.delete(0.0, END)
         self.notes_txt.delete(0.0, END)
 
+    # given the tags listed with commas and possibly spaces, place pound signs
+    # between tags
+    def tagify(self, tags):
+        tag_arr = tags.split(',')
+        for i in range(len(tag_arr)):
+            if ((len(tag_arr[i]) > 0) and (tag_arr[i][0] == ' ')):
+                tag_arr[i] = tag_arr[i][1:]
+        ans = '#'.join(tag_arr)
+        if (len(ans) > 0):
+            ans = '#' + ans
+        return ans
+            
+            
     # s = {'tags': tag, 'topics': topic, 'sources': source,
     #      'statements': statement, 'sol_no_latex': sol_no_late,
     #      'sol_latex': sol_late, 'notes': note}
 
     def save_inputs(self):
-        self.tags_input.insert(0, 'math')
+        with open('resources.json', 'r') as f:
+            ref_dict = json.load(f)
+        ref_dict['tags'].append(self.tagify(self.tags_input.get()))
+        ref_dict['topics'].append(self.topic_input.get())
+        ref_dict['sources'].append(self.source_input.get())
+        ref_dict['statements'].append(self.statement_txt.get())
+        ref_dict['sol_no_latex'].append(self.solution_no_latex_txt.get())
+        ref_dict['sol_latex'].append(self.solution_latex_txt.get())
+        ref_dict['notes'].append(self.notes_txt.get())
+        
+        #print('Hello ' + str(len(ref_dict['tags'])))
+        f.close()
 
 
 class EditPage(Frame):
