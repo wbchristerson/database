@@ -191,7 +191,7 @@ class BrowsePage(Frame):
         
         for i in range(len(ref_dict['tags'])):
             message += 'ID: ' + str(i) + '\n'
-            message += 'Topic: ' + ref_dict['topics'][i]
+            message += 'Topic: ' + ref_dict['topics'][i] + '\n'
             tags = ', '.join(ref_dict['tags'][i].split('#'))
             if (len(tags) > 0):
                 tags = tags[2:]
@@ -341,13 +341,18 @@ class WritePage(Frame):
         ref_dict['tags'].append(self.tagify(self.tags_input.get()))
         ref_dict['topics'].append(self.topic_input.get())
         ref_dict['sources'].append(self.source_input.get())
-        ref_dict['statements'].append(self.statement_txt.get())
-        ref_dict['sol_no_latex'].append(self.solution_no_latex_txt.get())
-        ref_dict['sol_latex'].append(self.solution_latex_txt.get())
-        ref_dict['notes'].append(self.notes_txt.get())
+        ref_dict['statements'].append(self.statement_txt.get("1.0", END))
+        sol_str = self.solution_no_latex_txt.get("1.0", END)
+        ref_dict['sol_no_latex'].append(sol_str)
+        ref_dict['sol_latex'].append(self.solution_latex_txt.get("1.0", END))
+        ref_dict['notes'].append(self.notes_txt.get("1.0", END))
         
         #print('Hello ' + str(len(ref_dict['tags'])))
         f.close()
+
+        with open('resources.json', 'w') as g:
+            json.dump(ref_dict, g)
+        g.close()
 
 
 class EditPage(Frame):
