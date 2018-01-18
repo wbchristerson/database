@@ -229,7 +229,7 @@ class WritePage(Frame):
         
         # 'Add Entry' button
         self.bttn2 = Button(self, text = "Add Entry",
-                            command=lambda: self.save_inputs())
+                            command=lambda: self.save_inputs(controller))
         self.bttn2.grid(row = 13, column = 1)
 
         # 'Cancel' button
@@ -335,7 +335,7 @@ class WritePage(Frame):
     #      'statements': statement, 'sol_no_latex': sol_no_late,
     #      'sol_latex': sol_late, 'notes': note}
 
-    def save_inputs(self):
+    def save_inputs(self, controller):
         with open('resources.json', 'r') as f:
             ref_dict = json.load(f)
         ref_dict['tags'].append(self.tagify(self.tags_input.get()))
@@ -352,7 +352,8 @@ class WritePage(Frame):
 
         with open('resources.json', 'w') as g:
             json.dump(ref_dict, g)
-        g.close()
+        g.close()        
+        controller.show_frame(Home)
 
 
 class EditPage(Frame):
