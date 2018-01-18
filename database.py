@@ -186,13 +186,18 @@ class BrowsePage(Frame):
 
     def display(self, tags_lines, topics_lines):
         message = ""
-        for i in range(len(tags_lines)):
+        with open('resources.json', 'r') as f:
+            ref_dict = json.load(f)
+        
+        for i in range(len(ref_dict['tags'])):
             message += 'ID: ' + str(i) + '\n'
-            message += 'Topic: ' + topics_lines[i]
-            tags = ', '.join(tags_lines[i].split('#'))
+            message += 'Topic: ' + ref_dict['topics'][i]
+            tags = ', '.join(ref_dict['tags'][i].split('#'))
             if (len(tags) > 0):
                 tags = tags[2:]
             message += 'Tags: ' + tags + '\n'
+
+        f.close()
         return message
 
     def populate_browser(self):
