@@ -224,7 +224,7 @@ class WritePage(Frame):
         
         # 'Add Entry' button
         self.bttn2 = Button(self, text = "Add Entry",
-                            command=lambda: controller.show_frame(Home))
+                            command=lambda: self.save_inputs)
         self.bttn2.grid(row = 13, column = 1)
 
         # 'Cancel' button
@@ -311,6 +311,13 @@ class WritePage(Frame):
         self.solution_no_latex_txt.delete(0.0, END)
         self.solution_latex_txt.delete(0.0, END)
         self.notes_txt.delete(0.0, END)
+
+    # s = {'tags': tag, 'topics': topic, 'sources': source,
+    #      'statements': statement, 'sol_no_latex': sol_no_late,
+    #      'sol_latex': sol_late, 'notes': note}
+
+    def save_inputs(self):
+        self.tags_input.insert(0, 'math')
 
 
 class EditPage(Frame):
