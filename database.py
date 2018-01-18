@@ -1,6 +1,7 @@
 # Inspiration for project:
 # https://artofproblemsolving.com/community/u53544h1559064p9530694
 from tkinter import *
+import json
 
 # Credit for multi-page structure skeleton:
 # https://pythonprogramming.net/change-show-new-frame-tkinter/
@@ -225,6 +226,11 @@ class WritePage(Frame):
         self.bttn2 = Button(self, text = "Add Entry",
                             command=lambda: controller.show_frame(Home))
         self.bttn2.grid(row = 13, column = 1)
+
+        # 'Cancel' button
+        self.bttn3 = Button(self, text = "Cancel",
+                            command=lambda: controller.show_frame(Home))
+        self.bttn3.grid(row = 13, column = 2)
 
     def set_intro(self, controller):
         # Page title
