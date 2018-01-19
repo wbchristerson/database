@@ -169,7 +169,9 @@ class BrowsePage(Frame):
         self.expanded_view = BooleanVar()
         Checkbutton(self,
                     text = "expanded view",
-                    variable = self.expanded_view
+                    variable = self.expanded_view,
+                    # allow toggling of expanded view within the frame
+                    command = self.populate_browser
                     ).grid(row = 2, column = 0, sticky = W)
 
         # Entry appearance button
@@ -184,7 +186,7 @@ class BrowsePage(Frame):
         self.results_txt = Text(self, width = 35, height = 25, wrap = WORD)
         self.results_txt.grid(row = 5, column = 0, columnspan = 3)
 
-    def display(self, tags_lines, topics_lines):
+    def display(self):
         message = ""
         with open('resources.json', 'r') as f:
             ref_dict = json.load(f)
@@ -196,23 +198,18 @@ class BrowsePage(Frame):
             if (len(tags) > 0):
                 tags = tags[2:]
             message += 'Tags: ' + tags + '\n'
+            if (self.expanded_view.get()):
+                message += 'Statement: '
+                message += ref_dict['statements'][i] + '\n'
 
         f.close()
         return message
 
     def populate_browser(self):
-        tags_file = open("tags.txt", "r")
-        topics_file = open("topics.txt", "r")
-        tags_lines = tags_file.readlines()
-        topics_lines = topics_file.readlines()
-
-        # assume that tags_lines and topics_lines have the same length
+        # assume that all dictionary entries have the same length
         self.results_txt.delete(0.0, END)
-        message = self.display(tags_lines, topics_lines)
-        self.results_txt.insert(0.0, message)        
-        
-        tags_file.close()
-        topics_file.close()
+        message = self.display()
+        self.results_txt.insert(0.0, message)
 
     def clear(self):
         self.expanded_view.set(False)
