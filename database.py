@@ -127,8 +127,7 @@ class SearchPage(Frame):
                     ).grid(row = 5, column = 1, sticky = W)
 
         # Button to list items
-        self.bttn2 = Button(self, text = "List Items",
-                            command = self.get_items)
+        self.bttn2 = Button(self, text = "List Items", command = self.get_items)
         self.bttn2.grid(row = 6, column = 1)
 
         # 'Items' label
@@ -138,6 +137,7 @@ class SearchPage(Frame):
         self.results_txt = Text(self, width = 30, height = 5, wrap = WORD)
         self.results_txt.grid(row = 8, column = 0, columnspan = 3)
 
+    # list matching items
     def get_items(self):
         self.results_txt.delete(0.0, END)
         self.results_txt.insert(0.0, 'hello')
@@ -197,20 +197,25 @@ class BrowsePage(Frame):
         if (len(tags) > 0):
             tags = tags[2:]
         return tags
+    
+    # structure format for display of entry in 'browse' section
+    def display_entry(self, index, ref_dict):
+        message = 'ID: ' + str(index) + '\n'
+        message += 'Topic: ' + ref_dict['topics'][index] + '\n'
+        message += 'Tags: ' + self.detagify(ref_dict['tags'][index]) + '\n'
+        if (self.expanded_view.get()):
+            message += 'Statement: '
+            message += ref_dict['statements'][index] + '\n'
+        message += '\n'
+        return message
 
     def display(self):
         message = ""
         with open('resources.json', 'r') as f:
             ref_dict = json.load(f)
-        
+
         for i in range(len(ref_dict['tags'])):
-            message += 'ID: ' + str(i) + '\n'
-            message += 'Topic: ' + ref_dict['topics'][i] + '\n'
-            message += 'Tags: ' + self.detagify(ref_dict['tags'][i]) + '\n'
-            if (self.expanded_view.get()):
-                message += 'Statement: '
-                message += ref_dict['statements'][i] + '\n'
-            message += '\n'
+            message += self.display_entry(i, ref_dict)
 
         f.close()
         return message
