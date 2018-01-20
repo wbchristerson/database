@@ -154,6 +154,7 @@ class BrowsePage(Frame):
         Frame.__init__(self, parent)
         self.grid()
         self.set_format(controller)
+        self.executed = False # whether the user has clicked browse at all
 
     def set_format(self, controller):
         # Page title
@@ -165,13 +166,14 @@ class BrowsePage(Frame):
                             command=lambda: controller.show_frame(Home))
         self.bttn1.grid(row = 1,column = 1, sticky = W)
 
-        # Expanded view check button
+        # Expanded view check button -- 'expanded view' includes the problem
+        # statements
         self.expanded_view = BooleanVar()
         Checkbutton(self,
                     text = "expanded view",
                     variable = self.expanded_view,
                     # allow toggling of expanded view within the frame
-                    command = self.populate_browser
+                    command = self.update_view
                     ).grid(row = 2, column = 0, sticky = W)
 
         # Entry appearance button
@@ -210,10 +212,16 @@ class BrowsePage(Frame):
         self.results_txt.delete(0.0, END)
         message = self.display()
         self.results_txt.insert(0.0, message)
+        self.executed = True # mark as having used browsing button
+
+    def update_view(self):
+        if (self.executed):
+            self.populate_browser()
 
     def clear(self):
         self.expanded_view.set(False)
         self.results_txt.delete(0.0, END)
+        self.executed = False
 
 
 class WritePage(Frame):
