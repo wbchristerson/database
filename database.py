@@ -6,6 +6,11 @@ import json
 # Credit for multi-page structure skeleton:
 # https://pythonprogramming.net/change-show-new-frame-tkinter/
 
+
+# s = {'tags': tag, 'topics': topic, 'sources': source,
+#      'statements': statement, 'sol_no_latex': sol_no_late,
+#      'sol_latex': sol_late, 'notes': note}
+    
 class Transition(Tk):
     def __init__(self):
         Tk.__init__(self)
@@ -192,7 +197,6 @@ class BrowsePage(Frame):
         if (len(tags) > 0):
             tags = tags[2:]
         return tags
-        
 
     def display(self):
         message = ""
@@ -340,11 +344,6 @@ class WritePage(Frame):
         if (len(ans) > 0):
             ans = '#' + ans
         return ans
-            
-            
-    # s = {'tags': tag, 'topics': topic, 'sources': source,
-    #      'statements': statement, 'sol_no_latex': sol_no_late,
-    #      'sol_latex': sol_late, 'notes': note}
 
     def save_inputs(self, controller):
         with open('resources.json', 'r') as f:
@@ -372,6 +371,7 @@ class EditPage(Frame):
         Frame.__init__(self, parent)
         self.grid()
         self.set_format(controller)
+        self.curr_id = -1
 
     def set_format(self, controller):
         # Page title
@@ -387,9 +387,6 @@ class EditPage(Frame):
         Label(self, text = "ID").grid(row = 2, column = 0, sticky = W)
 
         # ID input entry
-        #sv = StringVar()
-        #sv.trace_add("write", self.set_text_black)
-        #self.id_input = Entry(self, textvariable = sv)
         self.id_input = Entry(self)
         self.id_input.grid(row = 2, column = 1, sticky = W)
 
@@ -403,7 +400,7 @@ class EditPage(Frame):
 
         # Save button
         self.bttn3 = Button(self, text = "Save",
-                            command=lambda: controller.show_frame(Home))
+                            command=lambda: self.update_entry(controller))
         self.bttn3.grid(row = 15,column = 0)
 
         # Cancel button
@@ -422,6 +419,7 @@ class EditPage(Frame):
         self.notes_txt.delete(0.0, END)
         if (hasattr(self, 'warning_lbl')):
             self.warning_lbl.grid_remove()
+        self.curr_id = -1
 
     def check_for_int(self, s):
         try:
@@ -444,20 +442,50 @@ class EditPage(Frame):
                                          fg="red")
                 self.warning_lbl.grid(row = 2, column = 2)
             else:
-                print('hello')
-                #self.tags_input.insert(0, 
+                self.clear()
+                self.curr_id = int_id
+                self.id_input.insert(0, rec_id)
+                tag_str = BrowsePage.detagify(self, ref_dict['tags'][int_id])
+                self.tags_input.insert(0, tag_str)
+                self.topic_input.insert(0, ref_dict['topics'][int_id])
+                self.source_input.insert(0, ref_dict['sources'][int_id])
+                self.statement_txt.insert(0.0, ref_dict['statements'][int_id])
+                sol_no_latex_str = ref_dict['sol_no_latex'][int_id]
+                self.solution_no_latex_txt.insert(0.0, sol_no_latex_str)
+                sol_latex_str = ref_dict['sol_latex'][int_id]
+                self.solution_latex_txt.insert(0.0, sol_latex_str)
+                self.notes_txt.insert(0.0, ref_dict['notes'][int_id])
             f.close()
         else:
             self.id_input.delete(0, END)
             self.warning_lbl = Label(self, text = "ID must be integer",fg="red")
             self.warning_lbl.grid(row = 2, column = 2)
-            #self.id_input.config(fg = 'red')
-            #self.id_input.insert(0, 'ID must be integer')
 
-    #def set_text_black(self):
-    #    self.id_input.config(fg = 'black')
+    def update_entry(self, controller):
+        if (self.curr_id != -1):
+            with open('resources.json', 'r') as f:
+                ref_dict = json.load(f)
+            tags_str = WritePage.tagify(self, self.tags_input.get())
+            ref_dict['tags'][self.curr_id] = tags_str
+            ref_dict['topics'][self.curr_id] = self.topic_input.get()
+            ref_dict['sources'][self.curr_id] = self.source_input.get()
+            statement_str = self.statement_txt.get("1.0", END)
+            ref_dict['statements'][self.curr_id] = statement_str
+            sol_str = self.solution_no_latex_txt.get("1.0", END)
+            ref_dict['sol_no_latex'][self.curr_id] = sol_str
+            new_sol_latex_str = self.solution_latex_txt.get("1.0", END)
+            ref_dict['sol_latex'][self.curr_id] = new_sol_latex_str
+            ref_dict['notes'][self.curr_id] = self.notes_txt.get("1.0", END)
         
+            f.close()
 
+            with open('resources.json', 'w') as g:
+                json.dump(ref_dict, g)
+            g.close()        
+            
+        controller.show_frame(Home)
+        
+        
 
 app = Transition()
 app.mainloop()
