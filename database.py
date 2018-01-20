@@ -382,12 +382,14 @@ class EditPage(Frame):
         Label(self, text = "ID").grid(row = 2, column = 0, sticky = W)
 
         # ID input entry
-        self.id_input = Entry(self)
+        sv = StringVar()
+        sv.trace_add("write", self.set_text_black)
+        self.id_input = Entry(self, textvariable = sv)
         self.id_input.grid(row = 2, column = 1, sticky = W)
 
         # Entry display button
         self.bttn2 = Button(self, text = "Edit",
-                            command=lambda: controller.show_frame(Home))
+                            command=self.populate_by_id)
         self.bttn2.grid(row = 3,column = 1)
 
         # Set page format similarly to write page
@@ -412,6 +414,25 @@ class EditPage(Frame):
         self.solution_no_latex_txt.delete(0.0, END)
         self.solution_latex_txt.delete(0.0, END)
         self.notes_txt.delete(0.0, END)
+
+    def check_for_int(self, s):
+        try:
+            int(s)
+            return True
+        except ValueError:
+            return False
+
+    def populate_by_id(self):
+        rec_id = self.id_input.get()
+        if (self.check_for_int(rec_id)):
+            print('hello')
+        else:
+            self.id_input.delete(0, END)
+            self.id_input.config(fg = 'red')
+            self.id_input.insert(0, 'ID must be integer in range')
+
+    def set_text_black(self):
+        self.id_input.config(fg = 'black')
         
 
 
