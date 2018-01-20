@@ -137,10 +137,68 @@ class SearchPage(Frame):
         self.results_txt = Text(self, width = 30, height = 5, wrap = WORD)
         self.results_txt.grid(row = 8, column = 0, columnspan = 3)
 
+    # inputs given with pound signs between entries
+    def collect_tags(self, ref_dict, inputs):
+        message = ""
+        inputs = inputs.split('#')
+        inputs = inputs[1:]
+        if (len(inputs) == 1):
+            for i in range(len(ref_dict['tags'])):
+                if (inputs[0] in ref_dict['tags'][i].split('#')[1:]):
+                    message += BrowsePage.display_entry(self, i, ref_dict)                        
+        else:
+            used_ids = {}
+            for i in range(len(ref_dict['tags'])):
+                tested = True
+                for entry in inputs:
+                    if not (entry in ref_dict['tags'][i].split('#')[1:]):
+                        tested = False
+                        break
+                if (tested):
+                    message += BrowsePage.display_entry(self, i, ref_dict)
+                    used_ids[i] = True;
+            for i in range(len(ref_dict['tags'])):
+                if not (i in used_ids):
+                    for entry in inputs:
+                        if (entry in ref_dict['tags'][i].split('#')[1:]):
+                            message += BrowsePage.display_entry(self,i,ref_dict)
+                            break
+        return message
+
+# s = {'tags': tag, 'topics': topic, 'sources': source,
+#      'statements': statement, 'sol_no_latex': sol_no_late,
+#      'sol_latex': sol_late, 'notes': note}
+
     # list matching items
     def get_items(self):
-        self.results_txt.delete(0.0, END)
-        self.results_txt.insert(0.0, 'hello')
+        # ['Tags', 'Mentioned Words', 'Topic', 'ID', 'Source']
+        inputs = self.inputs.get()
+        if (inputs == ''):
+            message = BrowsePage.display(self)
+            self.results_txt.delete(0.0, END)
+            self.results_txt.insert(0.0, message)
+        else:
+            message = ''
+            with open('resources.json', 'r') as f:
+                ref_dict = json.load(f)
+            if (self.query_type.get() == 'Tags'):
+                inputs = WritePage.tagify(self, inputs)
+                message = SearchPage.collect_tags(self, ref_dict, inputs)
+            elif (self.query_type.get() == 'Mentioned Words'):
+                print('aisle')
+            elif (self.query_type.get() == 'Topic'):
+                print('aisle')
+            elif (self.query_type.get() == 'ID'):
+                print('aisle')
+            elif (self.query_type.get() == 'Source'):
+                print('aisle')
+        
+            f.close()
+
+            if (message == ''):
+                message = 'No matching entries'
+            self.results_txt.delete(0.0, END)
+            self.results_txt.insert(0.0, message)
 
     # clear the entry and text boxes of any data from previous uses
     def clear(self):
@@ -202,7 +260,8 @@ class BrowsePage(Frame):
     def display_entry(self, index, ref_dict):
         message = 'ID: ' + str(index) + '\n'
         message += 'Topic: ' + ref_dict['topics'][index] + '\n'
-        message += 'Tags: ' + self.detagify(ref_dict['tags'][index]) + '\n'
+        tag_string = BrowsePage.detagify(self, ref_dict['tags'][index]) + '\n'
+        message +='Tags: ' + tag_string
         if (self.expanded_view.get()):
             message += 'Statement: '
             message += ref_dict['statements'][index] + '\n'
@@ -215,7 +274,7 @@ class BrowsePage(Frame):
             ref_dict = json.load(f)
 
         for i in range(len(ref_dict['tags'])):
-            message += self.display_entry(i, ref_dict)
+            message += BrowsePage.display_entry(self, i, ref_dict)
 
         f.close()
         return message
