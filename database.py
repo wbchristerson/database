@@ -99,43 +99,83 @@ class SearchPage(Frame):
         # 'Match By' label
         Label(self, text = "Match By:").grid(row = 2, column = 0, sticky = W)
 
-        # Radio Button
-        self.query_type = StringVar()
-        self.query_type.set(None)
-        query_options = ['Tags', 'Mentioned Words', 'Topic', 'ID', 'Source']
-        column = 0
-        for query in query_options:
-            Radiobutton(self,
-                        text = query,
-                        variable = self.query_type,
-                        value = query
-                        ).grid(row = 3, column = column, sticky = W)
-            column += 1
+        # 'ID' check button
+        self.by_id = BooleanVar()
+        Checkbutton(self,
+                    text = "ID",
+                    command = self.toggle_id_input,
+                    variable = self.by_id
+                    ).grid(row = 3, column = 0, sticky = W)
 
-        # 'Inputs' entry label
-        Label(self, text = "Inputs").grid(row = 4, column = 0, sticky = W)
+        # 'Tags' check button
+        self.by_tags = BooleanVar()
+        Checkbutton(self,
+                    text = "Tags",
+                    variable = self.by_tags
+                    ).grid(row = 4, column = 0, sticky = W)
 
-        # Input entry
-        self.inputs = Entry(self)
-        self.inputs.grid(row = 4, column = 1, sticky = W)
+        # 'Topic' check button
+        self.by_topic = BooleanVar()
+        Checkbutton(self,
+                    text = "Topic",
+                    variable = self.by_topic
+                    ).grid(row = 5, column = 0, sticky = W)
+
+        # 'Source' check button
+        self.by_source = BooleanVar()
+        Checkbutton(self,
+                    text = "Source",
+                    variable = self.by_source
+                    ).grid(row = 6, column = 0, sticky = W)
+
+        # 'Date' range button
+        self.by_date = BooleanVar()
+        Checkbutton(self,
+                    text = "Date",
+                    variable = self.by_date
+                    ).grid(row = 7, column = 0, sticky = W)
+
+        # 'Difficulty' range button
+        self.by_difficulty = BooleanVar()
+        Checkbutton(self,
+                    text = "Difficulty",
+                    variable = self.by_date
+                    ).grid(row = 8, column = 0, sticky = W)
+
+        # 'Mentioned Words' check button
+        self.by_words = BooleanVar()
+        Checkbutton(self,
+                    text = "Mentioned Words",
+                    variable = self.by_words
+                    ).grid(row = 9, column = 0, sticky = W)
 
         # Expanded view check button
         self.expanded_view = BooleanVar()
         Checkbutton(self,
                     text = "expanded view",
                     variable = self.expanded_view
-                    ).grid(row = 5, column = 1, sticky = W)
+                    ).grid(row = 10, column = 1, sticky = W)
 
         # Button to list items
         self.bttn2 = Button(self, text = "List Items", command = self.get_items)
-        self.bttn2.grid(row = 6, column = 1)
+        self.bttn2.grid(row = 11, column = 1)
 
         # 'Items' label
-        Label(self, text = "Items").grid(row = 7, column = 0, sticky = W)
+        Label(self, text = "Items").grid(row = 12, column = 0, sticky = W)
 
         # Items text box
         self.results_txt = Text(self, width = 30, height = 5, wrap = WORD)
-        self.results_txt.grid(row = 8, column = 0, columnspan = 3)
+        self.results_txt.grid(row = 13, column = 0, columnspan = 3)
+
+    def toggle_id_input(self):
+        if (self.by_id.get()):
+            self.id_input = Entry(self)
+            self.id_input.grid(row = 3, column = 1, sticky = W)
+        else:
+            if (hasattr(self, 'id_input')):
+                self.id_input.grid_remove()
+            
+            
 
     # inputs given with pound signs between entries
     def collect_tags(self, ref_dict, inputs):
@@ -165,47 +205,48 @@ class SearchPage(Frame):
                             break
         return message
 
-# s = {'tags': tag, 'topics': topic, 'sources': source,
-#      'statements': statement, 'sol_no_latex': sol_no_late,
-#      'sol_latex': sol_late, 'notes': note}
-
     # list matching items
     def get_items(self):
-        # ['Tags', 'Mentioned Words', 'Topic', 'ID', 'Source']
-        inputs = self.inputs.get()
-        if (inputs == ''):
-            message = BrowsePage.display(self)
-            self.results_txt.delete(0.0, END)
-            self.results_txt.insert(0.0, message)
-        else:
-            message = ''
-            with open('resources.json', 'r') as f:
-                ref_dict = json.load(f)
-            if (self.query_type.get() == 'Tags'):
-                inputs = WritePage.tagify(self, inputs)
-                message = SearchPage.collect_tags(self, ref_dict, inputs)
-            elif (self.query_type.get() == 'Mentioned Words'):
-                print('aisle')
-            elif (self.query_type.get() == 'Topic'):
-                print('aisle')
-            elif (self.query_type.get() == 'ID'):
-                print('aisle')
-            elif (self.query_type.get() == 'Source'):
-                print('aisle')
-        
-            f.close()
+        print('eraser')
+#        inputs = self.inputs.get()
+#        if (inputs == ''):
+#            message = BrowsePage.display(self)
+#            self.results_txt.delete(0.0, END)
+#            self.results_txt.insert(0.0, message)
+#        else:
+#            message = ''
+#            with open('resources.json', 'r') as f:
+#                ref_dict = json.load(f)
+#            if (self.query_type.get() == 'Tags'):
+#                inputs = WritePage.tagify(self, inputs)
+#                message = SearchPage.collect_tags(self, ref_dict, inputs)
+#            elif (self.query_type.get() == 'Mentioned Words'):
+#                print('aisle')
+#            elif (self.query_type.get() == 'Topic'):
+#                print('aisle')
+#            elif (self.query_type.get() == 'ID'):
+#                print('aisle')
+#            elif (self.query_type.get() == 'Source'):
+#                print('aisle')
+#        
+#            f.close()
 
-            if (message == ''):
-                message = 'No matching entries'
-            self.results_txt.delete(0.0, END)
-            self.results_txt.insert(0.0, message)
+#            if (message == ''):
+#                message = 'No matching entries'
+#            self.results_txt.delete(0.0, END)
+#            self.results_txt.insert(0.0, message)
 
     # clear the entry and text boxes of any data from previous uses
     def clear(self):
-        self.inputs.delete(0, END)
-        self.results_txt.delete(0.0, END)
+        self.by_id.set(False)
+        self.by_tags.set(False)
+        self.by_topic.set(False)
+        self.by_source.set(False)
+        self.by_date.set(False)
+        self.by_difficulty.set(False)
+        self.by_words.set(False)
         self.expanded_view.set(False)
-        self.query_type.set(None)
+        self.results_txt.delete(0.0, END)
         
 
 
