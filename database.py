@@ -382,9 +382,10 @@ class EditPage(Frame):
         Label(self, text = "ID").grid(row = 2, column = 0, sticky = W)
 
         # ID input entry
-        sv = StringVar()
-        sv.trace_add("write", self.set_text_black)
-        self.id_input = Entry(self, textvariable = sv)
+        #sv = StringVar()
+        #sv.trace_add("write", self.set_text_black)
+        #self.id_input = Entry(self, textvariable = sv)
+        self.id_input = Entry(self)
         self.id_input.grid(row = 2, column = 1, sticky = W)
 
         # Entry display button
@@ -431,8 +432,8 @@ class EditPage(Frame):
             self.id_input.config(fg = 'red')
             self.id_input.insert(0, 'ID must be integer in range')
 
-    def set_text_black(self):
-        self.id_input.config(fg = 'black')
+    #def set_text_black(self):
+    #    self.id_input.config(fg = 'black')
         
 
 
