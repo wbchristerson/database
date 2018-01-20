@@ -16,7 +16,7 @@ class Transition(Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.title("Database")
-        self.geometry("350x620")
+        self.geometry("370x620")
         self.frames = {}
 
         for F in (Home, SearchPage, BrowsePage, WritePage, EditPage):
@@ -44,7 +44,6 @@ class Home(Frame):
         self.grid()
         
         lbl = Label(self, text = "Welcome!")
-        lbl.pack(pady=10,padx=10)
         lbl.grid(row=0,column=1)
         self.set_format(controller)
 
@@ -188,6 +187,13 @@ class BrowsePage(Frame):
         self.results_txt = Text(self, width = 35, height = 25, wrap = WORD)
         self.results_txt.grid(row = 5, column = 0, columnspan = 3)
 
+    def detagify(self, tags_string):
+        tags = ', '.join(tags_string.split('#'))
+        if (len(tags) > 0):
+            tags = tags[2:]
+        return tags
+        
+
     def display(self):
         message = ""
         with open('resources.json', 'r') as f:
@@ -196,13 +202,11 @@ class BrowsePage(Frame):
         for i in range(len(ref_dict['tags'])):
             message += 'ID: ' + str(i) + '\n'
             message += 'Topic: ' + ref_dict['topics'][i] + '\n'
-            tags = ', '.join(ref_dict['tags'][i].split('#'))
-            if (len(tags) > 0):
-                tags = tags[2:]
-            message += 'Tags: ' + tags + '\n'
+            message += 'Tags: ' + self.detagify(ref_dict['tags'][i]) + '\n'
             if (self.expanded_view.get()):
                 message += 'Statement: '
                 message += ref_dict['statements'][i] + '\n'
+            message += '\n'
 
         f.close()
         return message
@@ -282,7 +286,8 @@ class WritePage(Frame):
 
         # Statement text box
         self.statement_txt = Text(self, width = 30, height = 5, wrap = WORD)
-        self.statement_txt.grid(row = 4 + offset, column = 0, columnspan = 3)
+        self.statement_txt.grid(row = 4 + offset, column = 0, columnspan = 3,
+                                sticky = W)
 
         # 'Solution' (without latex) label
         Label(self, text = "Solution (no latex)").grid(row = 5 + offset,
@@ -292,7 +297,7 @@ class WritePage(Frame):
         self.solution_no_latex_txt = Text(self, width = 30, height = 5,
                                           wrap = WORD)
         self.solution_no_latex_txt.grid(row = 6 + offset,
-                                        column = 0, columnspan = 3)
+                                        column = 0, columnspan = 3, sticky = W)
 
         # 'Solution' (with latex) label
         Label(self, text = "Solution (with latex)").grid(row = 7 + offset,
@@ -302,7 +307,7 @@ class WritePage(Frame):
         self.solution_latex_txt = Text(self, width = 30, height = 5,
                                           wrap = WORD)
         self.solution_latex_txt.grid(row = 8 + offset,
-                                     column = 0, columnspan = 3)
+                                     column = 0, columnspan = 3, sticky = W)
 
         # 'Notes' label
         Label(self, text = "Notes").grid(row = 9 + offset,
@@ -311,7 +316,8 @@ class WritePage(Frame):
         # Notes text box
         self.notes_txt = Text(self, width = 30, height = 5,
                                           wrap = WORD)
-        self.notes_txt.grid(row = 10 + offset, column = 0, columnspan = 3)
+        self.notes_txt.grid(row = 10 + offset, column = 0, columnspan = 3,
+                            sticky = W)
 
     # clear write page of inputs
     def clear(self):
@@ -352,7 +358,6 @@ class WritePage(Frame):
         ref_dict['sol_latex'].append(self.solution_latex_txt.get("1.0", END))
         ref_dict['notes'].append(self.notes_txt.get("1.0", END))
         
-        #print('Hello ' + str(len(ref_dict['tags'])))
         f.close()
 
         with open('resources.json', 'w') as g:
@@ -415,6 +420,8 @@ class EditPage(Frame):
         self.solution_no_latex_txt.delete(0.0, END)
         self.solution_latex_txt.delete(0.0, END)
         self.notes_txt.delete(0.0, END)
+        if (hasattr(self, 'warning_lbl')):
+            self.warning_lbl.grid_remove()
 
     def check_for_int(self, s):
         try:
@@ -424,13 +431,28 @@ class EditPage(Frame):
             return False
 
     def populate_by_id(self):
+        if (hasattr(self, 'warning_lbl')):
+            self.warning_lbl.grid_remove()
         rec_id = self.id_input.get()
         if (self.check_for_int(rec_id)):
-            print('hello')
+            with open('resources.json', 'r') as f:
+                ref_dict = json.load(f)
+            int_id = int(rec_id)
+            if (int_id >= len(ref_dict['tags'])):
+                self.id_input.delete(0, END)
+                self.warning_lbl = Label(self, text = "ID must be in range",
+                                         fg="red")
+                self.warning_lbl.grid(row = 2, column = 2)
+            else:
+                print('hello')
+                #self.tags_input.insert(0, 
+            f.close()
         else:
             self.id_input.delete(0, END)
-            self.id_input.config(fg = 'red')
-            self.id_input.insert(0, 'ID must be integer in range')
+            self.warning_lbl = Label(self, text = "ID must be integer",fg="red")
+            self.warning_lbl.grid(row = 2, column = 2)
+            #self.id_input.config(fg = 'red')
+            #self.id_input.insert(0, 'ID must be integer')
 
     #def set_text_black(self):
     #    self.id_input.config(fg = 'black')
