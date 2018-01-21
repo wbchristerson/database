@@ -10,7 +10,116 @@ import json
 # s = {'tags': tag, 'topics': topic, 'sources': source,
 #      'statements': statement, 'sol_no_latex': sol_no_late,
 #      'sol_latex': sol_late, 'notes': note}
-    
+
+class DataEntry():
+    def __init__(self, new_id, tags = '', topic = '', source = '', date = '',
+                 difficulty = '', statement_no_latex = '', statement_latex = '',
+                 solution_no_latex = '', solution_latex = '', notes = ''):
+        self.id = new_id
+        self.tags = tags
+        self.topic = topic
+        self.source = source
+        self.date = date
+        self.difficulty = difficulty
+        self.stnl = statement_no_latex # 'statement no latex'
+        self.stwl = statement_latex # 'statement with latex'
+        self.sonl = solution_no_latex # 'solution no latex'
+        self.sowl = solution_latex # 'solution with latex'
+        self.notes = notes
+
+    def set_id(self, new_id):
+        self.id = new_id
+
+    def set_tags(self, new_tags):
+        self.tags = new_tags
+
+    def set_topic(self, new_topic):
+        self.topic = new_topic
+
+    def set_source(self, new_source):
+        self.source = new_source
+
+    def set_date(self, new_date):
+        raise SyntaxError('Uncertain How To Represent Dates')
+
+    def set_difficulty(self, new_difficulty):
+        self.difficulty = new_difficulty
+
+    def set_stnl(self, new_stat):
+        self.stnl = new_stat
+
+    def set_stwl(self, new_stat):
+        self.stwl = new_stat
+
+    def set_sonl(self, new_sol):
+        self.sonl = new_sol
+
+    def set_sowl(self, new_sol):
+        self.sowl = new_sol
+
+    def set_notes(self, new_notes):
+        self.notes = new_notes
+
+    # given the tags listed with commas and possibly spaces, place pound signs
+    # between tags
+    def tagify(self, tags):
+        tag_arr = tags.split(',')
+        for i in range(len(tag_arr)):
+            j = 0
+            while ((j < len(tag_arr[i])) and (tag_arr[i][j] == ' ')):
+                j += 1
+            tag_arr[i] = tag_arr[i][j:]
+        ans = '#'.join(tag_arr)
+        if (len(ans) > 0):
+            ans = '#' + ans
+        return ans
+
+    def detagify(self, tags_string):
+        tags = ', '.join(tags_string.split('#'))
+        if (len(tags) > 0):
+            tags = tags[2:]
+        return tags
+
+    def small_string_rep(self):
+        message = 'ID: ' + self.id + '\n'
+        message += 'Tags: ' + DataEntry.detagify(self,self.tags) + '\n'
+        message += 'Topic: ' + self.tags + '\n'
+        return message
+
+    def medium_string_rep(self):
+        message = DataEntry.small_string_rep(self)
+        message += 'Source: ' + self.source + '\n'
+        message += 'Statement: '
+        if (self.stnl == ''):
+            message += self.stwl + '\n'
+        else:
+            message += self.stnl + '\n'
+        return message
+
+    def large_string_rep(self):
+        message = DataEntry.small_string_rep(self)
+        message += 'Source: ' + self.source + '\n'
+        message += 'Statement (No Latex): ' + self.stnl + '\n'
+        message += 'Statement (With Latex): ' + self.stwl + '\n'
+        message += 'Difficulty: ' + str(self.difficulty) + '\n'
+        message += 'Solution (No Latex): ' + self.sonl + '\n'
+        message += 'Solution (With Latex): ' + self.sowl + '\n'
+        message += 'Notes: ' + self.notes + '\n'
+        return message
+
+    def browse_rep(self, expand):
+        if (expand):
+            return DataEntry.medium_string_rep(self)
+        else:
+            return DataEntry.small_string_rep(self)
+
+    def search_rep(self, expand):
+        if (expand):
+            return DataEntry.large_string_rep(self)
+        else:
+            return DataEntry.medium_string_rep(self)
+
+
 class Transition(Tk):
     def __init__(self):
         Tk.__init__(self)
@@ -290,32 +399,27 @@ class BrowsePage(Frame):
         # Items text box
         self.results_txt = Text(self, width = 35, height = 25, wrap = WORD)
         self.results_txt.grid(row = 5, column = 0, columnspan = 3)
-
-    def detagify(self, tags_string):
-        tags = ', '.join(tags_string.split('#'))
-        if (len(tags) > 0):
-            tags = tags[2:]
-        return tags
     
     # structure format for display of entry in 'browse' section
-    def display_entry(self, index, ref_dict):
-        message = 'ID: ' + str(index) + '\n'
-        message += 'Topic: ' + ref_dict['topics'][index] + '\n'
-        tag_string = BrowsePage.detagify(self, ref_dict['tags'][index]) + '\n'
-        message +='Tags: ' + tag_string
-        if (self.expanded_view.get()):
-            message += 'Statement: '
-            message += ref_dict['statements'][index] + '\n'
-        message += '\n'
-        return message
+    #def display_entry(self, index, ref_dict):
+    #    message = 'ID: ' + str(index) + '\n'
+    #    message += 'Topic: ' + ref_dict['topics'][index] + '\n'
+    #    tag_string = BrowsePage.detagify(self, ref_dict['tags'][index]) + '\n'
+    #    message +='Tags: ' + tag_string
+    #    if (self.expanded_view.get()):
+    #        message += 'Statement: '
+    #        message += ref_dict['statements'][index] + '\n'
+    #    message += '\n'
+    #    return message
 
     def display(self):
         message = ""
         with open('resources.json', 'r') as f:
-            ref_dict = json.load(f)
+            ref = json.load(f)
 
-        for i in range(len(ref_dict['tags'])):
-            message += BrowsePage.display_entry(self, i, ref_dict)
+        for i in range(len(ref)):
+            message += ref[i].browse_rep(self.expanded_view.get())
+            message += '\n'
 
         f.close()
         return message
@@ -437,18 +541,6 @@ class WritePage(Frame):
         self.solution_no_latex_txt.delete(0.0, END)
         self.solution_latex_txt.delete(0.0, END)
         self.notes_txt.delete(0.0, END)
-
-    # given the tags listed with commas and possibly spaces, place pound signs
-    # between tags
-    def tagify(self, tags):
-        tag_arr = tags.split(',')
-        for i in range(len(tag_arr)):
-            if ((len(tag_arr[i]) > 0) and (tag_arr[i][0] == ' ')):
-                tag_arr[i] = tag_arr[i][1:]
-        ans = '#'.join(tag_arr)
-        if (len(ans) > 0):
-            ans = '#' + ans
-        return ans
 
     def save_inputs(self, controller):
         with open('resources.json', 'r') as f:
