@@ -11,6 +11,17 @@ import json
 #      'statements': statement, 'sol_no_latex': sol_no_late,
 #      'sol_latex': sol_late, 'notes': note}
 
+
+# class to serialize objects in JSON file
+# credit for this class:
+# https://code.tutsplus.com/tutorials/serialization-and-deserialization-of-
+# python-objects-part-1--cms-26183
+#class CustomEncoder(json.JSONEncoder):
+#    def default(self, o):
+#        return {'__{}__'.format(o.__class__.__name__): o.__dict__}
+
+
+# class for individual entries to database
 class DataEntry():
     def __init__(self, new_id, tags = '', topic = '', source = '', date = '',
                  difficulty = '', statement_no_latex = '', statement_latex = '',
@@ -33,11 +44,20 @@ class DataEntry():
     def set_tags(self, new_tags):
         self.tags = new_tags
 
+    def get_tags(self):
+        return self.tags
+
     def set_topic(self, new_topic):
         self.topic = new_topic
 
+    def get_topic(self):
+        return self.topic
+
     def set_source(self, new_source):
         self.source = new_source
+
+    def get_source(self):
+        return self.source
 
     def set_date(self, new_date):
         raise SyntaxError('Uncertain How To Represent Dates')
@@ -48,17 +68,32 @@ class DataEntry():
     def set_stnl(self, new_stat):
         self.stnl = new_stat
 
+    def get_stnl(self):
+        return self.stnl
+
     def set_stwl(self, new_stat):
         self.stwl = new_stat
+
+    def get_stwl(self):
+        return self.stwl
 
     def set_sonl(self, new_sol):
         self.sonl = new_sol
 
+    def get_sonl(self):
+        return self.sonl
+
     def set_sowl(self, new_sol):
         self.sowl = new_sol
 
+    def get_sowl(self):
+        return self.sowl
+
     def set_notes(self, new_notes):
         self.notes = new_notes
+
+    def get_notes(self):
+        return self.notes
 
     # given the tags listed with commas and possibly spaces, place pound signs
     # between tags
@@ -69,6 +104,10 @@ class DataEntry():
             while ((j < len(tag_arr[i])) and (tag_arr[i][j] == ' ')):
                 j += 1
             tag_arr[i] = tag_arr[i][j:]
+            j = len(tag_arr[i])-1
+            while ((j >= 0) and (tag_arr[i][j] == ' ')):
+                j-= 1
+            tag_arr[i] = tag_arr[i][:(j+1)]
         ans = '#'.join(tag_arr)
         if (len(ans) > 0):
             ans = '#' + ans
@@ -81,9 +120,9 @@ class DataEntry():
         return tags
 
     def small_string_rep(self):
-        message = 'ID: ' + self.id + '\n'
+        message = 'ID: ' + str(self.id) + '\n'
         message += 'Tags: ' + DataEntry.detagify(self,self.tags) + '\n'
-        message += 'Topic: ' + self.tags + '\n'
+        message += 'Topic: ' + self.topic + '\n'
         return message
 
     def medium_string_rep(self):
@@ -119,6 +158,31 @@ class DataEntry():
         else:
             return DataEntry.medium_string_rep(self)
 
+    # return a dictionary representation of the object for JSON serialization
+    def to_dict(self):
+        ent_dict = {}
+        ent_dict['id'] = self.id
+        ent_dict['tags'] = self.tags
+        ent_dict['topic'] = self.topic
+        ent_dict['source'] = self.source
+        ent_dict['date'] = self.date
+        ent_dict['difficulty'] = self.difficulty
+        ent_dict['stnl'] = self.stnl
+        ent_dict['stwl'] = self.stwl
+        ent_dict['sonl'] = self.sonl
+        ent_dict['sowl'] = self.sowl
+        ent_dict['notes'] = self.notes
+        return ent_dict
+
+    # return a DataEntry object representation of the dictionary
+    @staticmethod
+    def from_dict(ent_dict):
+        return DataEntry(ent_dict['id'], ent_dict['tags'], ent_dict['topic'],
+                         ent_dict['source'], ent_dict['date'],
+                         ent_dict['difficulty'], ent_dict['stnl'],
+                         ent_dict['stwl'], ent_dict['sonl'], ent_dict['sowl'],
+                         ent_dict['notes'])
+
 
 class Transition(Tk):
     def __init__(self):
@@ -130,7 +194,7 @@ class Transition(Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.title("Database")
-        self.geometry("370x620")
+        self.geometry("370x670")
         self.frames = {}
 
         for F in (Home, SearchPage, BrowsePage, WritePage, EditPage):
@@ -415,7 +479,8 @@ class BrowsePage(Frame):
     def display(self):
         message = ""
         with open('resources.json', 'r') as f:
-            ref = json.load(f)
+            ref_dict = json.load(f)
+        ref = [DataEntry.from_dict(entry) for entry in ref_dict]
 
         for i in range(len(ref)):
             message += ref[i].browse_rep(self.expanded_view.get())
@@ -452,12 +517,12 @@ class WritePage(Frame):
         # 'Add Entry' button
         self.bttn2 = Button(self, text = "Add Entry",
                             command=lambda: self.save_inputs(controller))
-        self.bttn2.grid(row = 13, column = 1)
+        self.bttn2.grid(row = 15, column = 1)
 
         # 'Cancel' button
         self.bttn3 = Button(self, text = "Cancel",
                             command=lambda: controller.show_frame(Home))
-        self.bttn3.grid(row = 13, column = 2)
+        self.bttn3.grid(row = 15, column = 2)
 
     def set_intro(self, controller):
         # Page title
@@ -493,70 +558,84 @@ class WritePage(Frame):
         self.source_input = Entry(self)
         self.source_input.grid(row = 2 + offset, column = 1, sticky = W)
 
-        # 'Statement' label
-        Label(self, text = "Statement").grid(row = 3 + offset,
-                                             column = 0, sticky = W)
+        # 'Statement (no latex)' label
+        Label(self, text = "Statement (no latex)").grid(row = 3 + offset,
+                                                        column = 0, sticky = W)
 
-        # Statement text box
-        self.statement_txt = Text(self, width = 30, height = 5, wrap = WORD)
-        self.statement_txt.grid(row = 4 + offset, column = 0, columnspan = 3,
-                                sticky = W)
+        # Statement (no latex) text box
+        self.stnl = Text(self, width = 30, height = 5, wrap = WORD)
+        self.stnl.grid(row = 4 + offset, column = 0, columnspan = 3, sticky = W)
+
+        # 'Statement (latex)' label
+        Label(self, text = "Statement (no latex)").grid(row = 5 + offset,
+                                                        column = 0, sticky = W)
+
+        # Statement (latex) text box
+        self.stwl = Text(self, width = 30, height = 5, wrap = WORD)
+        self.stwl.grid(row = 6 + offset, column = 0, columnspan = 3, sticky = W)
 
         # 'Solution' (without latex) label
-        Label(self, text = "Solution (no latex)").grid(row = 5 + offset,
+        Label(self, text = "Solution (no latex)").grid(row = 7 + offset,
                                                        column = 0, sticky = W)
 
         # Solution without latex text box
-        self.solution_no_latex_txt = Text(self, width = 30, height = 5,
-                                          wrap = WORD)
-        self.solution_no_latex_txt.grid(row = 6 + offset,
-                                        column = 0, columnspan = 3, sticky = W)
+        self.sonl = Text(self, width = 30, height = 5, wrap = WORD)
+        self.sonl.grid(row = 8 + offset, column = 0, columnspan = 3, sticky = W)
 
         # 'Solution' (with latex) label
-        Label(self, text = "Solution (with latex)").grid(row = 7 + offset,
+        Label(self, text = "Solution (with latex)").grid(row = 9 + offset,
                                                          column = 0, sticky = W)
 
         # Solution with latex text box
-        self.solution_latex_txt = Text(self, width = 30, height = 5,
-                                          wrap = WORD)
-        self.solution_latex_txt.grid(row = 8 + offset,
-                                     column = 0, columnspan = 3, sticky = W)
+        self.sowl = Text(self, width = 30, height = 5, wrap = WORD)
+        self.sowl.grid(row = 10 + offset, column = 0, columnspan = 3,
+                       sticky = W)
 
         # 'Notes' label
-        Label(self, text = "Notes").grid(row = 9 + offset,
+        Label(self, text = "Notes").grid(row = 11 + offset,
                                          column = 0, sticky = W)
 
         # Notes text box
-        self.notes_txt = Text(self, width = 30, height = 5,
-                                          wrap = WORD)
-        self.notes_txt.grid(row = 10 + offset, column = 0, columnspan = 3,
-                            sticky = W)
+        self.notes = Text(self, width = 30, height = 5, wrap = WORD)
+        self.notes.grid(row = 12 + offset, column = 0, columnspan = 3,
+                        sticky = W)
 
     # clear write page of inputs
     def clear(self):
         self.tags_input.delete(0, END)
         self.topic_input.delete(0, END)
         self.source_input.delete(0, END)
-        self.statement_txt.delete(0.0, END)
-        self.solution_no_latex_txt.delete(0.0, END)
-        self.solution_latex_txt.delete(0.0, END)
-        self.notes_txt.delete(0.0, END)
+        self.stnl.delete(0.0, END)
+        self.stwl.delete(0.0, END)
+        self.sonl.delete(0.0, END)
+        self.sowl.delete(0.0, END)
+        self.notes.delete(0.0, END)
+
 
     def save_inputs(self, controller):
         with open('resources.json', 'r') as f:
             ref_dict = json.load(f)
-        ref_dict['tags'].append(self.tagify(self.tags_input.get()))
-        ref_dict['topics'].append(self.topic_input.get())
-        ref_dict['sources'].append(self.source_input.get())
-        ref_dict['statements'].append(self.statement_txt.get("1.0", END))
-        sol_str = self.solution_no_latex_txt.get("1.0", END)
-        ref_dict['sol_no_latex'].append(sol_str)
-        ref_dict['sol_latex'].append(self.solution_latex_txt.get("1.0", END))
-        ref_dict['notes'].append(self.notes_txt.get("1.0", END))
+        ref = [DataEntry.from_dict(entry) for entry in ref_dict]
+
+        tags = DataEntry.tagify(self, self.tags_input.get())
+        topic = self.topic_input.get()
+        source = self.source_input.get()
+        date = '01/01/2000'
+        difficulty = 1
+        stnl = self.stnl.get("1.0", END)
+        stwl = self.stwl.get("1.0", END)
+        sonl = self.sonl.get("1.0", END)
+        sowl = self.sowl.get("1.0", END)
+        notes = self.notes.get("1.0", END)
+
+        new_entry = DataEntry(len(ref), tags, topic, source, date,
+                              difficulty, stnl, stwl, sonl, sowl, notes)
+        ref.append(new_entry)
         
         f.close()
 
         with open('resources.json', 'w') as g:
+            ref_dict = [ob.to_dict() for ob in ref]
             json.dump(ref_dict, g)
         g.close()        
         controller.show_frame(Home)
@@ -598,22 +677,23 @@ class EditPage(Frame):
         # Save button
         self.bttn3 = Button(self, text = "Save",
                             command=lambda: self.update_entry(controller))
-        self.bttn3.grid(row = 15,column = 0)
+        self.bttn3.grid(row = 17,column = 0)
 
         # Cancel button
         self.bttn4 = Button(self, text = "Cancel",
                             command=lambda: controller.show_frame(Home))
-        self.bttn4.grid(row = 15,column = 1)
+        self.bttn4.grid(row = 17,column = 1)
 
     def clear(self):
         self.id_input.delete(0, END)
         self.tags_input.delete(0, END)
         self.topic_input.delete(0, END)
         self.source_input.delete(0, END)
-        self.statement_txt.delete(0.0, END)
-        self.solution_no_latex_txt.delete(0.0, END)
-        self.solution_latex_txt.delete(0.0, END)
-        self.notes_txt.delete(0.0, END)
+        self.stnl.delete(0.0, END)
+        self.stwl.delete(0.0, END)
+        self.sonl.delete(0.0, END)
+        self.sowl.delete(0.0, END)
+        self.notes.delete(0.0, END)
         if (hasattr(self, 'warning_lbl')):
             self.warning_lbl.grid_remove()
         self.curr_id = -1
@@ -632,8 +712,9 @@ class EditPage(Frame):
         if (self.check_for_int(rec_id)):
             with open('resources.json', 'r') as f:
                 ref_dict = json.load(f)
+            ref = [DataEntry.from_dict(entry) for entry in ref_dict]
             int_id = int(rec_id)
-            if (int_id >= len(ref_dict['tags'])):
+            if (int_id >= len(ref_dict)):
                 self.id_input.delete(0, END)
                 self.warning_lbl = Label(self, text = "ID must be in range",
                                          fg="red")
@@ -642,16 +723,17 @@ class EditPage(Frame):
                 self.clear()
                 self.curr_id = int_id
                 self.id_input.insert(0, rec_id)
-                tag_str = BrowsePage.detagify(self, ref_dict['tags'][int_id])
+                tag_str = DataEntry.detagify(self, ref[int_id].get_tags())
                 self.tags_input.insert(0, tag_str)
-                self.topic_input.insert(0, ref_dict['topics'][int_id])
-                self.source_input.insert(0, ref_dict['sources'][int_id])
-                self.statement_txt.insert(0.0, ref_dict['statements'][int_id])
-                sol_no_latex_str = ref_dict['sol_no_latex'][int_id]
-                self.solution_no_latex_txt.insert(0.0, sol_no_latex_str)
-                sol_latex_str = ref_dict['sol_latex'][int_id]
-                self.solution_latex_txt.insert(0.0, sol_latex_str)
-                self.notes_txt.insert(0.0, ref_dict['notes'][int_id])
+                self.topic_input.insert(0, ref[int_id].get_topic())
+                self.source_input.insert(0, ref[int_id].get_source())
+                self.stnl.insert(0.0, ref[int_id].get_stnl())
+                self.stwl.insert(0.0, ref[int_id].get_stwl())
+                sol_no_latex_str = ref[int_id].get_sonl()
+                self.sonl.insert(0.0, sol_no_latex_str)
+                sol_latex_str = ref[int_id].get_sowl()
+                self.sowl.insert(0.0, sol_latex_str)
+                self.notes.insert(0.0, ref[int_id].get_notes())
             f.close()
         else:
             self.id_input.delete(0, END)
@@ -662,21 +744,26 @@ class EditPage(Frame):
         if (self.curr_id != -1):
             with open('resources.json', 'r') as f:
                 ref_dict = json.load(f)
-            tags_str = WritePage.tagify(self, self.tags_input.get())
-            ref_dict['tags'][self.curr_id] = tags_str
-            ref_dict['topics'][self.curr_id] = self.topic_input.get()
-            ref_dict['sources'][self.curr_id] = self.source_input.get()
-            statement_str = self.statement_txt.get("1.0", END)
-            ref_dict['statements'][self.curr_id] = statement_str
-            sol_str = self.solution_no_latex_txt.get("1.0", END)
-            ref_dict['sol_no_latex'][self.curr_id] = sol_str
-            new_sol_latex_str = self.solution_latex_txt.get("1.0", END)
-            ref_dict['sol_latex'][self.curr_id] = new_sol_latex_str
-            ref_dict['notes'][self.curr_id] = self.notes_txt.get("1.0", END)
+            ref = [DataEntry.from_dict(entry) for entry in ref_dict]      
+            
+            tags_str = DataEntry.tagify(self, self.tags_input.get())
+            ref[self.curr_id].set_tags(tags_str)
+            ref[self.curr_id].set_topic(self.topic_input.get())
+            ref[self.curr_id].set_source(self.source_input.get())
+            stnl_str = self.stnl.get("1.0", END)
+            ref[self.curr_id].set_stnl(stnl_str)
+            stwl_str = self.stwl.get("1.0", END)
+            ref[self.curr_id].set_stwl(stwl_str)
+            sonl_str = self.sonl.get("1.0", END)
+            ref[self.curr_id].set_sonl(sonl_str)
+            sowl_str = self.sowl.get("1.0", END)
+            ref[self.curr_id].set_sowl(sowl_str)
+            ref[self.curr_id].set_notes(self.notes.get("1.0", END))
         
             f.close()
 
             with open('resources.json', 'w') as g:
+                ref_dict = [ob.to_dict() for ob in ref]
                 json.dump(ref_dict, g)
             g.close()        
             
