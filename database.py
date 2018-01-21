@@ -243,6 +243,9 @@ class Home(Frame):
                             command=lambda: controller.show_frame(WritePage))
         self.bttn3.grid(row=3,column=1, pady=10)
         self.bttn3.configure(text = "Add An Entry")
+        #e53c12
+        #fc5653
+        #ff4921
         self.bttn3.config(bg="#e53c12", activebackground="#e53c12")
 
         self.bttn4 = Button(self,
