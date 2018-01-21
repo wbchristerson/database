@@ -60,7 +60,10 @@ class DataEntry():
         return self.source
 
     def set_date(self, new_date):
-        raise SyntaxError('Uncertain How To Represent Dates')
+        self.date = new_date
+
+    def get_date(self):
+        return self.date
 
     def set_difficulty(self, new_difficulty):
         self.difficulty = new_difficulty
@@ -128,6 +131,7 @@ class DataEntry():
     def medium_string_rep(self):
         message = DataEntry.small_string_rep(self)
         message += 'Source: ' + self.source + '\n'
+        message += 'Date: ' + self.date + '\n'
         message += 'Statement: '
         if (self.stnl == ''):
             message += self.stwl + '\n'
@@ -138,6 +142,7 @@ class DataEntry():
     def large_string_rep(self):
         message = DataEntry.small_string_rep(self)
         message += 'Source: ' + self.source + '\n'
+        message += 'Date: ' + self.date + '\n'
         message += 'Statement (No Latex): ' + self.stnl + '\n'
         message += 'Statement (With Latex): ' + self.stwl + '\n'
         message += 'Difficulty: ' + str(self.difficulty) + '\n'
@@ -194,7 +199,7 @@ class Transition(Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.title("Database")
-        self.geometry("370x670")
+        self.geometry("370x690")
         self.frames = {}
 
         for F in (Home, SearchPage, BrowsePage, WritePage, EditPage):
@@ -520,12 +525,12 @@ class WritePage(Frame):
         # 'Add Entry' button
         self.bttn2 = Button(self, text = "Add Entry",
                             command=lambda: self.save_inputs(controller))
-        self.bttn2.grid(row = 15, column = 1)
+        self.bttn2.grid(row = 16, column = 1)
 
         # 'Cancel' button
         self.bttn3 = Button(self, text = "Cancel",
                             command=lambda: controller.show_frame(Home))
-        self.bttn3.grid(row = 15, column = 2)
+        self.bttn3.grid(row = 16, column = 2)
 
     def set_intro(self, controller):
         # Page title
@@ -561,46 +566,54 @@ class WritePage(Frame):
         self.source_input = Entry(self)
         self.source_input.grid(row = 2 + offset, column = 1, sticky = W)
 
+        # 'Date' label
+        Label(self, text = "Date (MM/DD/YYYY)").grid(row = 3 + offset,
+                                                     column = 0, sticky = W)
+
+        # Date input entry
+        self.date_input = Entry(self)
+        self.date_input.grid(row = 3 + offset, column = 1, sticky = W)
+
         # 'Statement (no latex)' label
-        Label(self, text = "Statement (no latex)").grid(row = 3 + offset,
+        Label(self, text = "Statement (no latex)").grid(row = 4 + offset,
                                                         column = 0, sticky = W)
 
         # Statement (no latex) text box
         self.stnl = Text(self, width = 30, height = 5, wrap = WORD)
-        self.stnl.grid(row = 4 + offset, column = 0, columnspan = 3, sticky = W)
+        self.stnl.grid(row = 5 + offset, column = 0, columnspan = 3, sticky = W)
 
         # 'Statement (latex)' label
-        Label(self, text = "Statement (no latex)").grid(row = 5 + offset,
+        Label(self, text = "Statement (no latex)").grid(row = 6 + offset,
                                                         column = 0, sticky = W)
 
         # Statement (latex) text box
         self.stwl = Text(self, width = 30, height = 5, wrap = WORD)
-        self.stwl.grid(row = 6 + offset, column = 0, columnspan = 3, sticky = W)
+        self.stwl.grid(row = 7 + offset, column = 0, columnspan = 3, sticky = W)
 
         # 'Solution' (without latex) label
-        Label(self, text = "Solution (no latex)").grid(row = 7 + offset,
+        Label(self, text = "Solution (no latex)").grid(row = 8 + offset,
                                                        column = 0, sticky = W)
 
         # Solution without latex text box
         self.sonl = Text(self, width = 30, height = 5, wrap = WORD)
-        self.sonl.grid(row = 8 + offset, column = 0, columnspan = 3, sticky = W)
+        self.sonl.grid(row = 9 + offset, column = 0, columnspan = 3, sticky = W)
 
         # 'Solution' (with latex) label
-        Label(self, text = "Solution (with latex)").grid(row = 9 + offset,
+        Label(self, text = "Solution (with latex)").grid(row = 10 + offset,
                                                          column = 0, sticky = W)
 
         # Solution with latex text box
         self.sowl = Text(self, width = 30, height = 5, wrap = WORD)
-        self.sowl.grid(row = 10 + offset, column = 0, columnspan = 3,
+        self.sowl.grid(row = 11 + offset, column = 0, columnspan = 3,
                        sticky = W)
 
         # 'Notes' label
-        Label(self, text = "Notes").grid(row = 11 + offset,
+        Label(self, text = "Notes").grid(row = 12 + offset,
                                          column = 0, sticky = W)
 
         # Notes text box
         self.notes = Text(self, width = 30, height = 5, wrap = WORD)
-        self.notes.grid(row = 12 + offset, column = 0, columnspan = 3,
+        self.notes.grid(row = 13 + offset, column = 0, columnspan = 3,
                         sticky = W)
 
     # clear write page of inputs
@@ -608,22 +621,82 @@ class WritePage(Frame):
         self.tags_input.delete(0, END)
         self.topic_input.delete(0, END)
         self.source_input.delete(0, END)
+        self.date_input.delete(0, END)
         self.stnl.delete(0.0, END)
         self.stwl.delete(0.0, END)
         self.sonl.delete(0.0, END)
         self.sowl.delete(0.0, END)
         self.notes.delete(0.0, END)
+        if (hasattr(self, 'warning_lbl')):
+            self.warning_lbl.grid_remove()
+        if (hasattr(self, 'data_lbl')):
+            self.data_lbl.grid_remove()
+
+
+    # check whether date string is valid; a valid string is '' or a string of
+    # the form 'MM/DD/YYYY' where (MM,DD) is a valid month-day pair
+    def is_valid_date(self,ds):
+        if ((len(ds) >= 2) and (ds[1] == '/')):
+            ds = '0' + ds
+        if ((len(ds) >= 5) and (ds[4] == '/')):
+            ds = ds[:3] + '0' + ds[3:]
+        if (ds == ''):
+            return True
+        elif ((len(ds) < 3) or (ds[2] != '/')):
+            return False
+        elif ((len(ds) < 6) or (ds[5] != '/')):
+            return False
+        elif not ((EditPage.check_for_int(self,ds[0:2])) and
+                  (EditPage.check_for_int(self,ds[3:5])) and
+                  (EditPage.check_for_int(self,ds[6:]))):
+            return False
+        elif not ((int(ds[0:2]) >= 1) and (int(ds[0:2]) <= 12)):
+            return False
+        elif not ((int(ds[3:5]) >= 1) and (int(ds[3:5]) <= 31)):
+            return False
+        elif ((int(ds[0:2] == 2)) and (int(ds[3:5]) > 29)):
+            return False
+        elif (((int(ds[0:2]) == 4) or (int(ds[0:2]) == 6) or
+               (int(ds[0:2]) == 9) or (int(ds[0:2]) == 11)) and
+              (int(ds[3:5]) > 30)):
+            return False
+        return True
+
+    # check that write page entry has some content
+    def has_inputs(self):
+        if (self.tags_input.get() != ''):
+            return True
+        elif (self.topic_input.get() != ''):
+            return True
+        elif (self.source_input.get() != ''):
+            return True
+        elif (self.date_input.get() != ''):
+            return True
+        elif (self.stnl.get("1.0", END) != '\n'):
+            print('Value: ' + self.stnl.get("1.0", END))
+            return True
+        elif (self.stwl.get("1.0", END) != '\n'):
+            return True
+        elif (self.sonl.get("1.0", END) != '\n'):
+            return True
+        elif (self.sowl.get("1.0", END) != '\n'):
+            return True
+        elif (self.notes.get("1.0", END) != '\n'):
+            return True
+        else:
+            return False
 
 
     def save_inputs(self, controller):
         with open('resources.json', 'r') as f:
             ref_dict = json.load(f)
         ref = [DataEntry.from_dict(entry) for entry in ref_dict]
+        f.close()
 
         tags = DataEntry.tagify(self, self.tags_input.get())
         topic = self.topic_input.get()
         source = self.source_input.get()
-        date = '01/01/2000'
+        date = self.date_input.get()
         difficulty = 1
         stnl = self.stnl.get("1.0", END)
         stwl = self.stwl.get("1.0", END)
@@ -631,17 +704,26 @@ class WritePage(Frame):
         sowl = self.sowl.get("1.0", END)
         notes = self.notes.get("1.0", END)
 
-        new_entry = DataEntry(len(ref), tags, topic, source, date,
-                              difficulty, stnl, stwl, sonl, sowl, notes)
-        ref.append(new_entry)
-        
-        f.close()
+        if not(WritePage.has_inputs(self)):
+            self.data_lbl = Label(self, text = "Entry must include data",
+                                  fg="red")
+            self.data_lbl.grid(row = 16, column = 0)
 
-        with open('resources.json', 'w') as g:
-            ref_dict = [ob.to_dict() for ob in ref]
-            json.dump(ref_dict, g)
-        g.close()        
-        controller.show_frame(Home)
+        elif (WritePage.is_valid_date(self,date)):
+            new_entry = DataEntry(len(ref), tags, topic, source, date,
+                                  difficulty, stnl, stwl, sonl, sowl, notes)
+            ref.append(new_entry)
+
+            with open('resources.json', 'w') as g:
+                ref_dict = [ob.to_dict() for ob in ref]
+                json.dump(ref_dict, g)
+            g.close()        
+            controller.show_frame(Home)
+
+        else:
+            self.warning_lbl = Label(self, text = "Must be valid date",fg="red")
+            self.warning_lbl.grid(row = 5, column = 2)
+
 
 
 class EditPage(Frame):
@@ -680,18 +762,19 @@ class EditPage(Frame):
         # Save button
         self.bttn3 = Button(self, text = "Save",
                             command=lambda: self.update_entry(controller))
-        self.bttn3.grid(row = 17,column = 0)
+        self.bttn3.grid(row = 18,column = 0)
 
         # Cancel button
         self.bttn4 = Button(self, text = "Cancel",
                             command=lambda: controller.show_frame(Home))
-        self.bttn4.grid(row = 17,column = 1)
+        self.bttn4.grid(row = 18,column = 1)
 
     def clear(self):
         self.id_input.delete(0, END)
         self.tags_input.delete(0, END)
         self.topic_input.delete(0, END)
         self.source_input.delete(0, END)
+        self.date_input.delete(0, END)
         self.stnl.delete(0.0, END)
         self.stwl.delete(0.0, END)
         self.sonl.delete(0.0, END)
@@ -730,6 +813,7 @@ class EditPage(Frame):
                 self.tags_input.insert(0, tag_str)
                 self.topic_input.insert(0, ref[int_id].get_topic())
                 self.source_input.insert(0, ref[int_id].get_source())
+                self.date_input.insert(0, ref[int_id].get_date())
                 self.stnl.insert(0.0, ref[int_id].get_stnl())
                 self.stwl.insert(0.0, ref[int_id].get_stwl())
                 sol_no_latex_str = ref[int_id].get_sonl()
@@ -753,15 +837,15 @@ class EditPage(Frame):
             ref[self.curr_id].set_tags(tags_str)
             ref[self.curr_id].set_topic(self.topic_input.get())
             ref[self.curr_id].set_source(self.source_input.get())
-            stnl_str = self.stnl.get("1.0", END)
+            stnl_str = self.stnl.get("1.0", END)[:-1]
             ref[self.curr_id].set_stnl(stnl_str)
-            stwl_str = self.stwl.get("1.0", END)
+            stwl_str = self.stwl.get("1.0", END)[:-1]
             ref[self.curr_id].set_stwl(stwl_str)
-            sonl_str = self.sonl.get("1.0", END)
+            sonl_str = self.sonl.get("1.0", END)[:-1]
             ref[self.curr_id].set_sonl(sonl_str)
-            sowl_str = self.sowl.get("1.0", END)
+            sowl_str = self.sowl.get("1.0", END)[:-1]
             ref[self.curr_id].set_sowl(sowl_str)
-            ref[self.curr_id].set_notes(self.notes.get("1.0", END))
+            ref[self.curr_id].set_notes(self.notes.get("1.0", END)[:-1])
         
             f.close()
 
