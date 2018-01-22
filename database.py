@@ -196,7 +196,7 @@ class Transition(Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.title("Database")
-        self.geometry("450x690")
+        self.geometry("540x690")
         self.frames = {}
 
         for F in (Home, SearchPage, BrowsePage, WritePage, EditPage):
@@ -493,6 +493,8 @@ class SearchPage(Frame):
         else:
             return True
 
+    # return whether or not any element of tag_list appears among the tags of
+    # the DataEntry object obj
     @staticmethod
     def data_match_tag(obj, tag_list):
         obj_tag_str = obj.get_tags()
@@ -506,11 +508,34 @@ class SearchPage(Frame):
                     return True
             return False
 
+    # return whether the DataEntry object obj has the parameter topic as its
+    # topic attribute
+    @staticmethod
+    def data_match_topic(obj, topic):
+        return topic == obj.get_topic()
+
+    # return whether the DataEntry object obj has the parameter source as its
+    # source attribute or at least contains the source in the attribute
+    @staticmethod
+    def data_match_source(obj, source):
+        return (source in obj.get_source())
+
+    # return whether the DataEntry object obj has the parameter date within
+    # the specified date range;
+    # assume all dates are valid
+    @staticmethod
+    def data_match_date(obj, start_date, end_date):
+        if (obj.get_date() == ''):
+            return True
+        a = SearchPage.order_dates(start_date, obj.get_date())
+        b = SearchPage.order_dates(obj.get_date(), end_date)
+        return (a and b)
+        
+
     # return list containing objects matching the query;
     # assumes that if ID box is checked, then the given ID is valid (possibly
     # '') and likewise for date values
     def filter_query(self, ref):
-        #print('Difficulty: ' + ref[0].get_difficulty())
         mod_ref = ref
         if (self.by_id.get() and (self.id_input.get() != '')):
             mod_ref = [mod_ref[int(self.id_input.get())]]
@@ -519,6 +544,16 @@ class SearchPage(Frame):
             tag_list = tag_string.split('#')
             tag_list = tag_list[1:]
             mod_ref = list(filter(lambda x: SearchPage.data_match_tag(x, tag_list),
+                                  mod_ref))
+        if (self.by_topic.get() and (self.topic_input.get() != '')):
+            mod_ref = list(filter(lambda x: SearchPage.data_match_topic(x, self.topic_input.get()),
+                                  mod_ref))
+        if (self.by_source.get() and (self.source_input.get() != '')):
+            mod_ref = list(filter(lambda x: SearchPage.data_match_source(x, self.source_input.get()),
+                                  mod_ref))
+        if (self.by_date.get() and (self.start_date_input.get() != '') and (self.end_date_input.get() != '')):
+            mod_ref = list(filter(lambda x: SearchPage.data_match_date(x, self.start_date_input.get(),
+                                                                       self.end_date_input.get()),
                                   mod_ref))
         return mod_ref
 
@@ -576,25 +611,13 @@ class SearchPage(Frame):
             ref_mod = SearchPage.filter_query(self, ref)
             message = ''
             for entry in ref_mod:
-                message += DataEntry.search_rep(entry, self.expanded_view)
+                message += DataEntry.search_rep(entry, self.expanded_view.get())
                 message += '\n'
             self.results_txt.delete(0.0, END)
             self.results_txt.insert(0.0, message)
             #print('Reached here: ' + str(self.by_date.get()))
             #print('Start: ' + str(self.start_date_input.get() == ''))
         # set warning booleans back to False and remove warning labels
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
