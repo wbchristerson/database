@@ -12,14 +12,6 @@ import json
 #      'sol_latex': sol_late, 'notes': note}
 
 
-# class to serialize objects in JSON file
-# credit for this class:
-# https://code.tutsplus.com/tutorials/serialization-and-deserialization-of-
-# python-objects-part-1--cms-26183
-#class CustomEncoder(json.JSONEncoder):
-#    def default(self, o):
-#        return {'__{}__'.format(o.__class__.__name__): o.__dict__}
-
 
 # class for individual entries to database
 class DataEntry():
@@ -32,9 +24,9 @@ class DataEntry():
         self.source = source
         self.date = date
         self.difficulty = difficulty
-        self.stnl = statement_no_latex # 'statement no latex'
+        self.stnl = statement_no_latex # 'statement with no latex'
         self.stwl = statement_latex # 'statement with latex'
-        self.sonl = solution_no_latex # 'solution no latex'
+        self.sonl = solution_no_latex # 'solution with no latex'
         self.sowl = solution_latex # 'solution with latex'
         self.notes = notes
 
@@ -102,7 +94,7 @@ class DataEntry():
         return self.notes
 
     # given the tags listed with commas and possibly spaces, place pound signs
-    # between tags
+    # between them
     def tagify(self, tags):
         tag_arr = tags.split(',')
         for i in range(len(tag_arr)):
@@ -524,7 +516,10 @@ class WritePage(Frame):
         self.grid()
         self.set_intro(controller)
         self.set_format(controller, 2)
-        self.data_warning = False
+        # Whether message about invalid input is visible
+        self.input_warning = False
+        # Whether message about invalid date is visible
+        self.date_warning = False
         
         # 'Add Entry' button
         self.bttn2 = Button(self, text = "Add Entry",
@@ -648,10 +643,11 @@ class WritePage(Frame):
         self.sowl.delete(0.0, END)
         self.notes.delete(0.0, END)
         self.difficulty.set(None)
-        if (hasattr(self, 'warning_lbl')):
+        if (self.date_warning):
+            self.date_warning = False
             self.warning_lbl.grid_remove()
-        if (self.data_warning):
-            self.data_warning = False
+        if (self.input_warning):
+            self.input_warning = False
             self.data_lbl.grid_remove()
         #if (hasattr(self, 'data_lbl')):
         #    self.data_lbl.grid_remove()
@@ -750,12 +746,14 @@ class WritePage(Frame):
         notes = WritePage.truncate_new_line(self.notes.get("1.0", END))
 
         if not(WritePage.has_inputs(self)):
-            self.data_warning = True
-            if (hasattr(self, 'warning_lbl')):
+            if (hasattr(self, 'warning_lbl') and self.date_warning):
+                self.date_warning = False
                 self.warning_lbl.grid_remove()
-            self.data_lbl = Label(self, text = "Entry must include data",
-                                  fg="red")
-            self.data_lbl.grid(row = 17, column = 0)
+            if not (self.input_warning):
+                self.input_warning = True
+                self.data_lbl = Label(self, text = "Entry must include data",
+                                      fg="red")
+                self.data_lbl.grid(row = 17, column = 0)
 
         elif (WritePage.is_valid_date(self,date)):
             new_entry = DataEntry(len(ref), tags, topic, source, date,
@@ -769,11 +767,14 @@ class WritePage(Frame):
             controller.show_frame(Home)
 
         else:
-            if (hasattr(self, 'data_lbl')):
+            if (hasattr(self, 'data_lbl') and self.input_warning):
+                self.input_warning = False
                 self.data_lbl.grid_remove()
-            
-            self.warning_lbl = Label(self, text = "Must be valid date",fg="red")
-            self.warning_lbl.grid(row = 5, column = 2)
+            if not (self.date_warning):
+                self.date_warning = True
+                self.warning_lbl = Label(self, text = "Must be valid date",
+                                         fg="red")
+                self.warning_lbl.grid(row = 5, column = 2)
 
 
 
@@ -784,6 +785,9 @@ class EditPage(Frame):
         self.grid()
         self.set_format(controller)
         self.curr_id = -1
+        self.warning_id = False # whether message about invalid id is visible
+        # whether message about invalid date is visible
+        self.warning_date = False
 
     def set_format(self, controller):
         # Page title
@@ -832,8 +836,12 @@ class EditPage(Frame):
         self.sowl.delete(0.0, END)
         self.notes.delete(0.0, END)
         self.difficulty.set(None)
-        if (hasattr(self, 'warning_lbl')):
-            self.warning_lbl.grid_remove()
+        if (self.warning_id):
+            self.warning_id = False
+            self.red_id.grid_remove()
+        if (self.warning_date):
+            self.warning_date = False
+            self.red_date.grid_remove()
         self.curr_id = -1
 
     def check_for_int(self, s):
@@ -844,8 +852,12 @@ class EditPage(Frame):
             return False
 
     def populate_by_id(self):
-        if (hasattr(self, 'warning_lbl')):
-            self.warning_lbl.grid_remove()
+        if (self.warning_id):
+            self.warning_id = False
+            self.red_id.grid_remove()
+        if (self.warning_date):
+            self.warning_date = False
+            self.red_date.grid_remove()
         rec_id = self.id_input.get()
         if (self.check_for_int(rec_id)):
             with open('resources.json', 'r') as f:
@@ -853,10 +865,14 @@ class EditPage(Frame):
             ref = [DataEntry.from_dict(entry) for entry in ref_dict]
             int_id = int(rec_id)
             if (int_id >= len(ref_dict)):
-                self.id_input.delete(0, END)
-                self.warning_lbl = Label(self, text = "ID must be in range",
-                                         fg="red")
-                self.warning_lbl.grid(row = 2, column = 2)
+                #self.id_input.delete(0, END)
+                if (self.warning_id):
+                    self.warning_id = False
+                    self.red_id.grid_remove()
+                self.red_id = Label(self, text = "ID must be in range",
+                                    fg="red")
+                self.red_id.grid(row = 2, column = 2)
+                self.warning_id = True
             else:
                 self.clear()
                 self.curr_id = int_id
@@ -877,14 +893,20 @@ class EditPage(Frame):
             f.close()
         else:
             #self.id_input.delete(0, END)
-            self.warning_lbl = Label(self, text = "ID must be integer",fg="red")
-            self.warning_lbl.grid(row = 2, column = 2)
+            if (self.warning_id):
+                self.warning_id = False
+                self.red_id.grid_remove()
+            self.red_id = Label(self, text = "ID must be integer",fg="red")
+            self.red_id.grid(row = 2, column = 2)
+            self.warning_id = True
 
     def update_entry(self, controller):
         if not (WritePage.is_valid_date(self,self.date_input.get())):
-                self.warning_lbl = Label(self, text = "Must be valid date",
-                                         fg="red")
-                self.warning_lbl.grid(row = 7, column = 2)
+            if not (self.warning_date):
+                self.warning_date = True
+                self.red_date = Label(self, text = "Must be valid date",
+                                      fg="red")
+                self.red_date.grid(row = 7, column = 2)
         else:
             if (self.curr_id != -1):
                 with open('resources.json', 'r') as f:
@@ -916,8 +938,8 @@ class EditPage(Frame):
                 g.close()        
             
             controller.show_frame(Home)
-        
-        
+
+
 
 app = Transition()
 app.mainloop()
