@@ -11,6 +11,7 @@ import json
 #      'statements': statement, 'sol_no_latex': sol_no_late,
 #      'sol_latex': sol_late, 'notes': note}
 
+# Note: do not include '#' in tag entries
 
 
 # class for individual entries to database
@@ -917,7 +918,7 @@ class WritePage(Frame):
             return False
         elif not ((int(ds[3:5]) >= 1) and (int(ds[3:5]) <= 31)):
             return False
-        elif ((int(ds[0:2] == 2)) and (int(ds[3:5]) > 29)):
+        elif ((int(ds[0:2]) == 2) and (int(ds[3:5]) > 29)):
             return False
         elif (((int(ds[0:2]) == 4) or (int(ds[0:2]) == 6) or
                (int(ds[0:2]) == 9) or (int(ds[0:2]) == 11)) and
