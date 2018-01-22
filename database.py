@@ -95,7 +95,8 @@ class DataEntry():
 
     # given the tags listed with commas and possibly spaces, place pound signs
     # between them
-    def tagify(self, tags):
+    @staticmethod
+    def tagify(tags):
         tag_arr = tags.split(',')
         for i in range(len(tag_arr)):
             j = 0
@@ -111,7 +112,8 @@ class DataEntry():
             ans = '#' + ans
         return ans
 
-    def detagify(self, tags_string):
+    @staticmethod
+    def detagify(tags_string):
         tags = ', '.join(tags_string.split('#'))
         if (len(tags) > 0):
             tags = tags[2:]
@@ -119,7 +121,7 @@ class DataEntry():
 
     def small_string_rep(self):
         message = 'ID: ' + str(self.id) + '\n'
-        message += 'Tags: ' + DataEntry.detagify(self,self.tags) + '\n'
+        message += 'Tags: ' + DataEntry.detagify(self.tags) + '\n'
         message += 'Topic: ' + self.topic + '\n'
         return message
 
@@ -350,40 +352,36 @@ class SearchPage(Frame):
         Label(self, text = "Items").grid(row = 14, column = 0, sticky = W)
 
         # Items text box
-        self.results_txt = Text(self, width = 30, height = 5, wrap = WORD)
+        self.results_txt = Text(self, width = 50, height = 20, wrap = WORD)
         self.results_txt.grid(row = 15, column = 0, columnspan = 3)
 
     def toggle_id_input(self):
         if (self.by_id.get()):
             self.id_input = Entry(self)
             self.id_input.grid(row = 3, column = 1, sticky = W)
-        else:
-            if (hasattr(self, 'id_input')):
-                self.id_input.grid_remove()
+        elif (hasattr(self, 'id_input')):
+            self.id_input.grid_remove()
 
     def toggle_tags_input(self):
         if (self.by_tags.get()):
             self.tags_input = Entry(self)
             self.tags_input.grid(row = 4, column = 1, sticky = W)
-        else:
-            if (hasattr(self, 'tags_input')):
-                self.tags_input.grid_remove()
+        elif (hasattr(self, 'tags_input')):
+            self.tags_input.grid_remove()
 
     def toggle_topic_input(self):
         if (self.by_topic.get()):
             self.topic_input = Entry(self)
             self.topic_input.grid(row = 5, column = 1, sticky = W)
-        else:
-            if (hasattr(self, 'topic_input')):
-                self.topic_input.grid_remove()
+        elif (hasattr(self, 'topic_input')):
+            self.topic_input.grid_remove()
 
     def toggle_source_input(self):
         if (self.by_source.get()):
             self.source_input = Entry(self)
             self.source_input.grid(row = 6, column = 1, sticky = W)
-        else:
-            if (hasattr(self, 'source_input')):
-                self.source_input.grid_remove()
+        elif (hasattr(self, 'source_input')):
+            self.source_input.grid_remove()
 
     def toggle_date_input(self):
         if (self.by_date.get()):
@@ -395,12 +393,11 @@ class SearchPage(Frame):
             self.end_date_lbl.grid(row = 8, column = 2, sticky = W)
             self.end_date_input = Entry(self)
             self.end_date_input.grid(row = 8, column = 3, sticky = W)
-        else:
-            if (hasattr(self, 'start_date_input')):
-                self.start_date_lbl.grid_remove()
-                self.start_date_input.grid_remove()
-                self.end_date_lbl.grid_remove()
-                self.end_date_input.grid_remove()
+        elif (hasattr(self, 'start_date_input')):
+            self.start_date_lbl.grid_remove()
+            self.start_date_input.grid_remove()
+            self.end_date_lbl.grid_remove()
+            self.end_date_input.grid_remove()
 
     def toggle_difficulty_input(self):
         if (self.by_difficulty.get()):
@@ -420,50 +417,48 @@ class SearchPage(Frame):
             self.button_no_rank = Checkbutton(self, text = "No Rank",
                                               variable = self.check_no_rank)
             self.button_no_rank.grid(row = 10,column = 3,sticky = W)
-        else:
-            if (hasattr(self, 'button_easy')):
-                self.button_easy.grid_remove()
-                self.button_medium.grid_remove()
-                self.button_hard.grid_remove()
-                self.button_no_rank.grid_remove()
+        elif (hasattr(self, 'button_easy')):
+            self.button_easy.grid_remove()
+            self.button_medium.grid_remove()
+            self.button_hard.grid_remove()
+            self.button_no_rank.grid_remove()
 
 
     def toggle_words_input(self):
         if (self.by_words.get()):
             self.words_input = Entry(self)
             self.words_input.grid(row = 11, column = 1, sticky = W)
-        else:
-            if (hasattr(self, 'words_input')):
-                self.words_input.grid_remove()
+        elif (hasattr(self, 'words_input')):
+            self.words_input.grid_remove()
             
 
     # inputs given with pound signs between entries
-    def collect_tags(self, ref_dict, inputs):
-        message = ""
-        inputs = inputs.split('#')
-        inputs = inputs[1:]
-        if (len(inputs) == 1):
-            for i in range(len(ref_dict['tags'])):
-                if (inputs[0] in ref_dict['tags'][i].split('#')[1:]):
-                    message += BrowsePage.display_entry(self, i, ref_dict)                        
-        else:
-            used_ids = {}
-            for i in range(len(ref_dict['tags'])):
-                tested = True
-                for entry in inputs:
-                    if not (entry in ref_dict['tags'][i].split('#')[1:]):
-                        tested = False
-                        break
-                if (tested):
-                    message += BrowsePage.display_entry(self, i, ref_dict)
-                    used_ids[i] = True;
-            for i in range(len(ref_dict['tags'])):
-                if not (i in used_ids):
-                    for entry in inputs:
-                        if (entry in ref_dict['tags'][i].split('#')[1:]):
-                            message += BrowsePage.display_entry(self,i,ref_dict)
-                            break
-        return message
+#    def collect_tags(self, ref_dict, inputs):
+#        message = ""
+#        inputs = inputs.split('#')
+#        inputs = inputs[1:]
+#        if (len(inputs) == 1):
+#            for i in range(len(ref_dict['tags'])):
+#                if (inputs[0] in ref_dict['tags'][i].split('#')[1:]):
+#                    message += BrowsePage.display_entry(self, i, ref_dict)                        
+#        else:
+#            used_ids = {}
+#            for i in range(len(ref_dict['tags'])):
+#                tested = True
+#                for entry in inputs:
+#                    if not (entry in ref_dict['tags'][i].split('#')[1:]):
+#                        tested = False
+#                        break
+#                if (tested):
+#                    message += BrowsePage.display_entry(self, i, ref_dict)
+#                    used_ids[i] = True;
+#            for i in range(len(ref_dict['tags'])):
+#                if not (i in used_ids):
+#                    for entry in inputs:
+#                        if (entry in ref_dict['tags'][i].split('#')[1:]):
+#                            message += BrowsePage.display_entry(self,i,ref_dict)
+#                            break
+#        return message
 
     # reformat date string so single digit months and days have leading 0s;
     # assume date_str is a valid date string and is not ''
@@ -498,10 +493,34 @@ class SearchPage(Frame):
         else:
             return True
 
+    @staticmethod
+    def data_match_tag(obj, tag_list):
+        obj_tag_str = obj.get_tags()
+        if (obj_tag_str == ''):
+            return False
+        else:
+            obj_tag_arr = obj_tag_str.split('#')
+            obj_tag_arr = obj_tag_arr[1:]
+            for entry in tag_list:
+                if (entry in obj_tag_arr):
+                    return True
+            return False
 
-    # return list containing objects matching the query
+    # return list containing objects matching the query;
+    # assumes that if ID box is checked, then the given ID is valid (possibly
+    # '') and likewise for date values
     def filter_query(self, ref):
-        print('here')
+        #print('Difficulty: ' + ref[0].get_difficulty())
+        mod_ref = ref
+        if (self.by_id.get() and (self.id_input.get() != '')):
+            mod_ref = [mod_ref[int(self.id_input.get())]]
+        if (self.by_tags.get() and (self.tags_input.get() != '')):
+            tag_string = DataEntry.tagify(self.tags_input.get())
+            tag_list = tag_string.split('#')
+            tag_list = tag_list[1:]
+            mod_ref = list(filter(lambda x: SearchPage.data_match_tag(x, tag_list),
+                                  mod_ref))
+        return mod_ref
 
 
 
@@ -555,7 +574,12 @@ class SearchPage(Frame):
                 ref_dict = json.load(f)
             ref = [DataEntry.from_dict(entry) for entry in ref_dict]
             ref_mod = SearchPage.filter_query(self, ref)
-            
+            message = ''
+            for entry in ref_mod:
+                message += DataEntry.search_rep(entry, self.expanded_view)
+                message += '\n'
+            self.results_txt.delete(0.0, END)
+            self.results_txt.insert(0.0, message)
             #print('Reached here: ' + str(self.by_date.get()))
             #print('Start: ' + str(self.start_date_input.get() == ''))
         # set warning booleans back to False and remove warning labels
@@ -667,7 +691,7 @@ class BrowsePage(Frame):
     #def display_entry(self, index, ref_dict):
     #    message = 'ID: ' + str(index) + '\n'
     #    message += 'Topic: ' + ref_dict['topics'][index] + '\n'
-    #    tag_string = BrowsePage.detagify(self, ref_dict['tags'][index]) + '\n'
+    #    tag_string = BrowsePage.detagify(ref_dict['tags'][index]) + '\n'
     #    message +='Tags: ' + tag_string
     #    if (self.expanded_view.get()):
     #        message += 'Statement: '
@@ -930,7 +954,7 @@ class WritePage(Frame):
         ref = [DataEntry.from_dict(entry) for entry in ref_dict]
         f.close()
 
-        tags = DataEntry.tagify(self, self.tags_input.get())
+        tags = DataEntry.tagify(self.tags_input.get())
         topic = self.topic_input.get()
         source = self.source_input.get()
         date = self.date_input.get()
@@ -1073,7 +1097,7 @@ class EditPage(Frame):
                 self.clear()
                 self.curr_id = int_id
                 self.id_input.insert(0, rec_id)
-                tag_str = DataEntry.detagify(self, ref[int_id].get_tags())
+                tag_str = DataEntry.detagify(ref[int_id].get_tags())
                 self.tags_input.insert(0, tag_str)
                 self.topic_input.insert(0, ref[int_id].get_topic())
                 self.source_input.insert(0, ref[int_id].get_source())
@@ -1109,7 +1133,7 @@ class EditPage(Frame):
                     ref_dict = json.load(f)
                 ref = [DataEntry.from_dict(entry) for entry in ref_dict]      
             
-                tags_str = DataEntry.tagify(self, self.tags_input.get())
+                tags_str = DataEntry.tagify(self.tags_input.get())
                 ref[self.curr_id].set_tags(tags_str)
                 ref[self.curr_id].set_topic(self.topic_input.get())
                 ref[self.curr_id].set_source(self.source_input.get())
