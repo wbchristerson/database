@@ -837,33 +837,39 @@ class EditPage(Frame):
             self.warning_lbl.grid(row = 2, column = 2)
 
     def update_entry(self, controller):
-        if (self.curr_id != -1):
-            with open('resources.json', 'r') as f:
-                ref_dict = json.load(f)
-            ref = [DataEntry.from_dict(entry) for entry in ref_dict]      
+        if not (WritePage.is_valid_date(self,self.date_input.get())):
+                self.warning_lbl = Label(self, text = "Must be valid date",
+                                         fg="red")
+                self.warning_lbl.grid(row = 7, column = 2)
+        else:
+            if (self.curr_id != -1):
+                with open('resources.json', 'r') as f:
+                    ref_dict = json.load(f)
+                ref = [DataEntry.from_dict(entry) for entry in ref_dict]      
             
-            tags_str = DataEntry.tagify(self, self.tags_input.get())
-            ref[self.curr_id].set_tags(tags_str)
-            ref[self.curr_id].set_topic(self.topic_input.get())
-            ref[self.curr_id].set_source(self.source_input.get())
-            stnl_str = self.stnl.get("1.0", END)[:-1]
-            ref[self.curr_id].set_stnl(stnl_str)
-            stwl_str = self.stwl.get("1.0", END)[:-1]
-            ref[self.curr_id].set_stwl(stwl_str)
-            sonl_str = self.sonl.get("1.0", END)[:-1]
-            ref[self.curr_id].set_sonl(sonl_str)
-            sowl_str = self.sowl.get("1.0", END)[:-1]
-            ref[self.curr_id].set_sowl(sowl_str)
-            ref[self.curr_id].set_notes(self.notes.get("1.0", END)[:-1])
+                tags_str = DataEntry.tagify(self, self.tags_input.get())
+                ref[self.curr_id].set_tags(tags_str)
+                ref[self.curr_id].set_topic(self.topic_input.get())
+                ref[self.curr_id].set_source(self.source_input.get())
+                ref[self.curr_id].set_date(self.date_input.get())
+                stnl_str = self.stnl.get("1.0", END)[:-1]
+                ref[self.curr_id].set_stnl(stnl_str)
+                stwl_str = self.stwl.get("1.0", END)[:-1]
+                ref[self.curr_id].set_stwl(stwl_str)
+                sonl_str = self.sonl.get("1.0", END)[:-1]
+                ref[self.curr_id].set_sonl(sonl_str)
+                sowl_str = self.sowl.get("1.0", END)[:-1]
+                ref[self.curr_id].set_sowl(sowl_str)
+                ref[self.curr_id].set_notes(self.notes.get("1.0", END)[:-1])
         
-            f.close()
+                f.close()
 
-            with open('resources.json', 'w') as g:
-                ref_dict = [ob.to_dict() for ob in ref]
-                json.dump(ref_dict, g)
-            g.close()        
+                with open('resources.json', 'w') as g:
+                    ref_dict = [ob.to_dict() for ob in ref]
+                    json.dump(ref_dict, g)
+                g.close()        
             
-        controller.show_frame(Home)
+            controller.show_frame(Home)
         
         
 
