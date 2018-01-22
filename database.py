@@ -261,6 +261,7 @@ class SearchPage(Frame):
         Frame.__init__(self, parent)
         self.grid()
         self.set_format(controller)
+        self.id_warning = False
 
     def set_format(self, controller):
         # Page title
@@ -287,6 +288,7 @@ class SearchPage(Frame):
         self.by_tags = BooleanVar()
         Checkbutton(self,
                     text = "Tags",
+                    command = self.toggle_tags_input,
                     variable = self.by_tags
                     ).grid(row = 4, column = 0, sticky = W)
 
@@ -294,6 +296,7 @@ class SearchPage(Frame):
         self.by_topic = BooleanVar()
         Checkbutton(self,
                     text = "Topic",
+                    command = self.toggle_topic_input,
                     variable = self.by_topic
                     ).grid(row = 5, column = 0, sticky = W)
 
@@ -301,6 +304,7 @@ class SearchPage(Frame):
         self.by_source = BooleanVar()
         Checkbutton(self,
                     text = "Source",
+                    command = self.toggle_source_input,
                     variable = self.by_source
                     ).grid(row = 6, column = 0, sticky = W)
 
@@ -308,6 +312,7 @@ class SearchPage(Frame):
         self.by_date = BooleanVar()
         Checkbutton(self,
                     text = "Date",
+                    command = self.toggle_date_input,
                     variable = self.by_date
                     ).grid(row = 7, column = 0, sticky = W)
 
@@ -315,33 +320,35 @@ class SearchPage(Frame):
         self.by_difficulty = BooleanVar()
         Checkbutton(self,
                     text = "Difficulty",
-                    variable = self.by_date
-                    ).grid(row = 8, column = 0, sticky = W)
+                    command = self.toggle_difficulty_input,
+                    variable = self.by_difficulty
+                    ).grid(row = 9, column = 0, sticky = W)
 
         # 'Mentioned Words' check button
         self.by_words = BooleanVar()
         Checkbutton(self,
                     text = "Mentioned Words",
+                    command = self.toggle_words_input,
                     variable = self.by_words
-                    ).grid(row = 9, column = 0, sticky = W)
+                    ).grid(row = 11, column = 0, sticky = W)
 
         # Expanded view check button
         self.expanded_view = BooleanVar()
         Checkbutton(self,
                     text = "expanded view",
                     variable = self.expanded_view
-                    ).grid(row = 10, column = 1, sticky = W)
+                    ).grid(row = 12, column = 1, sticky = W)
 
         # Button to list items
         self.bttn2 = Button(self, text = "List Items", command = self.get_items)
-        self.bttn2.grid(row = 11, column = 1)
+        self.bttn2.grid(row = 13, column = 1)
 
         # 'Items' label
-        Label(self, text = "Items").grid(row = 12, column = 0, sticky = W)
+        Label(self, text = "Items").grid(row = 14, column = 0, sticky = W)
 
         # Items text box
         self.results_txt = Text(self, width = 30, height = 5, wrap = WORD)
-        self.results_txt.grid(row = 13, column = 0, columnspan = 3)
+        self.results_txt.grid(row = 15, column = 0, columnspan = 3)
 
     def toggle_id_input(self):
         if (self.by_id.get()):
@@ -350,7 +357,81 @@ class SearchPage(Frame):
         else:
             if (hasattr(self, 'id_input')):
                 self.id_input.grid_remove()
-            
+
+    def toggle_tags_input(self):
+        if (self.by_tags.get()):
+            self.tags_input = Entry(self)
+            self.tags_input.grid(row = 4, column = 1, sticky = W)
+        else:
+            if (hasattr(self, 'tags_input')):
+                self.tags_input.grid_remove()
+
+    def toggle_topic_input(self):
+        if (self.by_topic.get()):
+            self.topic_input = Entry(self)
+            self.topic_input.grid(row = 5, column = 1, sticky = W)
+        else:
+            if (hasattr(self, 'topic_input')):
+                self.topic_input.grid_remove()
+
+    def toggle_source_input(self):
+        if (self.by_source.get()):
+            self.source_input = Entry(self)
+            self.source_input.grid(row = 6, column = 1, sticky = W)
+        else:
+            if (hasattr(self, 'source_input')):
+                self.source_input.grid_remove()
+
+    def toggle_date_input(self):
+        if (self.by_date.get()):
+            self.start_date_lbl = Label(self, text = "Start Date")
+            self.start_date_lbl.grid(row = 8, column = 0, sticky = W)
+            self.start_date_input = Entry(self)
+            self.start_date_input.grid(row = 8, column = 1, sticky = W)
+            self.end_date_lbl = Label(self, text = "End Date")
+            self.end_date_lbl.grid(row = 8, column = 2, sticky = W)
+            self.end_date_input = Entry(self)
+            self.end_date_input.grid(row = 8, column = 3, sticky = W)
+        else:
+            if (hasattr(self, 'start_date_input')):
+                self.start_date_lbl.grid_remove()
+                self.start_date_input.grid_remove()
+                self.end_date_lbl.grid_remove()
+                self.end_date_input.grid_remove()
+
+    def toggle_difficulty_input(self):
+        if (self.by_difficulty.get()):
+            self.check_easy = BooleanVar()
+            self.check_medium = BooleanVar()
+            self.check_hard = BooleanVar()
+            self.check_no_rank = BooleanVar()
+            self.button_easy = Checkbutton(self, text = "Easy",
+                                           variable = self.check_easy)
+            self.button_easy.grid(row = 10, column = 0, sticky = W)
+            self.button_medium = Checkbutton(self, text = "Medium",
+                                             variable = self.check_medium)
+            self.button_medium.grid(row = 10, column = 1,sticky = W)
+            self.button_hard = Checkbutton(self, text = "Hard",
+                                           variable = self.check_hard)
+            self.button_hard.grid(row = 10, column = 2,sticky = W)
+            self.button_no_rank = Checkbutton(self, text = "No Rank",
+                                              variable = self.check_no_rank)
+            self.button_no_rank.grid(row = 10,column = 3,sticky = W)
+        else:
+            if (hasattr(self, 'button_easy')):
+                self.button_easy.grid_remove()
+                self.button_medium.grid_remove()
+                self.button_hard.grid_remove()
+                self.button_no_rank.grid_remove()
+
+
+    def toggle_words_input(self):
+        if (self.by_words.get()):
+            self.words_input = Entry(self)
+            self.words_input.grid(row = 11, column = 1, sticky = W)
+        else:
+            if (hasattr(self, 'words_input')):
+                self.words_input.grid_remove()
             
 
     # inputs given with pound signs between entries
@@ -383,46 +464,71 @@ class SearchPage(Frame):
 
     # list matching items
     def get_items(self):
-        print('eraser')
-#        inputs = self.inputs.get()
-#        if (inputs == ''):
-#            message = BrowsePage.display(self)
-#            self.results_txt.delete(0.0, END)
-#            self.results_txt.insert(0.0, message)
-#        else:
-#            message = ''
-#            with open('resources.json', 'r') as f:
-#                ref_dict = json.load(f)
-#            if (self.query_type.get() == 'Tags'):
-#                inputs = WritePage.tagify(self, inputs)
-#                message = SearchPage.collect_tags(self, ref_dict, inputs)
-#            elif (self.query_type.get() == 'Mentioned Words'):
-#                print('aisle')
-#            elif (self.query_type.get() == 'Topic'):
-#                print('aisle')
-#            elif (self.query_type.get() == 'ID'):
-#                print('aisle')
-#            elif (self.query_type.get() == 'Source'):
-#                print('aisle')
-#        
-#            f.close()
+        if (self.by_id.get() and (self.id_input.get() != '') and
+            (not EditPage.check_for_int(self,self.id_input.get()))):
+            if not (self.id_warning):
+                self.id_warning = True
+                self.id_warning_lbl = Label(self,
+                                            text = "ID must be integer",
+                                            fg="red")
+                self.id_warning_lbl.grid(row = 3, column = 2)
+        elif (self.by_date.get() and not WritePage.is_valid_date(self,self.start_date_input.get())):
+            print('eraser')
 
-#            if (message == ''):
-#                message = 'No matching entries'
-#            self.results_txt.delete(0.0, END)
-#            self.results_txt.insert(0.0, message)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     # clear the entry and text boxes of any data from previous uses
     def clear(self):
-        self.by_id.set(False)
-        self.by_tags.set(False)
-        self.by_topic.set(False)
-        self.by_source.set(False)
-        self.by_date.set(False)
-        self.by_difficulty.set(False)
-        self.by_words.set(False)
+        if (self.by_id.get()):
+            self.id_input.grid_remove()
+            self.by_id.set(False)
+        if (self.by_tags.get()):
+            self.tags_input.grid_remove()
+            self.by_tags.set(False)
+        if (self.by_topic.get()):
+            self.topic_input.grid_remove()
+            self.by_topic.set(False)
+        if (self.by_source.get()):
+            self.source_input.grid_remove()
+            self.by_source.set(False)
+        if (self.by_date.get()):
+            self.start_date_lbl.grid_remove()
+            self.start_date_input.grid_remove()
+            self.end_date_lbl.grid_remove()
+            self.end_date_input.grid_remove()
+            self.by_date.set(False)
+        if (self.by_difficulty.get()):
+            self.button_easy.grid_remove()
+            self.button_medium.grid_remove()
+            self.button_hard.grid_remove()
+            self.button_no_rank.grid_remove()
+            self.by_difficulty.set(False)
+        if (self.by_words.get()):
+            self.words_input.grid_remove()
+            self.by_words.set(False)
         self.expanded_view.set(False)
         self.results_txt.delete(0.0, END)
+        if (self.id_warning):
+            self.id_warning = False
+            self.id_warning_lbl.grid_remove()
         
 
 
@@ -859,12 +965,12 @@ class EditPage(Frame):
             self.warning_date = False
             self.red_date.grid_remove()
         rec_id = self.id_input.get()
-        if (self.check_for_int(rec_id)):
+        if (EditPage.check_for_int(self,rec_id)):
             with open('resources.json', 'r') as f:
                 ref_dict = json.load(f)
             ref = [DataEntry.from_dict(entry) for entry in ref_dict]
             int_id = int(rec_id)
-            if (int_id >= len(ref_dict)):
+            if ((int_id >= len(ref_dict)) or (int_id < 0)):
                 #self.id_input.delete(0, END)
                 if (self.warning_id):
                     self.warning_id = False
