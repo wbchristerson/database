@@ -262,6 +262,9 @@ class SearchPage(Frame):
         self.grid()
         self.set_format(controller)
         self.id_warning = False
+        self.date_warning_start = False
+        self.date_warning_end = False
+        self.date_warning_chrono = False # whether input dates occur in order
 
     def set_format(self, controller):
         # Page title
@@ -462,8 +465,61 @@ class SearchPage(Frame):
                             break
         return message
 
-    # list matching items
+    # reformat date string so single digit months and days have leading 0s;
+    # assume date_str is a valid date string and is not ''
+    @staticmethod
+    def reformat_date(date_str):
+        ans = date_str
+        if (ans[1] == '/'):
+            ans = '0' + ans
+        if (ans[4] == '/'):
+            ans = ans[:4] + '0' + ans[4:]
+        return ans
+
+    # check that the first listed date string comes earlier or at the same time
+    # as the second listed date string;
+    # assume date_early and date_late are valid date string not equal to ''
+    @staticmethod
+    def order_dates(date_early, date_late):
+        format_early = SearchPage.reformat_date(date_early)
+        format_late = SearchPage.reformat_date(date_late)
+        if (int(format_early[6:]) < int(format_late[6:])):
+            return True
+        elif (int(format_early[6:]) > int(format_late[6:])):
+            return False
+        elif (int(format_early[:2]) < int(format_late[:2])):
+            return True
+        elif (int(format_early[:2]) > int(format_late[:2])):
+            return False
+        elif (int(format_early[3:5]) < int(format_late[3:5])):
+            return True
+        elif (int(format_early[3:5]) > int(format_late[3:5])):
+            return False
+        else:
+            return True
+
+
+    # return list containing objects matching the query
+    def filter_query(self, ref):
+        print('here')
+
+
+
+    # list items matching the query or highlight errors in input
     def get_items(self):
+        if (self.id_warning):
+            self.id_warning = False
+            self.id_warning_lbl.grid_remove()
+        if (self.date_warning_start):
+            self.date_warning_start = False
+            self.date_warning_lbl_start.grid_remove()
+        if (self.date_warning_end):
+            self.date_warning_end = False
+            self.date_warning_lbl_end.grid_remove()
+        if (self.date_warning_chrono):
+            self.date_warning_chrono = False
+            self.date_warning_lbl_chrono.grid_remove()
+            
         if (self.by_id.get() and (self.id_input.get() != '') and
             (not EditPage.check_for_int(self,self.id_input.get()))):
             if not (self.id_warning):
@@ -472,12 +528,37 @@ class SearchPage(Frame):
                                             text = "ID must be integer",
                                             fg="red")
                 self.id_warning_lbl.grid(row = 3, column = 2)
-        elif (self.by_date.get() and not WritePage.is_valid_date(self,self.start_date_input.get())):
-            print('eraser')
-
-
-
-
+        elif (self.by_date.get() and ((not WritePage.is_valid_date(self,self.start_date_input.get())) or (self.start_date_input.get() == ''))):
+            if (not (self.date_warning_start)):
+                self.date_warning_start = True
+                self.date_warning_lbl_start = Label(self,
+                                                    text = "Start date must be valid",
+                                                    fg="red")
+                self.date_warning_lbl_start.grid(row = 7, column = 1)
+        elif (self.by_date.get() and ((not WritePage.is_valid_date(self,self.end_date_input.get())) or (self.end_date_input.get() == ''))):
+            if (not (self.date_warning_end)):
+                self.date_warning_end = True
+                self.date_warning_lbl_end = Label(self,
+                                                  text = "End date must be valid",
+                                                  fg="red")
+                self.date_warning_lbl_end.grid(row = 7, column = 3)
+        elif (self.by_date.get() and
+              (not SearchPage.order_dates(self.start_date_input.get(), self.end_date_input.get()))):
+            if (not (self.date_warning_chrono)):
+                self.date_warning_chrono = True
+                self.date_warning_lbl_chrono = Label(self,
+                                                     text = "Dates must be ordered",
+                                                     fg="red")
+                self.date_warning_lbl_chrono.grid(row = 6, column = 1)
+        else:
+            with open('resources.json', 'r') as f:
+                ref_dict = json.load(f)
+            ref = [DataEntry.from_dict(entry) for entry in ref_dict]
+            ref_mod = SearchPage.filter_query(self, ref)
+            
+            #print('Reached here: ' + str(self.by_date.get()))
+            #print('Start: ' + str(self.start_date_input.get() == ''))
+        # set warning booleans back to False and remove warning labels
 
 
 
@@ -529,6 +610,15 @@ class SearchPage(Frame):
         if (self.id_warning):
             self.id_warning = False
             self.id_warning_lbl.grid_remove()
+        if (self.date_warning_start):
+            self.date_warning_start = False
+            self.date_warning_start_lbl.grid_remove()
+        if (self.date_warning_end):
+            self.date_warning_end = False
+            self.date_warning_end_lbl.grid_remove()
+        if (self.date_warning_chrono):
+            self.date_warning_chrono = False
+            self.date_warning_lbl_chrono.grid_remove()
         
 
 
