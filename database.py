@@ -686,6 +686,15 @@ class WritePage(Frame):
         else:
             return False
 
+    # if a trailing '\n' is present in the content of a text widget, then
+    # remove it
+    @staticmethod
+    def truncate_new_line(in_str):
+        ans = in_str
+        if ((len(ans) > 0) and (ans[-1] == '\n')):
+            ans = ans[:-1]
+        return ans
+
 
     def save_inputs(self, controller):
         with open('resources.json', 'r') as f:
@@ -698,11 +707,11 @@ class WritePage(Frame):
         source = self.source_input.get()
         date = self.date_input.get()
         difficulty = 1
-        stnl = self.stnl.get("1.0", END)
-        stwl = self.stwl.get("1.0", END)
-        sonl = self.sonl.get("1.0", END)
-        sowl = self.sowl.get("1.0", END)
-        notes = self.notes.get("1.0", END)
+        stnl = WritePage.truncate_new_line(self.stnl.get("1.0", END))
+        stwl = WritePage.truncate_new_line(self.stwl.get("1.0", END))
+        sonl = WritePage.truncate_new_line(self.sonl.get("1.0", END))
+        sowl = WritePage.truncate_new_line(self.sowl.get("1.0", END))
+        notes = WritePage.truncate_new_line(self.notes.get("1.0", END))
 
         if not(WritePage.has_inputs(self)):
             self.data_lbl = Label(self, text = "Entry must include data",
