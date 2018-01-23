@@ -153,35 +153,6 @@ class WritePage(Frame):
         #    self.data_lbl.grid_remove()
 
 
-    # check whether date string is valid; a valid string is '' or a string of
-    # the form 'MM/DD/YYYY' where (MM,DD) is a valid month-day pair
-    def is_valid_date(self,ds):
-        if ((len(ds) >= 2) and (ds[1] == '/')):
-            ds = '0' + ds
-        if ((len(ds) >= 5) and (ds[4] == '/')):
-            ds = ds[:3] + '0' + ds[3:]
-        if (ds == ''):
-            return True
-        elif ((len(ds) < 3) or (ds[2] != '/')):
-            return False
-        elif ((len(ds) < 6) or (ds[5] != '/')):
-            return False
-        elif not ((DE.DataEntry.check_for_int(ds[0:2])) and
-                  (DE.DataEntry.check_for_int(ds[3:5])) and
-                  (DE.DataEntry.check_for_int(ds[6:]))):
-            return False
-        elif not ((int(ds[0:2]) >= 1) and (int(ds[0:2]) <= 12)):
-            return False
-        elif not ((int(ds[3:5]) >= 1) and (int(ds[3:5]) <= 31)):
-            return False
-        elif ((int(ds[0:2]) == 2) and (int(ds[3:5]) > 29)):
-            return False
-        elif (((int(ds[0:2]) == 4) or (int(ds[0:2]) == 6) or
-               (int(ds[0:2]) == 9) or (int(ds[0:2]) == 11)) and
-              (int(ds[3:5]) > 30)):
-            return False
-        return True
-
     # check that write page entry has some content
     def has_inputs(self):
         if (self.tags_input.get() != ''):
@@ -248,7 +219,7 @@ class WritePage(Frame):
                                       fg="red")
                 self.data_lbl.grid(row = 17, column = 0)
 
-        elif (WritePage.is_valid_date(self,date)):
+        elif (DE.DataEntry.is_valid_date(date)):
             new_entry = DE.DataEntry(len(ref), tags, topic, source, date,
                                      difficulty, stnl, stwl, sonl, sowl, notes)
             ref.append(new_entry)
