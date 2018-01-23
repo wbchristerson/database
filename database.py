@@ -545,8 +545,46 @@ class SearchPage(Frame):
         elif ((obj.get_difficulty() == 'no rank') and is_no_rank):
             return True
         else:
-            print('Nothing: ')
             return False
+
+    # remove any leading or trailing white space from word_string and then
+    # split the remaining string into a list of words delimited by spaces
+    @staticmethod
+    def split_words(word_string):
+        left = 0
+        while ((left < len(word_string)) and (word_string[left] == ' ')):
+            left += 1
+        word_string = word_string[left:]
+        right = len(word_string) - 1
+        while ((right >= 0) and (word_string[right] == ' ')):
+            right -= 1
+        word_string = word_string[:(right+1)]
+        return word_string.split(' ')
+
+    # return whether the DataEntry object obj matches contains any of the words
+    # in word_string within its statements (with or without latex), solutions
+    # (also with or without latex), or notes
+    @staticmethod
+    def data_match_words(obj, word_string):
+        word_list = SearchPage.split_words(word_string)
+        stnl = obj.get_stnl()
+        stwl = obj.get_stwl()
+        sonl = obj.get_sonl()
+        sowl = obj.get_sowl()
+        notes = obj.get_notes()
+        for word in word_list:
+            if word in stnl:
+                return True
+            elif word in stwl:
+                return True
+            elif word in sonl:
+                return True
+            elif word in sowl:
+                return True
+            elif word in notes:
+                return True
+        return False
+        
 
     # return list containing objects matching the query;
     # assumes that if ID box is checked, then the given ID is valid (possibly
@@ -576,6 +614,9 @@ class SearchPage(Frame):
                                                                              self.check_medium.get(),
                                                                              self.check_hard.get(),
                                                                              self.check_no_rank.get()),
+                                  mod_ref))
+        if self.by_words.get():
+            mod_ref = list(filter(lambda x: SearchPage.data_match_words(x, self.words_input.get()),
                                   mod_ref))
         return mod_ref
 
@@ -632,6 +673,10 @@ class SearchPage(Frame):
             ref = [DataEntry.from_dict(entry) for entry in ref_dict]
             ref_mod = SearchPage.filter_query(self, ref)
             message = ''
+            if (len(ref_mod) == 0):
+                message += 'No entries matched your query.\n\nTry expanding '
+                message += 'your search and note that the text fields above '
+                message += 'are case-sensitive.'
             for entry in ref_mod:
                 message += DataEntry.search_rep(entry, self.expanded_view.get())
                 message += '\n'
