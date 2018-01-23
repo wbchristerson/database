@@ -25,6 +25,7 @@ class Transition(Tk):
         container = Frame(self)
 
         container.pack(side="top", fill="both", expand = True)
+        #container.grid()
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
@@ -37,6 +38,7 @@ class Transition(Tk):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
+            #frame.grid(row=0, column=0)
 
         self.show_frame(Home)        
 
