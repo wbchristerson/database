@@ -140,13 +140,13 @@ class DataEntry():
     def large_string_rep(self):
         message = DataEntry.small_string_rep(self)
         message += 'Source: ' + self.source + '\n'
-        message += 'Date: ' + self.date + '\n'
-        message += 'Statement (No Latex): ' + self.stnl + '\n'
-        message += 'Statement (With Latex): ' + self.stwl + '\n'
-        message += 'Difficulty: ' + self.difficulty + '\n'
-        message += 'Solution (No Latex): ' + self.sonl + '\n'
-        message += 'Solution (With Latex): ' + self.sowl + '\n'
-        message += 'Notes: ' + self.notes + '\n'
+        message += 'Date: ' + self.date + '\n\n'
+        message += 'Statement (No Latex): ' + self.stnl + '\n\n'
+        message += 'Statement (With Latex): ' + self.stwl + '\n\n'
+        message += 'Difficulty: ' + self.difficulty + '\n\n'
+        message += 'Solution (No Latex): ' + self.sonl + '\n\n'
+        message += 'Solution (With Latex): ' + self.sowl + '\n\n'
+        message += 'Notes: ' + self.notes + '\n\n\n'
         return message
 
     def browse_rep(self, expand):
@@ -353,7 +353,8 @@ class SearchPage(Frame):
         Label(self, text = "Items").grid(row = 14, column = 0, sticky = W)
 
         # Items text box
-        self.results_txt = Text(self, width = 50, height = 20, wrap = WORD)
+        self.results_txt = Text(self, width = 50, height = 20, wrap = WORD,
+                                font= ("Verdana", 9))
         self.results_txt.grid(row = 15, column = 0, columnspan = 3)
 
     def toggle_id_input(self):
@@ -774,7 +775,8 @@ class BrowsePage(Frame):
         Label(self, text = "Items").grid(row = 4, column = 1, sticky = W)
 
         # Items text box
-        self.results_txt = Text(self, width = 35, height = 25, wrap = WORD)
+        self.results_txt = Text(self, width = 35, height = 25, wrap = WORD,
+                                font= ("Verdana", 9))
         self.results_txt.grid(row = 5, column = 0, columnspan = 3)
     
     # structure format for display of entry in 'browse' section
@@ -903,7 +905,8 @@ class WritePage(Frame):
                                                         column = 0, sticky = W)
 
         # Statement (no latex) text box
-        self.stnl = Text(self, width = 30, height = 5, wrap = WORD)
+        self.stnl = Text(self, width = 30, height = 5, wrap = WORD,
+                         font= ("Verdana", 9))
         self.stnl.grid(row = 6 + offset, column = 0, columnspan = 3, sticky = W)
 
         # 'Statement (latex)' label
@@ -912,7 +915,8 @@ class WritePage(Frame):
                                                           sticky = W)
 
         # Statement (latex) text box
-        self.stwl = Text(self, width = 30, height = 5, wrap = WORD)
+        self.stwl = Text(self, width = 30, height = 5, wrap = WORD,
+                         font= ("Verdana", 9))
         self.stwl.grid(row = 8 + offset, column = 0, columnspan = 3, sticky = W)
 
         # 'Solution' (without latex) label
@@ -920,7 +924,8 @@ class WritePage(Frame):
                                                        column = 0, sticky = W)
 
         # Solution without latex text box
-        self.sonl = Text(self, width = 30, height = 5, wrap = WORD)
+        self.sonl = Text(self, width = 30, height = 5, wrap = WORD,
+                         font= ("Verdana", 9))
         self.sonl.grid(row = 10 + offset, column = 0, columnspan = 3,
                        sticky = W)
 
@@ -929,7 +934,8 @@ class WritePage(Frame):
                                                          column = 0, sticky = W)
 
         # Solution with latex text box
-        self.sowl = Text(self, width = 30, height = 5, wrap = WORD)
+        self.sowl = Text(self, width = 30, height = 5, wrap = WORD,
+                         font= ("Verdana", 9))
         self.sowl.grid(row = 12 + offset, column = 0, columnspan = 3,
                        sticky = W)
 
@@ -938,7 +944,8 @@ class WritePage(Frame):
                                          column = 0, sticky = W)
 
         # Notes text box
-        self.notes = Text(self, width = 30, height = 5, wrap = WORD)
+        self.notes = Text(self, width = 30, height = 5, wrap = WORD,
+                          font= ("Verdana", 9))
         self.notes.grid(row = 14 + offset, column = 0, columnspan = 3,
                         sticky = W)
 
