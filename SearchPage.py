@@ -406,7 +406,7 @@ class SearchPage(Frame):
             for entry in ref_mod:
                 message += DE.DataEntry.search_rep(entry,
                                                    self.expanded_view.get())
-                message += '\n'
+                message += '\n\n\n'
             self.results_txt.delete(0.0, END)
             self.results_txt.insert(0.0, message)
 
