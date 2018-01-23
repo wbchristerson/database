@@ -531,7 +531,22 @@ class SearchPage(Frame):
         a = SearchPage.order_dates(start_date, obj.get_date())
         b = SearchPage.order_dates(obj.get_date(), end_date)
         return (a and b)
-        
+
+    # return whether the DataEntry object obj matches any of the True booleans
+    # from among is_easy, is_medium, is_hard, is_no_rank
+    @staticmethod
+    def data_match_difficulty(obj, is_easy, is_medium, is_hard, is_no_rank):
+        if ((obj.get_difficulty() == 'easy') and is_easy):
+            return True
+        elif ((obj.get_difficulty() == 'medium') and is_medium):
+            return True
+        elif ((obj.get_difficulty() == 'hard') and is_hard):
+            return True
+        elif ((obj.get_difficulty() == 'no rank') and is_no_rank):
+            return True
+        else:
+            print('Nothing: ')
+            return False
 
     # return list containing objects matching the query;
     # assumes that if ID box is checked, then the given ID is valid (possibly
@@ -555,6 +570,12 @@ class SearchPage(Frame):
         if (self.by_date.get() and (self.start_date_input.get() != '') and (self.end_date_input.get() != '')):
             mod_ref = list(filter(lambda x: SearchPage.data_match_date(x, self.start_date_input.get(),
                                                                        self.end_date_input.get()),
+                                  mod_ref))
+        if self.by_difficulty.get():
+            mod_ref = list(filter(lambda x: SearchPage.data_match_difficulty(x, self.check_easy.get(),
+                                                                             self.check_medium.get(),
+                                                                             self.check_hard.get(),
+                                                                             self.check_no_rank.get()),
                                   mod_ref))
         return mod_ref
 
@@ -841,8 +862,9 @@ class WritePage(Frame):
         self.stnl.grid(row = 6 + offset, column = 0, columnspan = 3, sticky = W)
 
         # 'Statement (latex)' label
-        Label(self, text = "Statement (no latex)").grid(row = 7 + offset,
-                                                        column = 0, sticky = W)
+        Label(self, text = "Statement (with latex)").grid(row = 7 + offset,
+                                                          column = 0,
+                                                          sticky = W)
 
         # Statement (latex) text box
         self.stwl = Text(self, width = 30, height = 5, wrap = WORD)
