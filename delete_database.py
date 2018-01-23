@@ -1,16 +1,12 @@
 import json
 
-#tag = []
-#topic = []
-#source = []
-#statement = []
-#sol_no_late = []
-#sol_late = []
-#note = []
-
-#s = {'tags': tag, 'topics': topic, 'sources': source, 'statements': statement,
-#     'sol_no_latex': sol_no_late, 'sol_latex': sol_late, 'notes': note}
-#s = [{'hello': 'hola', 'welcome': 'bienvenidos'}, {'bread':'aran', 'water':'uisce'}]
+# Double-clicking this file will open a window confirming that the user wishes
+# to delete all entries in the database. If the user responds with any of 'y',
+# 'Y', 'yes', 'Yes', or 'YES', then all database entries will be deleted and
+# the database will be replaced with an empty list. If the user responds with
+# anything else, the proposed deletions will be canceled. A final status
+# statement will show up along with a request to close the file by pressing
+# 'enter'.
 
 confirm = input("\nAre you sure that you want to delete all entries from " \
                 + "storage? (y/n) ")
