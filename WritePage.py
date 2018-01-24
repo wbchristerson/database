@@ -18,12 +18,12 @@ class WritePage(Frame):
         # 'Add Entry' button
         self.bttn2 = Button(self, text = "Add Entry",
                             command=lambda: self.save_inputs(controller))
-        self.bttn2.grid(row = 17, column = 1)
+        self.bttn2.grid(row = 13, column = 1)
 
         # 'Cancel' button
         self.bttn3 = Button(self, text = "Cancel",
                             command=lambda: controller.return_home())
-        self.bttn3.grid(row = 17, column = 2)
+        self.bttn3.grid(row = 13, column = 2)
 
     def set_intro(self, controller):
         # Page title
@@ -89,47 +89,49 @@ class WritePage(Frame):
         # Statement (no latex) text box
         self.stnl = Text(self, width = 30, height = 5, wrap = WORD,
                          font= ("Verdana", 9))
-        self.stnl.grid(row = 6 + offset, column = 0, columnspan = 3, sticky = W)
+        self.stnl.grid(row = 6 + offset, column = 0, columnspan = 3, padx = 10,
+                       pady = 10, sticky = W)
 
         # 'Statement (latex)' label
-        Label(self, text = "Statement (with latex)").grid(row = 7 + offset,
-                                                          column = 0,
+        Label(self, text = "Statement (with latex)").grid(row = 5 + offset,
+                                                          column = 3,
                                                           sticky = W)
 
         # Statement (latex) text box
         self.stwl = Text(self, width = 30, height = 5, wrap = WORD,
                          font= ("Verdana", 9))
-        self.stwl.grid(row = 8 + offset, column = 0, columnspan = 3, sticky = W)
+        self.stwl.grid(row = 6 + offset, column = 3, columnspan = 3, padx = 10,
+                       pady = 10, sticky = W)
 
         # 'Solution' (without latex) label
-        Label(self, text = "Solution (no latex)").grid(row = 9 + offset,
+        Label(self, text = "Solution (no latex)").grid(row = 7 + offset,
                                                        column = 0, sticky = W)
 
         # Solution without latex text box
         self.sonl = Text(self, width = 30, height = 5, wrap = WORD,
                          font= ("Verdana", 9))
-        self.sonl.grid(row = 10 + offset, column = 0, columnspan = 3,
-                       sticky = W)
+        self.sonl.grid(row = 8 + offset, column = 0, columnspan = 3, padx = 10,
+                       pady = 10, sticky = W)
 
         # 'Solution' (with latex) label
-        Label(self, text = "Solution (with latex)").grid(row = 11 + offset,
-                                                         column = 0, sticky = W)
+        Label(self, text = "Solution (with latex)").grid(row = 7 + offset,
+                                                         column = 3, sticky = W)
 
         # Solution with latex text box
         self.sowl = Text(self, width = 30, height = 5, wrap = WORD,
                          font= ("Verdana", 9))
-        self.sowl.grid(row = 12 + offset, column = 0, columnspan = 3,
-                       sticky = W)
+        self.sowl.grid(row = 8 + offset, column = 3, columnspan = 3, padx = 10,
+                       pady = 10, sticky = W)
 
         # 'Notes' label
-        Label(self, text = "Notes").grid(row = 13 + offset,
+        Label(self, text = "Notes").grid(row = 9 + offset,
                                          column = 0, sticky = W)
 
         # Notes text box
         self.notes = Text(self, width = 30, height = 5, wrap = WORD,
                           font= ("Verdana", 9))
-        self.notes.grid(row = 14 + offset, column = 0, columnspan = 3,
-                        sticky = W)
+        self.notes.grid(row = 10 + offset, column = 0, columnspan = 3,
+                        padx = 10, pady = 10, sticky = W)
 
     # clear write page of inputs
     def clear(self):
@@ -217,7 +219,7 @@ class WritePage(Frame):
                 self.input_warning = True
                 self.data_lbl = Label(self, text = "Entry must include data",
                                       fg="red")
-                self.data_lbl.grid(row = 17, column = 0)
+                self.data_lbl.grid(row = 13, column = 0)
 
         elif (DE.DataEntry.is_valid_date(date)):
             new_entry = DE.DataEntry(len(ref), tags, topic, source, date,
