@@ -22,15 +22,19 @@ import json
 class Transition(Tk):
     def __init__(self):
         Tk.__init__(self)
-        container = Frame(self)
 
+        #container = GradientFrame(self)
+        #container.grid(row=0, column = 0, sticky="nsew")
+        #container.pack(fill="both", expand=True)
+
+        container = Frame(self)
         container.pack(side="top", fill="both", expand = True)
         #container.grid()
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
         self.title("Database")
-        self.geometry("540x690")
+        self.geometry("580x690")
         self.frames = {}
 
         for F in (Home, SP.SearchPage, BP.BrowsePage, WP.WritePage,
@@ -46,17 +50,52 @@ class Transition(Tk):
         frame = self.frames[cont]
         if not (cont == Home):
             frame.clear()
+        #self.lift(frame) # for canvas
+        #self.tkraise(frame)
+        #if (cont == WP.WritePage): #
+        #    self.tkraise(frame) #
+        #else: #
         frame.tkraise()
 
     def return_home(self):
         self.frames[Home].tkraise()
 
 
+#class GradientFrame(Canvas):
+#    def __init__(self, parent, borderwidth=1, relief="sunken"):
+#        Canvas.__init__(self, parent, borderwidth=borderwidth, relief=relief)
+#        self._color1 = "red"
+#        self._color2 = "black"
+#        self.bind("<Configure>", self._draw_gradient)
+
+#    def _draw_gradient(self, event=None):
+#        '''Draw the gradient'''
+#        self.delete("gradient")
+#        width = self.winfo_width()
+#        height = self.winfo_height()
+#        limit = width
+#        (r1,g1,b1) = self.winfo_rgb(self._color1)
+#        (r2,g2,b2) = self.winfo_rgb(self._color2)
+#        r_ratio = float(r2-r1) / limit
+#        g_ratio = float(g2-g1) / limit
+#        b_ratio = float(b2-b1) / limit
+
+#        for i in range(limit):
+#            nr = int(r1 + (r_ratio * i))
+#            ng = int(g1 + (g_ratio * i))
+#            nb = int(b1 + (b_ratio * i))
+#            color = "#%4.4x%4.4x%4.4x" % (nr,ng,nb)
+#            self.create_line(i,0,i,height, tags=("gradient",), fill=color)
+#        self.lower("gradient")
+ 
+
 class Home(Frame):
+#class Home(Canvas):
     """ Main page for database """
     """ Object-oriented design based on Michael Dawson's Python Programming
         For The Absolute Beginner """
     def __init__(self, parent, controller):
+        #Canvas.__init__(self, parent)
         Frame.__init__(self, parent)
         # Add background color here
         # self.configure(background="#fbff8e")

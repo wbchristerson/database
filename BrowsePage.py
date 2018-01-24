@@ -40,9 +40,10 @@ class BrowsePage(Frame):
         Label(self, text = "Items").grid(row = 4, column = 1, sticky = W)
 
         # Items text box
-        self.results_txt = Text(self, width = 35, height = 25, wrap = WORD,
+        self.results_txt = Text(self, width = 60, height = 35, wrap = WORD,
                                 font= ("Verdana", 9))
-        self.results_txt.grid(row = 5, column = 0, columnspan = 3)
+        self.results_txt.grid(row = 5, column = 0, columnspan = 3, padx=20,
+                              pady=20)
 
     def display(self):
         message = ""

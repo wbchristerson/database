@@ -3,9 +3,11 @@ import DataEntry as DE
 import json
 
 class WritePage(Frame):
+#class WritePage(Canvas): #
     """ Add a database entry """
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
+        self.config(bg="#8ab4f7")
         self.grid()
         self.set_intro(controller)
         # self.set_format(controller, 2)
@@ -27,7 +29,8 @@ class WritePage(Frame):
 
     def set_intro(self, controller):
         # Page title
-        lbl = Label(self, text = "Write Page", font= ("Verdana", 12))
+        lbl = Label(self, text = "Write Page", font= ("Verdana", 12),
+                    bg="#8ab4f7")
         lbl.grid(row = 0, column = 1)
         
         # Menu return button
@@ -37,39 +40,40 @@ class WritePage(Frame):
 
     def set_format(self, controller, offset):
         # 'Tags' label
-        Label(self, text = "Tags").grid(row = offset, column = 0, sticky = W)
+        Label(self, text = "Tags", bg="#8ab4f7").grid(row = offset, column = 0,
+                                                      sticky = W,)
 
         # Tags input entry
         self.tags_input = Entry(self)
         self.tags_input.grid(row = offset, column = 1, sticky = W)
 
         # 'Topic' label
-        Label(self, text = "Topic").grid(row = 1 + offset,
-                                         column = 0, sticky = W)
+        Label(self, text = "Topic", bg="#8ab4f7").grid(row = 1 + offset,
+                                                       column = 0, sticky = W)
 
         # Topic input entry
         self.topic_input = Entry(self)
         self.topic_input.grid(row = 1 + offset, column = 1, sticky = W)
 
         # 'Source' label
-        Label(self, text = "Source").grid(row = 2 + offset,
-                                          column = 0, sticky = W)
+        Label(self, text = "Source", bg="#8ab4f7").grid(row = 2 + offset,
+                                                        column = 0, sticky = W)
 
         # Source input entry
         self.source_input = Entry(self)
         self.source_input.grid(row = 2 + offset, column = 1, sticky = W)
 
         # 'Date' label
-        Label(self, text = "Date (MM/DD/YYYY)").grid(row = 3 + offset,
-                                                     column = 0, sticky = W)
+        Label(self, text = "Date (MM/DD/YYYY)",
+              bg="#8ab4f7").grid(row = 3 + offset, column = 0, sticky = W)
 
         # Date input entry
         self.date_input = Entry(self)
         self.date_input.grid(row = 3 + offset, column = 1, sticky = W)
 
         # 'Difficulty' label
-        Label(self, text = "Difficulty").grid(row = 4 + offset,
-                                                     column = 0, sticky = W)
+        Label(self, text = "Difficulty",
+              bg="#8ab4f7").grid(row = 4 + offset, column = 0, sticky = W)
 
         # Difficulty radio buttons
         self.difficulty = StringVar()
@@ -77,14 +81,15 @@ class WritePage(Frame):
         difficulties = ['easy', 'medium', 'hard', 'no rank']
         column = 1
         for rank in difficulties:
-            Radiobutton(self, text = rank, variable = self.difficulty,
-                        value = rank).grid(row = 4 + offset, column = column,
+            Radiobutton(self, text = rank,
+                        variable = self.difficulty, value = rank,
+                        bg="#8ab4f7").grid(row = 4 + offset, column = column,
                                            sticky = W)
             column += 1
 
         # 'Statement (no latex)' label
-        Label(self, text = "Statement (no latex)").grid(row = 5 + offset,
-                                                        column = 0, sticky = W)
+        Label(self, text = "Statement (no latex)",
+              bg="#8ab4f7").grid(row = 5 + offset, column = 0, sticky = W)
 
         # Statement (no latex) text box
         self.stnl = Text(self, width = 30, height = 5, wrap = WORD,
@@ -93,9 +98,8 @@ class WritePage(Frame):
                        pady = 10, sticky = W)
 
         # 'Statement (latex)' label
-        Label(self, text = "Statement (with latex)").grid(row = 5 + offset,
-                                                          column = 3,
-                                                          sticky = W)
+        Label(self, text = "Statement (with latex)",
+              bg="#8ab4f7").grid(row = 5 + offset, column = 3, sticky = W)
 
         # Statement (latex) text box
         self.stwl = Text(self, width = 30, height = 5, wrap = WORD,
@@ -104,8 +108,8 @@ class WritePage(Frame):
                        pady = 10, sticky = W)
 
         # 'Solution' (without latex) label
-        Label(self, text = "Solution (no latex)").grid(row = 7 + offset,
-                                                       column = 0, sticky = W)
+        Label(self, text = "Solution (no latex)",
+              bg="#8ab4f7").grid(row = 7 + offset, column = 0, sticky = W)
 
         # Solution without latex text box
         self.sonl = Text(self, width = 30, height = 5, wrap = WORD,
@@ -114,8 +118,8 @@ class WritePage(Frame):
                        pady = 10, sticky = W)
 
         # 'Solution' (with latex) label
-        Label(self, text = "Solution (with latex)").grid(row = 7 + offset,
-                                                         column = 3, sticky = W)
+        Label(self, text = "Solution (with latex)",
+              bg="#8ab4f7").grid(row = 7 + offset, column = 3, sticky = W)
 
         # Solution with latex text box
         self.sowl = Text(self, width = 30, height = 5, wrap = WORD,
@@ -124,8 +128,8 @@ class WritePage(Frame):
                        pady = 10, sticky = W)
 
         # 'Notes' label
-        Label(self, text = "Notes").grid(row = 9 + offset,
-                                         column = 0, sticky = W)
+        Label(self, text = "Notes",
+              bg="#8ab4f7").grid(row = 9 + offset, column = 0, sticky = W)
 
         # Notes text box
         self.notes = Text(self, width = 30, height = 5, wrap = WORD,
