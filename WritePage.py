@@ -9,7 +9,7 @@ class WritePage(Frame):
         Frame.__init__(self, parent)
         #8ab4f7
         #e55b39
-        self.config(bg="#dd9f9f")
+        #self.config(bg="#dd9f9f")
         self.grid()
         self.set_intro(controller)
         # self.set_format(controller, 2)
@@ -22,17 +22,16 @@ class WritePage(Frame):
         # 'Add Entry' button
         self.bttn2 = Button(self, text = "Add Entry",
                             command=lambda: self.save_inputs(controller))
-        self.bttn2.grid(row = 13, column = 1)
+        self.bttn2.grid(row = 14, column = 1)
 
         # 'Cancel' button
         self.bttn3 = Button(self, text = "Cancel",
                             command=lambda: controller.return_home())
-        self.bttn3.grid(row = 13, column = 2)
+        self.bttn3.grid(row = 14, column = 2)
 
     def set_intro(self, controller):
         # Page title
-        lbl = Label(self, text = "Write Page", font= ("Verdana", 12),
-                    bg="#e55b39")
+        lbl = Label(self, text = "Write Page", font= ("Verdana", 12))
         lbl.grid(row = 0, column = 1)
         
         # Menu return button
@@ -42,7 +41,7 @@ class WritePage(Frame):
 
     def set_format(self, controller, offset):
         # 'Tags' label
-        self.tag_lbl = Label(self, text = "Tags", bg="#e55b39")
+        self.tag_lbl = Label(self, text = "Tags")
         self.tag_lbl.grid(row = offset, column = 0, sticky = W)
 
         # Tags input entry
@@ -50,7 +49,7 @@ class WritePage(Frame):
         self.tags_input.grid(row = offset, column = 1, sticky = W)
 
         # 'Topic' label
-        self.topic_lbl = Label(self, text = "Topic", bg="#e55b39")
+        self.topic_lbl = Label(self, text = "Topic")
         self.topic_lbl.grid(row = 1 + offset, column = 0, sticky = W)
 
         # Topic input entry
@@ -58,7 +57,7 @@ class WritePage(Frame):
         self.topic_input.grid(row = 1 + offset, column = 1, sticky = W)
 
         # 'Source' label
-        self.source_lbl = Label(self, text = "Source", bg="#e55b39")
+        self.source_lbl = Label(self, text = "Source")
         self.source_lbl.grid(row = 2 + offset, column = 0, sticky = W)
 
         # Source input entry
@@ -66,7 +65,7 @@ class WritePage(Frame):
         self.source_input.grid(row = 2 + offset, column = 1, sticky = W)
 
         # 'Date' label
-        self.date_lbl = Label(self, text = "Date (MM/DD/YYYY)", bg="#e55b39")
+        self.date_lbl = Label(self, text = "Date (MM/DD/YYYY)")
         self.date_lbl.grid(row = 3 + offset, column = 0, sticky = W)
 
         # Date input entry
@@ -74,7 +73,7 @@ class WritePage(Frame):
         self.date_input.grid(row = 3 + offset, column = 1, sticky = W)
 
         # 'Difficulty' label
-        self.difficulty_lbl = Label(self, text = "Difficulty", bg="#e55b39")
+        self.difficulty_lbl = Label(self, text = "Difficulty")
         self.difficulty_lbl.grid(row = 4 + offset, column = 0, sticky = W)
 
         # Difficulty radio buttons
@@ -83,82 +82,72 @@ class WritePage(Frame):
 
         # 'Easy' radio button
         self.rb_easy = Radiobutton(self, text = 'easy',
-                                   variable = self.difficulty, value = 'easy',
-                                   bg="#e55b39", activebackground="#e55b39")
+                                   variable = self.difficulty, value = 'easy')
         self.rb_easy.grid(row = 4 + offset, column = 1, sticky = W)
         
         # 'Medium' radio button
         self.rb_medium = Radiobutton(self, text = 'medium',
                                      variable = self.difficulty,
-                                     value = 'medium', bg="#e55b39",
-                                     activebackground="#e55b39")
+                                     value = 'medium')
         self.rb_medium.grid(row = 4 + offset, column = 2, sticky = W)
 
         # 'Hard' radio button
         self.rb_hard = Radiobutton(self, text = 'hard',
-                                   variable = self.difficulty, value = 'hard',
-                                   bg="#e55b39", activebackground="#e55b39")
-        self.rb_hard.grid(row = 4 + offset, column = 3, sticky = W)
+                                   variable = self.difficulty, value = 'hard')
+        self.rb_hard.grid(row = 5 + offset, column = 1, sticky = W)
 
         # 'No rank' radio button
         self.rb_no_rank = Radiobutton(self, text = 'no rank',
                                       variable = self.difficulty,
-                                      value = 'no rank', bg="#e55b39",
-                                      activebackground="#e55b39")
-        self.rb_no_rank.grid(row = 4 + offset, column = 4, sticky = W)
+                                      value = 'no rank')
+        self.rb_no_rank.grid(row = 5 + offset, column = 2, sticky = W)
 
 
         # 'Statement (no latex)' label
-        self.stnl_lbl = Label(self, text = "Statement (no latex)", bg="#e55b39")
-        self.stnl_lbl.grid(row = 5 + offset, column = 0, sticky = W)
+        self.stnl_lbl = Label(self, text = "Statement (no latex)")
+        self.stnl_lbl.grid(row = 6 + offset, column = 0, sticky = W)
 
         # Statement (no latex) text box
         self.stnl = Text(self, width = 30, height = 5, wrap = WORD,
                          font= ("Verdana", 9))
-        self.stnl.grid(row = 6 + offset, column = 0, columnspan = 3, padx = 10,
-                       pady = 10, sticky = W)
+        self.stnl.grid(row = 7 + offset, column = 0, columnspan = 3, sticky = W)
 
         # 'Statement (latex)' label
-        self.stwl_lbl = Label(self, text = "Statement (with latex)",
-                              bg="#e55b39")
-        self.stwl_lbl.grid(row = 5 + offset, column = 3, sticky = W)
+        self.stwl_lbl = Label(self, text = "Statement (with latex)")
+        self.stwl_lbl.grid(row = 6 + offset, column = 2, sticky = W)
 
         # Statement (latex) text box
         self.stwl = Text(self, width = 30, height = 5, wrap = WORD,
                          font= ("Verdana", 9))
-        self.stwl.grid(row = 6 + offset, column = 3, columnspan = 3, padx = 10,
-                       pady = 10, sticky = W)
+        self.stwl.grid(row = 7 + offset, column = 2, columnspan = 3, sticky = W)
 
         # 'Solution' (without latex) label
-        self.sonl_lbl = Label(self, text = "Solution (no latex)", bg="#e55b39")
-        self.sonl_lbl.grid(row = 7 + offset, column = 0, sticky = W)
+        self.sonl_lbl = Label(self, text = "Solution (no latex)")
+        self.sonl_lbl.grid(row = 8 + offset, column = 0, sticky = W)
 
         # Solution without latex text box
         self.sonl = Text(self, width = 30, height = 5, wrap = WORD,
                          font= ("Verdana", 9))
-        self.sonl.grid(row = 8 + offset, column = 0, columnspan = 3, padx = 10,
-                       pady = 10, sticky = W)
+        self.sonl.grid(row = 9 + offset, column = 0, columnspan = 3, sticky = W)
 
         # 'Solution' (with latex) label
-        self.sowl_lbl = Label(self, text = "Solution (with latex)",
-                              bg="#e55b39")
-        self.sowl_lbl.grid(row = 7 + offset, column = 3, sticky = W)
+        self.sowl_lbl = Label(self, text = "Solution (with latex)")
+        self.sowl_lbl.grid(row = 8 + offset, column = 2, sticky = W)
 
         # Solution with latex text box
         self.sowl = Text(self, width = 30, height = 5, wrap = WORD,
                          font= ("Verdana", 9))
-        self.sowl.grid(row = 8 + offset, column = 3, columnspan = 3, padx = 10,
-                       pady = 10, sticky = W)
+        self.sowl.grid(row = 9 + offset, column = 2, columnspan = 3, sticky = W)
 
         # 'Notes' label
-        self.notes_lbl = Label(self, text = "Notes", bg="#e55b39")
-        self.notes_lbl.grid(row = 9 + offset, column = 0, sticky = W)
+        self.notes_lbl = Label(self, text = "Notes")
+        self.notes_lbl.grid(row = 10 + offset, column = 0, sticky = W)
 
         # Notes text box
         self.notes = Text(self, width = 30, height = 5, wrap = WORD,
                           font= ("Verdana", 9))
-        self.notes.grid(row = 10 + offset, column = 0, columnspan = 3,
-                        padx = 10, pady = 10, sticky = W)
+        self.notes.grid(row = 11 + offset, column = 0, columnspan = 3,
+                        sticky = W)
 
     # clear write page of inputs
     def clear(self):
@@ -246,7 +235,7 @@ class WritePage(Frame):
                 self.input_warning = True
                 self.data_lbl = Label(self, text = "Entry must include data",
                                       fg="red")
-                self.data_lbl.grid(row = 13, column = 0)
+                self.data_lbl.grid(row = 14, column = 0)
 
         elif (DE.DataEntry.is_valid_date(date)):
             new_entry = DE.DataEntry(len(ref), tags, topic, source, date,

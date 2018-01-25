@@ -63,12 +63,12 @@ class EditPage(Frame):
         # Save button
         self.bttn3 = Button(self, text = "Save",
                             command=lambda: self.update_entry(controller))
-        self.bttn3.grid(row = 15,column = 0)
+        self.bttn3.grid(row = 16,column = 0)
 
         # Cancel button
         self.bttn4 = Button(self, text = "Cancel",
                             command=lambda: controller.return_home())
-        self.bttn4.grid(row = 15,column = 1)
+        self.bttn4.grid(row = 16,column = 1)
 
 
     def clear(self):
