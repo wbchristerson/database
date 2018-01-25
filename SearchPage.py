@@ -6,7 +6,9 @@ class SearchPage(Frame):
     """ Search for entries based on various pieces of information """
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
+        self.grid_columnconfigure(1, weight=1)
         #6df241
+        #a2dba7
         self.config(bg="#a2dba7")
         self.grid()
         self.set_format(controller)
@@ -18,17 +20,19 @@ class SearchPage(Frame):
     def set_format(self, controller):
         # Page title
         lbl = Label(self, text = "Search Page", font= ("Verdana", 12),
-                    bg="#6df241")
+                    bg="#a2dba7")
         lbl.grid(row = 0, column = 1)
 
         # Menu return button
         self.bttn1 = Button(self, text = "Return To Menu",
+                            font= ("Verdana", 11), width = 15,
                             command=lambda: controller.return_home())
         self.bttn1.grid(row=1,column=1)
 
         # 'Match By' label
-        Label(self, text = "Match By:", bg="#6df241").grid(row = 2, column = 0,
-                                                           sticky = W)
+        Label(self, text = "Match By:", bg="#a2dba7",
+              font= ("Verdana", 11)).grid(row = 2, column = 0, sticky = W,
+                                          ipadx = 25)
 
         # 'ID' check button
         self.by_id = BooleanVar()
@@ -36,9 +40,10 @@ class SearchPage(Frame):
                     text = "ID",
                     command = self.toggle_id_input,
                     variable = self.by_id,
-                    bg="#6df241",
-                    activebackground="#6df241"
-                    ).grid(row = 3, column = 0, sticky = W)
+                    bg="#a2dba7",
+                    activebackground="#a2dba7",
+                    font= ("Verdana", 11)
+                    ).grid(row = 3, column = 0, sticky = W, ipadx = 10)
 
         # 'Tags' check button
         self.by_tags = BooleanVar()
@@ -46,9 +51,10 @@ class SearchPage(Frame):
                     text = "Tags",
                     command = self.toggle_tags_input,
                     variable = self.by_tags,
-                    bg="#6df241",
-                    activebackground="#6df241"
-                    ).grid(row = 4, column = 0, sticky = W)
+                    bg="#a2dba7",
+                    activebackground="#a2dba7",
+                    font= ("Verdana", 11)
+                    ).grid(row = 4, column = 0, sticky = W, ipadx = 10)
 
         # 'Topic' check button
         self.by_topic = BooleanVar()
@@ -56,9 +62,10 @@ class SearchPage(Frame):
                     text = "Topic",
                     command = self.toggle_topic_input,
                     variable = self.by_topic,
-                    bg="#6df241",
-                    activebackground="#6df241"
-                    ).grid(row = 5, column = 0, sticky = W)
+                    bg="#a2dba7",
+                    activebackground="#a2dba7",
+                    font= ("Verdana", 11)
+                    ).grid(row = 5, column = 0, sticky = W, ipadx = 10)
 
         # 'Source' check button
         self.by_source = BooleanVar()
@@ -66,9 +73,10 @@ class SearchPage(Frame):
                     text = "Source",
                     command = self.toggle_source_input,
                     variable = self.by_source,
-                    bg="#6df241",
-                    activebackground="#6df241"
-                    ).grid(row = 6, column = 0, sticky = W)
+                    bg="#a2dba7",
+                    activebackground="#a2dba7",
+                    font= ("Verdana", 11)
+                    ).grid(row = 6, column = 0, sticky = W, ipadx = 10)
 
         # 'Date' range button
         self.by_date = BooleanVar()
@@ -76,9 +84,10 @@ class SearchPage(Frame):
                     text = "Date",
                     command = self.toggle_date_input,
                     variable = self.by_date,
-                    bg="#6df241",
-                    activebackground="#6df241"
-                    ).grid(row = 7, column = 0, sticky = W)
+                    bg="#a2dba7",
+                    activebackground="#a2dba7",
+                    font= ("Verdana", 11)
+                    ).grid(row = 7, column = 0, sticky = W, ipadx = 10)
 
         # 'Difficulty' range button
         self.by_difficulty = BooleanVar()
@@ -86,9 +95,10 @@ class SearchPage(Frame):
                     text = "Difficulty",
                     command = self.toggle_difficulty_input,
                     variable = self.by_difficulty,
-                    bg="#6df241",
-                    activebackground="#6df241"
-                    ).grid(row = 9, column = 0, sticky = W)
+                    bg="#a2dba7",
+                    activebackground="#a2dba7",
+                    font= ("Verdana", 11)
+                    ).grid(row = 10, column = 0, sticky = W, ipadx = 10)
 
         # 'Mentioned Words' check button
         self.by_words = BooleanVar()
@@ -96,70 +106,78 @@ class SearchPage(Frame):
                     text = "Mentioned Words",
                     command = self.toggle_words_input,
                     variable = self.by_words,
-                    bg="#6df241",
-                    activebackground="#6df241"
-                    ).grid(row = 11, column = 0, sticky = W)
+                    bg="#a2dba7",
+                    activebackground="#a2dba7",
+                    font= ("Verdana", 11)
+                    ).grid(row = 13, column = 0, sticky = W, ipadx = 10)
 
         # Expanded view check button
         self.expanded_view = BooleanVar()
         Checkbutton(self,
-                    text = "expanded view",
+                    text = "Expanded view",
                     variable = self.expanded_view,
-                    bg="#6df241",
-                    activebackground="#6df241"
-                    ).grid(row = 12, column = 1, sticky = W)
+                    bg="#a2dba7",
+                    activebackground="#a2dba7",
+                    font= ("Verdana", 11)
+                    ).grid(row = 14, column = 2, sticky = E, ipadx = 25)
 
         # Button to list items
-        self.bttn2 = Button(self, text = "List Items", command = self.get_items)
-        self.bttn2.grid(row = 13, column = 1)
+        self.bttn2 = Button(self, text = "List Items", font= ("Verdana", 11),
+                            command = self.get_items, width = 15)
+        self.bttn2.grid(row = 14, column = 1)
 
         # 'Items' label
-        Label(self, text = "Items", bg="#6df241").grid(row = 14, column = 0,
-                                                       sticky = W)
+        Label(self, text = "Items", bg="#a2dba7",
+              font= ("Verdana", 11)).grid(row = 15, column = 1, pady = 10)
 
         # Items text box
-        self.results_txt = Text(self, width = 50, height = 20, wrap = WORD,
+        self.results_txt = Text(self, width = 65, height = 20, wrap = WORD,
                                 font= ("Verdana", 9))
-        self.results_txt.grid(row = 15, column = 0, columnspan = 3)
+        self.results_txt.grid(row = 16, column = 0, columnspan = 3)
 
     def toggle_id_input(self):
         if (self.by_id.get()):
-            self.id_input = Entry(self)
+            self.id_input = Entry(self, font= ("Verdana", 11))
             self.id_input.grid(row = 3, column = 1, sticky = W)
         elif (hasattr(self, 'id_input')):
             self.id_input.grid_remove()
+            self.reset_id_warning()
 
     def toggle_tags_input(self):
         if (self.by_tags.get()):
-            self.tags_input = Entry(self)
+            self.tags_input = Entry(self, font= ("Verdana", 11))
             self.tags_input.grid(row = 4, column = 1, sticky = W)
         elif (hasattr(self, 'tags_input')):
             self.tags_input.grid_remove()
 
     def toggle_topic_input(self):
         if (self.by_topic.get()):
-            self.topic_input = Entry(self)
+            self.topic_input = Entry(self, font= ("Verdana", 11))
             self.topic_input.grid(row = 5, column = 1, sticky = W)
         elif (hasattr(self, 'topic_input')):
             self.topic_input.grid_remove()
 
     def toggle_source_input(self):
         if (self.by_source.get()):
-            self.source_input = Entry(self)
+            self.source_input = Entry(self, font= ("Verdana", 11))
             self.source_input.grid(row = 6, column = 1, sticky = W)
         elif (hasattr(self, 'source_input')):
             self.source_input.grid_remove()
 
     def toggle_date_input(self):
         if (self.by_date.get()):
-            self.start_date_lbl = Label(self, text = "Start Date", bg="#6df241")
-            self.start_date_lbl.grid(row = 8, column = 0, sticky = W)
-            self.start_date_input = Entry(self)
+            self.start_date_lbl = Label(self, text = "Start Date", bg="#a2dba7",
+                                        font= ("Verdana", 11))
+            self.start_date_lbl.grid(row = 8, column = 0, sticky = W,
+                                     ipadx = 25)
+            self.start_date_input = Entry(self, font= ("Verdana", 11))
             self.start_date_input.grid(row = 8, column = 1, sticky = W)
-            self.end_date_lbl = Label(self, text = "End Date", bg="#6df241")
-            self.end_date_lbl.grid(row = 8, column = 2, sticky = W)
-            self.end_date_input = Entry(self)
-            self.end_date_input.grid(row = 8, column = 3, sticky = W)
+            self.end_date_lbl = Label(self, text = "End Date", bg="#a2dba7",
+                                      font= ("Verdana", 11))
+            self.end_date_lbl.grid(row = 9, column = 0, sticky = W,
+                                   ipadx = 25)
+            self.end_date_input = Entry(self, font= ("Verdana", 11))
+            self.end_date_input.grid(row = 9, column = 1, sticky = W)
         elif (hasattr(self, 'start_date_input')):
             self.start_date_lbl.grid_remove()
             self.start_date_input.grid_remove()
@@ -173,25 +191,30 @@ class SearchPage(Frame):
             self.check_medium = BooleanVar()
             self.check_hard = BooleanVar()
             self.check_no_rank = BooleanVar()
-            self.button_easy = Checkbutton(self, text = "Easy", bg="#6df241",
+            self.button_easy = Checkbutton(self, text = "Easy", bg="#a2dba7",
                                            variable = self.check_easy,
-                                           activebackground="#6df241")
-            self.button_easy.grid(row = 10, column = 0, sticky = W)
+                                           font= ("Verdana", 11),
+                                           activebackground="#a2dba7")
+            self.button_easy.grid(row = 11, column = 0, ipadx = 25, sticky = W)
             self.button_medium = Checkbutton(self, text = "Medium",
-                                             bg="#6df241",
+                                             bg="#a2dba7",
                                              variable = self.check_medium,
-                                             activebackground="#6df241")
-            self.button_medium.grid(row = 10, column = 1,sticky = W)
+                                             font= ("Verdana", 11),
+                                             activebackground="#a2dba7")
+            self.button_medium.grid(row = 11, column = 1)
             self.button_hard = Checkbutton(self, text = "Hard",
-                                           bg="#6df241",
+                                           bg="#a2dba7",
                                            variable = self.check_hard,
-                                           activebackground="#6df241")
-            self.button_hard.grid(row = 10, column = 2,sticky = W)
+                                           font= ("Verdana", 11),
+                                           activebackground="#a2dba7")
+            self.button_hard.grid(row = 11, column = 2)
             self.button_no_rank = Checkbutton(self, text = "No Rank",
-                                              bg="#6df241",
+                                              bg="#a2dba7",
                                               variable = self.check_no_rank,
-                                              activebackground="#6df241")
-            self.button_no_rank.grid(row = 10,column = 3,sticky = W)
+                                              font= ("Verdana", 11),
+                                              activebackground="#a2dba7")
+            self.button_no_rank.grid(row = 12, column = 0, ipadx = 25,
+                                     sticky = W)
         elif (hasattr(self, 'button_easy')):
             self.button_easy.grid_remove()
             self.button_medium.grid_remove()
@@ -201,8 +224,8 @@ class SearchPage(Frame):
 
     def toggle_words_input(self):
         if (self.by_words.get()):
-            self.words_input = Entry(self)
-            self.words_input.grid(row = 11, column = 1, sticky = W)
+            self.words_input = Entry(self, font= ("Verdana", 11))
+            self.words_input.grid(row = 13, column = 1, sticky = W)
         elif (hasattr(self, 'words_input')):
             self.words_input.grid_remove()
 
@@ -375,22 +398,34 @@ class SearchPage(Frame):
         return mod_ref
 
 
-
-    # list items matching the query or highlight errors in input
-    def get_items(self):
+    # reset id red label warning so that it is not visible
+    def reset_id_warning(self):
         if (self.id_warning):
             self.id_warning = False
             self.id_warning_lbl.grid_remove()
+
+    def reset_date_warning_start(self):
         if (self.date_warning_start):
             self.date_warning_start = False
             self.date_warning_lbl_start.grid_remove()
+
+    def reset_date_warning_end(self):
         if (self.date_warning_end):
             self.date_warning_end = False
             self.date_warning_lbl_end.grid_remove()
+
+    def reset_date_warning_chrono(self):
         if (self.date_warning_chrono):
             self.date_warning_chrono = False
             self.date_warning_lbl_chrono.grid_remove()
-            
+
+
+    # list items matching the query or highlight errors in input
+    def get_items(self):
+        self.reset_id_warning()
+        self.reset_date_warning_start()
+        self.reset_date_warning_end()
+        self.reset_date_warning_chrono()
         if (self.by_id.get() and (self.id_input.get() != '') and
             (not DE.DataEntry.check_for_int(self.id_input.get()))):
             if not (self.id_warning):
@@ -412,7 +447,7 @@ class SearchPage(Frame):
                 self.date_warning_lbl_end = Label(self,
                                                   text = "End date must be valid",
                                                   fg="red")
-                self.date_warning_lbl_end.grid(row = 7, column = 3)
+                self.date_warning_lbl_end.grid(row = 7, column = 1)
         elif (self.by_date.get() and
               (not SearchPage.order_dates(self.start_date_input.get(), self.end_date_input.get()))):
             if (not (self.date_warning_chrono)):
