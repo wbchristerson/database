@@ -7,6 +7,9 @@ class EditPage(Frame):
     """ Edit an entry based on the ID """
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
+        #e6ef64
+        #e3e5a9
+        self.config(bg="#fcffba")
         self.grid()
         self.set_format(controller)
         self.curr_id = -1
@@ -16,7 +19,8 @@ class EditPage(Frame):
 
     def set_format(self, controller):
         # Page title
-        lbl = Label(self, text = "Edit Page", font= ("Verdana", 12))
+        lbl = Label(self, text = "Edit Page", font= ("Verdana", 12),
+                    bg="#e6ef64")
         lbl.grid(row = 0, column = 1)
         
         # Menu return button
@@ -25,7 +29,8 @@ class EditPage(Frame):
         self.bttn1.grid(row = 1,column = 1)
 
         # 'ID' label
-        Label(self, text = "ID").grid(row = 2, column = 0, sticky = W)
+        Label(self, text = "ID", bg="#e6ef64").grid(row = 2, column = 0,
+                                                    sticky = W)
 
         # ID input entry
         self.id_input = Entry(self)
@@ -39,6 +44,22 @@ class EditPage(Frame):
         # Set page format similarly to write page
         WP.WritePage.set_format(self,controller, 4)
 
+        # Alter coloration of page from default given by edit page
+        self.tag_lbl.config(bg="#e6ef64")
+        self.topic_lbl.config(bg="#e6ef64")
+        self.source_lbl.config(bg="#e6ef64")
+        self.date_lbl.config(bg="#e6ef64")
+        self.difficulty_lbl.config(bg="#e6ef64")
+        self.rb_easy.config(bg="#e6ef64", activebackground="#e6ef64")
+        self.rb_medium.config(bg="#e6ef64", activebackground="#e6ef64")
+        self.rb_hard.config(bg="#e6ef64", activebackground="#e6ef64")
+        self.rb_no_rank.config(bg="#e6ef64", activebackground="#e6ef64")
+        self.stnl_lbl.config(bg="#e6ef64")
+        self.stwl_lbl.config(bg="#e6ef64")
+        self.sonl_lbl.config(bg="#e6ef64")
+        self.sowl_lbl.config(bg="#e6ef64")
+        self.notes_lbl.config(bg="#e6ef64")
+        
         # Save button
         self.bttn3 = Button(self, text = "Save",
                             command=lambda: self.update_entry(controller))
@@ -48,6 +69,7 @@ class EditPage(Frame):
         self.bttn4 = Button(self, text = "Cancel",
                             command=lambda: controller.return_home())
         self.bttn4.grid(row = 15,column = 1)
+
 
     def clear(self):
         self.id_input.delete(0, END)

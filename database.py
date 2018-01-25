@@ -108,31 +108,46 @@ class Home(Frame):
 
     def set_format(self, controller):
         """ Create menu buttons """
-        self.bttn1 = Button(self, text = "Look Up An Entry",
+        self.bttn1 = Button(self, text = "Look Up An Entry", fg="white",
                             command=lambda: controller.show_frame(SP.SearchPage))
         self.bttn1.grid(row=1,column=1, pady=10)
         self.bttn1.grid_rowconfigure(1, weight=1)
-        self.bttn1.config(bg="#4bc423", activebackground="#4bc423")
+        #4bc423
+        #6df241
+        #a2dba7
+        #a2dba7
+        #42e565
+        #33e058
+        self.bttn1.config(bg="#33e058", activebackground="#4bc423")
+        
 
-        self.bttn2 = Button(self, text = "Browse Entries",
+        self.bttn2 = Button(self, text = "Browse Entries", fg = "white",
                             command=lambda: controller.show_frame(BP.BrowsePage))
         self.bttn2.grid(row=2,column=1, pady=10)
-        self.bttn2.config(bg="#74eef2", activebackground="#74eef2")
+        #74eef2
+        #329de0
+        self.bttn2.config(bg="#329de0", activebackground="#74eef2")
 
-        self.bttn3 = Button(self,
+        self.bttn3 = Button(self, fg = "white",
                             command=lambda: controller.show_frame(WP.WritePage))
         self.bttn3.grid(row=3,column=1, pady=10)
         self.bttn3.configure(text = "Add An Entry")
         #e53c12
-        #fc5653
-        #ff4921
-        self.bttn3.config(bg="#e53c12", activebackground="#e53c12")
+        #e55b39
+        #dd9f9f
+        #c60d0d
+        #e54242
+        self.bttn3.config(bg="#e54242", activebackground="#e53c12")
 
-        self.bttn4 = Button(self,
+        self.bttn4 = Button(self, fg="white",
                             command=lambda: controller.show_frame(EP.EditPage))
         self.bttn4.grid(row=4,column=1, pady=10)
         self.bttn4["text"] = "Edit An Entry"
-        self.bttn4.config(bg="#e6ef64", activebackground="#e6ef64")
+        #e6ef64
+        #e3e5a9
+        #fcffba
+        #e0da32
+        self.bttn4.config(bg="#e0da32", activebackground="#e6ef64")
 
 
 app = Transition()

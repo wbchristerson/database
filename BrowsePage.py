@@ -7,13 +7,15 @@ class BrowsePage(Frame):
         view """
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
+        self.config(bg="#74eef2")
         self.grid()
         self.set_format(controller)
         self.executed = False # whether the user has clicked browse at all
 
     def set_format(self, controller):
         # Page title
-        lbl = Label(self, text = "Browse Page", font= ("Verdana", 12))
+        lbl = Label(self, text = "Browse Page", font= ("Verdana", 12),
+                    bg="#74eef2")
         lbl.grid(column = 1, sticky = W)
 
         # Menu return button
@@ -28,7 +30,9 @@ class BrowsePage(Frame):
                     text = "expanded view",
                     variable = self.expanded_view,
                     # allow toggling of expanded view within the frame
-                    command = self.update_view
+                    command = self.update_view,
+                    bg="#74eef2",
+                    activebackground="#74eef2"
                     ).grid(row = 2, column = 0, sticky = W)
 
         # Entry appearance button
@@ -37,7 +41,8 @@ class BrowsePage(Frame):
         self.bttn2.grid(row = 3, column = 0, sticky = W)
 
         # 'Items' label
-        Label(self, text = "Items").grid(row = 4, column = 1, sticky = W)
+        Label(self, text = "Items", bg="#74eef2").grid(row = 4, column = 1,
+                                                       sticky = W)
 
         # Items text box
         self.results_txt = Text(self, width = 60, height = 35, wrap = WORD,

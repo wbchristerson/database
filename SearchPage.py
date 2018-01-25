@@ -6,6 +6,8 @@ class SearchPage(Frame):
     """ Search for entries based on various pieces of information """
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
+        #6df241
+        self.config(bg="#a2dba7")
         self.grid()
         self.set_format(controller)
         self.id_warning = False
@@ -15,7 +17,8 @@ class SearchPage(Frame):
 
     def set_format(self, controller):
         # Page title
-        lbl = Label(self, text = "Search Page", font= ("Verdana", 12))
+        lbl = Label(self, text = "Search Page", font= ("Verdana", 12),
+                    bg="#6df241")
         lbl.grid(row = 0, column = 1)
 
         # Menu return button
@@ -24,14 +27,17 @@ class SearchPage(Frame):
         self.bttn1.grid(row=1,column=1)
 
         # 'Match By' label
-        Label(self, text = "Match By:").grid(row = 2, column = 0, sticky = W)
+        Label(self, text = "Match By:", bg="#6df241").grid(row = 2, column = 0,
+                                                           sticky = W)
 
         # 'ID' check button
         self.by_id = BooleanVar()
         Checkbutton(self,
                     text = "ID",
                     command = self.toggle_id_input,
-                    variable = self.by_id
+                    variable = self.by_id,
+                    bg="#6df241",
+                    activebackground="#6df241"
                     ).grid(row = 3, column = 0, sticky = W)
 
         # 'Tags' check button
@@ -39,7 +45,9 @@ class SearchPage(Frame):
         Checkbutton(self,
                     text = "Tags",
                     command = self.toggle_tags_input,
-                    variable = self.by_tags
+                    variable = self.by_tags,
+                    bg="#6df241",
+                    activebackground="#6df241"
                     ).grid(row = 4, column = 0, sticky = W)
 
         # 'Topic' check button
@@ -47,7 +55,9 @@ class SearchPage(Frame):
         Checkbutton(self,
                     text = "Topic",
                     command = self.toggle_topic_input,
-                    variable = self.by_topic
+                    variable = self.by_topic,
+                    bg="#6df241",
+                    activebackground="#6df241"
                     ).grid(row = 5, column = 0, sticky = W)
 
         # 'Source' check button
@@ -55,7 +65,9 @@ class SearchPage(Frame):
         Checkbutton(self,
                     text = "Source",
                     command = self.toggle_source_input,
-                    variable = self.by_source
+                    variable = self.by_source,
+                    bg="#6df241",
+                    activebackground="#6df241"
                     ).grid(row = 6, column = 0, sticky = W)
 
         # 'Date' range button
@@ -63,7 +75,9 @@ class SearchPage(Frame):
         Checkbutton(self,
                     text = "Date",
                     command = self.toggle_date_input,
-                    variable = self.by_date
+                    variable = self.by_date,
+                    bg="#6df241",
+                    activebackground="#6df241"
                     ).grid(row = 7, column = 0, sticky = W)
 
         # 'Difficulty' range button
@@ -71,7 +85,9 @@ class SearchPage(Frame):
         Checkbutton(self,
                     text = "Difficulty",
                     command = self.toggle_difficulty_input,
-                    variable = self.by_difficulty
+                    variable = self.by_difficulty,
+                    bg="#6df241",
+                    activebackground="#6df241"
                     ).grid(row = 9, column = 0, sticky = W)
 
         # 'Mentioned Words' check button
@@ -79,14 +95,18 @@ class SearchPage(Frame):
         Checkbutton(self,
                     text = "Mentioned Words",
                     command = self.toggle_words_input,
-                    variable = self.by_words
+                    variable = self.by_words,
+                    bg="#6df241",
+                    activebackground="#6df241"
                     ).grid(row = 11, column = 0, sticky = W)
 
         # Expanded view check button
         self.expanded_view = BooleanVar()
         Checkbutton(self,
                     text = "expanded view",
-                    variable = self.expanded_view
+                    variable = self.expanded_view,
+                    bg="#6df241",
+                    activebackground="#6df241"
                     ).grid(row = 12, column = 1, sticky = W)
 
         # Button to list items
@@ -94,7 +114,8 @@ class SearchPage(Frame):
         self.bttn2.grid(row = 13, column = 1)
 
         # 'Items' label
-        Label(self, text = "Items").grid(row = 14, column = 0, sticky = W)
+        Label(self, text = "Items", bg="#6df241").grid(row = 14, column = 0,
+                                                       sticky = W)
 
         # Items text box
         self.results_txt = Text(self, width = 50, height = 20, wrap = WORD,
@@ -131,11 +152,11 @@ class SearchPage(Frame):
 
     def toggle_date_input(self):
         if (self.by_date.get()):
-            self.start_date_lbl = Label(self, text = "Start Date")
+            self.start_date_lbl = Label(self, text = "Start Date", bg="#6df241")
             self.start_date_lbl.grid(row = 8, column = 0, sticky = W)
             self.start_date_input = Entry(self)
             self.start_date_input.grid(row = 8, column = 1, sticky = W)
-            self.end_date_lbl = Label(self, text = "End Date")
+            self.end_date_lbl = Label(self, text = "End Date", bg="#6df241")
             self.end_date_lbl.grid(row = 8, column = 2, sticky = W)
             self.end_date_input = Entry(self)
             self.end_date_input.grid(row = 8, column = 3, sticky = W)
@@ -152,17 +173,24 @@ class SearchPage(Frame):
             self.check_medium = BooleanVar()
             self.check_hard = BooleanVar()
             self.check_no_rank = BooleanVar()
-            self.button_easy = Checkbutton(self, text = "Easy",
-                                           variable = self.check_easy)
+            self.button_easy = Checkbutton(self, text = "Easy", bg="#6df241",
+                                           variable = self.check_easy,
+                                           activebackground="#6df241")
             self.button_easy.grid(row = 10, column = 0, sticky = W)
             self.button_medium = Checkbutton(self, text = "Medium",
-                                             variable = self.check_medium)
+                                             bg="#6df241",
+                                             variable = self.check_medium,
+                                             activebackground="#6df241")
             self.button_medium.grid(row = 10, column = 1,sticky = W)
             self.button_hard = Checkbutton(self, text = "Hard",
-                                           variable = self.check_hard)
+                                           bg="#6df241",
+                                           variable = self.check_hard,
+                                           activebackground="#6df241")
             self.button_hard.grid(row = 10, column = 2,sticky = W)
             self.button_no_rank = Checkbutton(self, text = "No Rank",
-                                              variable = self.check_no_rank)
+                                              bg="#6df241",
+                                              variable = self.check_no_rank,
+                                              activebackground="#6df241")
             self.button_no_rank.grid(row = 10,column = 3,sticky = W)
         elif (hasattr(self, 'button_easy')):
             self.button_easy.grid_remove()
@@ -392,7 +420,7 @@ class SearchPage(Frame):
                 self.date_warning_lbl_chrono = Label(self,
                                                      text = "Dates must be ordered",
                                                      fg="red")
-                self.date_warning_lbl_chrono.grid(row = 6, column = 1)
+                self.date_warning_lbl_chrono.grid(row = 7, column = 1)
         else:
             with open('resources.json', 'r') as f:
                 ref_dict = json.load(f)
