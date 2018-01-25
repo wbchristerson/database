@@ -19,15 +19,15 @@ class SearchPage(Frame):
 
     def set_format(self, controller):
         # Page title
-        lbl = Label(self, text = "Search Page", font= ("Verdana", 12),
+        lbl = Label(self, text = "Search Page", font= ("Verdana", 14),
                     bg="#a2dba7")
-        lbl.grid(row = 0, column = 1)
+        lbl.grid(row = 0, column = 1, pady = 5)
 
         # Menu return button
         self.bttn1 = Button(self, text = "Return To Menu",
                             font= ("Verdana", 11), width = 15,
                             command=lambda: controller.return_home())
-        self.bttn1.grid(row=1,column=1)
+        self.bttn1.grid(row=1,column=1, pady = 4)
 
         # 'Match By' label
         Label(self, text = "Match By:", bg="#a2dba7",
@@ -122,18 +122,19 @@ class SearchPage(Frame):
                     ).grid(row = 14, column = 2, sticky = E, ipadx = 25)
 
         # Button to list items
-        self.bttn2 = Button(self, text = "List Items", font= ("Verdana", 11),
+        self.bttn2 = Button(self, text = "Search", font= ("Verdana", 11),
                             command = self.get_items, width = 15)
-        self.bttn2.grid(row = 14, column = 1)
+        self.bttn2.grid(row = 14, column = 1, pady = 10)
 
         # 'Items' label
-        Label(self, text = "Items", bg="#a2dba7",
-              font= ("Verdana", 11)).grid(row = 15, column = 1, pady = 10)
+        #Label(self, text = "Items", bg="#a2dba7",
+        #      font= ("Verdana", 11)).grid(row = 15, column = 1, pady = 10)
 
         # Items text box
-        self.results_txt = Text(self, width = 65, height = 20, wrap = WORD,
+        self.results_txt = Text(self, width = 65,
+                                height = 20, wrap = WORD,
                                 font= ("Verdana", 9))
-        self.results_txt.grid(row = 16, column = 0, columnspan = 3)
+        self.results_txt.grid(row = 15, column = 0, columnspan = 3)
 
     def toggle_id_input(self):
         if (self.by_id.get()):
@@ -171,18 +172,22 @@ class SearchPage(Frame):
             self.start_date_lbl.grid(row = 8, column = 0, sticky = W,
                                      ipadx = 25)
             self.start_date_input = Entry(self, font= ("Verdana", 11))
-            self.start_date_input.grid(row = 8, column = 1, sticky = W)
+            self.start_date_input.grid(row = 8, column = 1, sticky = W,
+                                       pady = 3)
             self.end_date_lbl = Label(self, text = "End Date", bg="#a2dba7",
                                       font= ("Verdana", 11))
             self.end_date_lbl.grid(row = 9, column = 0, sticky = W,
                                    ipadx = 25)
             self.end_date_input = Entry(self, font= ("Verdana", 11))
-            self.end_date_input.grid(row = 9, column = 1, sticky = W)
+            self.end_date_input.grid(row = 9, column = 1, sticky = W, pady = 3)
         elif (hasattr(self, 'start_date_input')):
             self.start_date_lbl.grid_remove()
             self.start_date_input.grid_remove()
             self.end_date_lbl.grid_remove()
             self.end_date_input.grid_remove()
+            self.reset_date_warning_start()
+            self.reset_date_warning_end()
+            self.reset_date_warning_chrono()
 
 
     def toggle_difficulty_input(self):
@@ -466,6 +471,8 @@ class SearchPage(Frame):
                 message += 'No entries matched your query.\n\nTry expanding '
                 message += 'your search and note that the text fields above '
                 message += 'are case-sensitive.'
+            else:
+                message += 'Results: ' + str(len(ref_mod)) + '\n\n\n'
             for entry in ref_mod:
                 message += DE.DataEntry.search_rep(entry,
                                                    self.expanded_view.get())
