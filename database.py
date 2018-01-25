@@ -97,21 +97,29 @@ class Home(Frame):
     def __init__(self, parent, controller):
         #Canvas.__init__(self, parent)
         Frame.__init__(self, parent)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=1)
+        self.grid_rowconfigure(2, weight=1)
+        self.grid_rowconfigure(3, weight=1)
+        self.grid_rowconfigure(4, weight=1)
+        self.grid_rowconfigure(5, weight=3)
         # Add background color here
         # self.configure(background="#fbff8e")
         self.grid()
         
-        lbl = Label(self, text = "Welcome!")
-        lbl.grid(row=0,column=1)
+        lbl = Label(self, text = "Welcome!", font=("Verdana", 24))
+        lbl.grid(row=0,column=0)
         self.set_format(controller)
 
 
     def set_format(self, controller):
         """ Create menu buttons """
         self.bttn1 = Button(self, text = "Look Up An Entry", fg="white",
+                            width = 15, height = 2, font=("Verdana", 14),
                             command=lambda: controller.show_frame(SP.SearchPage))
-        self.bttn1.grid(row=1,column=1, pady=10)
-        self.bttn1.grid_rowconfigure(1, weight=1)
+        self.bttn1.grid(row=1,column=0)
+        #self.bttn1.grid_rowconfigure(1, weight=1)
         #4bc423
         #6df241
         #a2dba7
@@ -122,15 +130,17 @@ class Home(Frame):
         
 
         self.bttn2 = Button(self, text = "Browse Entries", fg = "white",
+                            width = 15, height = 2, font=("Verdana", 14),
                             command=lambda: controller.show_frame(BP.BrowsePage))
-        self.bttn2.grid(row=2,column=1, pady=10)
+        self.bttn2.grid(row=2,column=0, pady=10)
         #74eef2
         #329de0
         self.bttn2.config(bg="#329de0", activebackground="#74eef2")
 
         self.bttn3 = Button(self, fg = "white",
+                            width = 15, height = 2, font=("Verdana", 14),
                             command=lambda: controller.show_frame(WP.WritePage))
-        self.bttn3.grid(row=3,column=1, pady=10)
+        self.bttn3.grid(row=3,column=0, pady=10)
         self.bttn3.configure(text = "Add An Entry")
         #e53c12
         #e55b39
@@ -140,8 +150,9 @@ class Home(Frame):
         self.bttn3.config(bg="#e54242", activebackground="#e53c12")
 
         self.bttn4 = Button(self, fg="white",
+                            width = 15, height = 2, font=("Verdana", 14),
                             command=lambda: controller.show_frame(EP.EditPage))
-        self.bttn4.grid(row=4,column=1, pady=10)
+        self.bttn4.grid(row=4,column=0, pady=10)
         self.bttn4["text"] = "Edit An Entry"
         #e6ef64
         #e3e5a9
