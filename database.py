@@ -55,9 +55,17 @@ class Transition(Tk):
         #if (cont == WP.WritePage): #
         #    self.tkraise(frame) #
         #else: #
+        if (cont == WP.WritePage):
+            # make screen wider for Write Page
+            self.geometry("680x690")
+        else:
+            # reset screen to narrow view when not in Write Page
+            self.geometry("580x690")
         frame.tkraise()
 
     def return_home(self):
+        # reset screen to narrow view when returning to Menu
+        self.geometry("580x690")
         self.frames[Home].tkraise()
 
 
