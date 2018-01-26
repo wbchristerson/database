@@ -35,7 +35,7 @@ class WritePage(Frame):
         self.bttn3 = Button(self, text = "Cancel",
                             command=lambda: controller.return_home(),
                             width = 15, font = ("Verdana", 11))
-        self.bttn3.grid(row = 13, column = 3, pady = 10)
+        self.bttn3.grid(row = 14, column = 2, pady = 10)
 
     def set_intro(self, controller):
         # Page title
@@ -180,7 +180,7 @@ class WritePage(Frame):
         self.notes = Text(self, width = 30, height = 7, wrap = WORD,
                           font= ("Verdana", 9))
         self.notes.grid(row = 11 + offset, column = 0, columnspan = 3,
-                        sticky = W, padx = 10)
+                        sticky = W, padx = 10, rowspan = 2)
 
     # clear write page of inputs
     def clear(self):
@@ -268,7 +268,7 @@ class WritePage(Frame):
                 self.input_warning = True
                 self.data_lbl = Label(self, text = "Entry must include data",
                                       fg="red")
-                self.data_lbl.grid(row = 14, column = 0, pady = 8)
+                self.data_lbl.grid(row = 15, column = 0, pady = 8)
 
         elif (DE.DataEntry.is_valid_date(date)):
             new_entry = DE.DataEntry(len(ref), tags, topic, source, date,

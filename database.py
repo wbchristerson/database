@@ -55,7 +55,7 @@ class Transition(Tk):
         #if (cont == WP.WritePage): #
         #    self.tkraise(frame) #
         #else: #
-        if (cont == WP.WritePage):
+        if ((cont == WP.WritePage) or (cont == EP.EditPage)):
             # make screen wider for Write Page
             self.geometry("680x690")
         else:

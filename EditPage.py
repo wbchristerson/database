@@ -141,7 +141,8 @@ class EditPage(Frame):
             self.warning_id = True
 
     def update_entry(self, controller):
-        if not (DE.DataEntry.is_valid_date(self.date_input.get())):
+        if ((not (DE.DataEntry.is_valid_date(self.date_input.get()))) and
+            (self.curr_id != -1)):
             if not (self.warning_date):
                 self.warning_date = True
                 self.red_date = Label(self, text = "Must be valid date",
