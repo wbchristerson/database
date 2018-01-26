@@ -19,7 +19,7 @@ class SearchPage(Frame):
 
     def set_format(self, controller):
         # Page title
-        lbl = Label(self, text = "Search Page", font= ("Verdana", 14),
+        lbl = Label(self, text = "Look Up An Entry", font= ("Verdana", 14),
                     bg="#a2dba7")
         lbl.grid(row = 0, column = 1, pady = 5)
 

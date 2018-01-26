@@ -19,7 +19,7 @@ class EditPage(Frame):
 
     def set_format(self, controller):
         # Page title
-        lbl = Label(self, text = "Edit Page", font= ("Verdana", 12),
+        lbl = Label(self, text = "Edit An Entry", font= ("Verdana", 12),
                     bg="#e6ef64")
         lbl.grid(row = 0, column = 1)
         

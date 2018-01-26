@@ -17,7 +17,7 @@ class BrowsePage(Frame):
 
     def set_format(self, controller):
         # Page title
-        lbl = Label(self, text = "Browse Page", font= ("Verdana", 14),
+        lbl = Label(self, text = "Browse Entries", font= ("Verdana", 14),
                     bg="#74eef2")
         lbl.grid(column = 1, pady = 10)
 
