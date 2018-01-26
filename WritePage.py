@@ -100,25 +100,29 @@ class WritePage(Frame):
         # 'Easy' radio button
         self.rb_easy = Radiobutton(self, text = 'Easy', bg = "#f45353",
                                    variable = self.difficulty, value = 'easy',
-                                   font = ("Verdana", 11))
+                                   font = ("Verdana", 11),
+                                   activebackground = "#f45353")
         self.rb_easy.grid(row = 4 + offset, column = 1, sticky = W, padx = 4)
         
         # 'Medium' radio button
         self.rb_medium = Radiobutton(self, text = 'Medium', bg = "#f45353",
                                      variable = self.difficulty,
-                                     value = 'medium', font = ("Verdana", 11))
+                                     value = 'medium', font = ("Verdana", 11),
+                                     activebackground = "#f45353")
         self.rb_medium.grid(row = 4 + offset, column = 2, sticky = W)
 
         # 'Hard' radio button
         self.rb_hard = Radiobutton(self, text = 'Hard',
                                    variable = self.difficulty, value = 'hard',
-                                   bg = "#f45353", font = ("Verdana", 11))
+                                   bg = "#f45353", font = ("Verdana", 11),
+                                   activebackground = "#f45353")
         self.rb_hard.grid(row = 5 + offset, column = 1, sticky = W, padx = 4)
 
         # 'No rank' radio button
         self.rb_no_rank = Radiobutton(self, text = 'No Rank', bg = "#f45353",
                                       variable = self.difficulty,
-                                      value = 'no rank', font = ("Verdana", 11))
+                                      value = 'no rank', font = ("Verdana", 11),
+                                      activebackground = "#f45353")
         self.rb_no_rank.grid(row = 5 + offset, column = 2, sticky = W)
 
 
