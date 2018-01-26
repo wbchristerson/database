@@ -20,43 +20,46 @@ class EditPage(Frame):
 
     def set_format(self, controller):
         # Page title
-        lbl = Label(self, text = "Edit An Entry", font= ("Verdana", 12),
+        lbl = Label(self, text = "Edit An Entry", font= ("Verdana", 14),
                     bg="#fcffba")
-        lbl.grid(row = 0, column = 1, sticky = W, padx = (70,0))
+        lbl.grid(row = 0, column = 1, sticky = W, padx = (70,0), pady = 5)
         
         # Menu return button
         self.bttn1 = Button(self, text = "Return To Menu",
                             command=lambda: controller.return_home(),
                             width = 15, font = ("Verdana", 11))
-        self.bttn1.grid(row = 1,column = 1, sticky = W, padx = (60,0))
+        self.bttn1.grid(row = 1,column = 1, sticky = W, padx = (60,0),
+                        pady = (0,5))
 
         # 'ID' label
         Label(self, text = "ID", bg="#fcffba",
               font = ("Verdana", 11)).grid(row = 2, column = 0, sticky = W,
-                                           padx = 10, pady = 20)
+                                           padx = 10, pady = (0,20))
 
         # ID input entry
         self.id_input = Entry(self, font = ("Verdana", 11))
-        self.id_input.grid(row = 2, column = 1, sticky = W, padx = (32,0))
+        self.id_input.grid(row = 2, column = 1, sticky = W, padx = (32,0),
+                           pady = (0,20))
 
         # Entry display button
         self.bttn2 = Button(self, text = "Edit",
                             command=self.populate_by_id, width = 10,
                             font = ("Verdana", 11))
-        self.bttn2.grid(row = 2,column = 2, sticky = W, padx = 10)
+        self.bttn2.grid(row = 2,column = 2, sticky = W, padx = 10,
+                        pady = (0,20))
 
         # Set page format similarly to write page
         WP.WritePage.set_format(self,controller, 3)
 
         # Alter coloration of page from default given by edit page
         self.tag_lbl.config(bg="#fcffba")
-        self.tags_input.grid(padx = (32,0))
+        self.tags_input.grid(padx = (32,0), pady = 2)
         self.topic_lbl.config(bg="#fcffba")
-        self.topic_input.grid(padx = (32,0))
+        self.topic_input.grid(padx = (32,0), pady = 2)
         self.source_lbl.config(bg="#fcffba")
-        self.source_input.grid(padx = (32,0))
+        self.source_input.grid(padx = (32,0), pady = 2)
         self.date_lbl.config(bg="#fcffba")
-        self.date_input.grid(padx = (32,0))
+        self.date_input.grid(padx = (32,0), pady = 2)
         self.difficulty_lbl.config(bg="#fcffba")
         self.rb_easy.config(bg="#fcffba", activebackground="#fcffba")
         self.rb_easy.grid(padx = (0,120))
@@ -69,16 +72,21 @@ class EditPage(Frame):
         self.sonl_lbl.config(bg="#fcffba")
         self.sowl_lbl.config(bg="#fcffba")
         self.notes_lbl.config(bg="#fcffba")
+
+        self.stnl_lbl.grid(pady = (0,2))
+        self.stwl_lbl.grid(pady = (0,2))
         
         # Save button
         self.bttn3 = Button(self, text = "Save",
-                            command=lambda: self.update_entry(controller))
-        self.bttn3.grid(row = 16,column = 0)
+                            command=lambda: self.update_entry(controller),
+                            width = 15, font = ("Verdana", 11))
+        self.bttn3.grid(row = 14,column = 1, sticky = E)
 
         # Cancel button
         self.bttn4 = Button(self, text = "Cancel",
-                            command=lambda: controller.return_home())
-        self.bttn4.grid(row = 16,column = 1)
+                            command=lambda: controller.return_home(),
+                            width = 15, font = ("Verdana", 11))
+        self.bttn4.grid(row = 15,column = 1, sticky = E)
 
 
     def clear(self):
