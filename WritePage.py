@@ -107,7 +107,7 @@ class WritePage(Frame):
                                    variable = self.difficulty, value = 'easy',
                                    font = ("Verdana", 11),
                                    activebackground = "#f45353")
-        self.rb_easy.grid(row = 4 + offset, column = 1, padx = (0,110),
+        self.rb_easy.grid(row = 4 + offset, column = 1, padx = (0,130),
                           sticky = E)
         
         # 'Medium' radio button
@@ -124,7 +124,7 @@ class WritePage(Frame):
                                    bg = "#f45353", font = ("Verdana", 11),
                                    activebackground = "#f45353")
         self.rb_hard.grid(row = 5 + offset, column = 1, sticky = E,
-                          padx = (0,110))
+                          padx = (0,130))
 
         # 'No rank' radio button
         self.rb_no_rank = Radiobutton(self, text = 'No Rank', bg = "#f45353",
@@ -301,4 +301,4 @@ class WritePage(Frame):
                 self.date_warning = True
                 self.warning_lbl = Label(self, text = "Must be valid date",
                                          fg="red")
-                self.warning_lbl.grid(row = 5, column = 3)
+                self.warning_lbl.grid(row = 5, column = 2)

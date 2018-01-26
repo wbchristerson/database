@@ -10,7 +10,7 @@ class EditPage(Frame):
         #e6ef64
         #e3e5a9
         self.config(bg="#fcffba")
-        self.grid_columnconfigure(2, weight=1)
+        self.grid_columnconfigure(1, weight=1)
         self.grid()
         self.set_format(controller)
         self.curr_id = -1
@@ -22,13 +22,13 @@ class EditPage(Frame):
         # Page title
         lbl = Label(self, text = "Edit An Entry", font= ("Verdana", 12),
                     bg="#fcffba")
-        lbl.grid(row = 0, column = 2)
+        lbl.grid(row = 0, column = 1, sticky = W, padx = (70,0))
         
         # Menu return button
         self.bttn1 = Button(self, text = "Return To Menu",
                             command=lambda: controller.return_home(),
                             width = 15, font = ("Verdana", 11))
-        self.bttn1.grid(row = 1,column = 2)
+        self.bttn1.grid(row = 1,column = 1, sticky = W, padx = (60,0))
 
         # 'ID' label
         Label(self, text = "ID", bg="#fcffba",
@@ -37,26 +37,32 @@ class EditPage(Frame):
 
         # ID input entry
         self.id_input = Entry(self, font = ("Verdana", 11))
-        self.id_input.grid(row = 2, column = 2)
+        self.id_input.grid(row = 2, column = 1, sticky = W, padx = (32,0))
 
         # Entry display button
         self.bttn2 = Button(self, text = "Edit",
                             command=self.populate_by_id, width = 10,
                             font = ("Verdana", 11))
-        self.bttn2.grid(row = 2,column = 3, sticky = W, padx = 10)
+        self.bttn2.grid(row = 2,column = 2, sticky = W, padx = 10)
 
         # Set page format similarly to write page
         WP.WritePage.set_format(self,controller, 3)
 
         # Alter coloration of page from default given by edit page
         self.tag_lbl.config(bg="#fcffba")
+        self.tags_input.grid(padx = (32,0))
         self.topic_lbl.config(bg="#fcffba")
+        self.topic_input.grid(padx = (32,0))
         self.source_lbl.config(bg="#fcffba")
+        self.source_input.grid(padx = (32,0))
         self.date_lbl.config(bg="#fcffba")
+        self.date_input.grid(padx = (32,0))
         self.difficulty_lbl.config(bg="#fcffba")
         self.rb_easy.config(bg="#fcffba", activebackground="#fcffba")
+        self.rb_easy.grid(padx = (0,120))
         self.rb_medium.config(bg="#fcffba", activebackground="#fcffba")
         self.rb_hard.config(bg="#fcffba", activebackground="#fcffba")
+        self.rb_hard.grid(padx = (0,120))
         self.rb_no_rank.config(bg="#fcffba", activebackground="#fcffba")
         self.stnl_lbl.config(bg="#fcffba")
         self.stwl_lbl.config(bg="#fcffba")
@@ -115,7 +121,7 @@ class EditPage(Frame):
                     self.red_id.grid_remove()
                 self.red_id = Label(self, text = "ID must be in range",
                                     fg="red")
-                self.red_id.grid(row = 1, column = 3, sticky = W, padx = 10)
+                self.red_id.grid(row = 1, column = 2, sticky = W, padx = 10)
                 self.warning_id = True
             else:
                 self.clear()
@@ -141,7 +147,7 @@ class EditPage(Frame):
                 self.warning_id = False
                 self.red_id.grid_remove()
             self.red_id = Label(self, text = "ID must be integer",fg="red")
-            self.red_id.grid(row = 1, column = 3, sticky = W, padx = 10)
+            self.red_id.grid(row = 1, column = 2, sticky = W, padx = 10)
             self.warning_id = True
 
     def update_entry(self, controller):
@@ -151,7 +157,7 @@ class EditPage(Frame):
                 self.warning_date = True
                 self.red_date = Label(self, text = "Must be valid date",
                                       fg="red")
-                self.red_date.grid(row = 7, column = 2)
+                self.red_date.grid(row = 1, column = 2)
         else:
             if (self.curr_id != -1):
                 with open('resources.json', 'r') as f:
