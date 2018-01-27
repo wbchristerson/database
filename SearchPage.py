@@ -16,6 +16,7 @@ class SearchPage(Frame):
         self.date_warning_start = False
         self.date_warning_end = False
         self.date_warning_chrono = False # whether input dates occur in order
+        self.has_been_executed = False
 
     def set_format(self, controller):
         # Page title
@@ -115,6 +116,7 @@ class SearchPage(Frame):
         self.expanded_view = BooleanVar()
         Checkbutton(self,
                     text = "Expanded view",
+                    command = self.alter_results,
                     variable = self.expanded_view,
                     bg="#a2dba7",
                     activebackground="#a2dba7",
@@ -135,6 +137,10 @@ class SearchPage(Frame):
                                 height = 20, wrap = WORD,
                                 font= ("Verdana", 9))
         self.results_txt.grid(row = 15, column = 0, columnspan = 3)
+
+    def alter_results(self):
+        if (self.has_been_executed):
+            self.get_items()
 
     def toggle_id_input(self):
         if (self.by_id.get()):
@@ -465,20 +471,29 @@ class SearchPage(Frame):
             with open('resources.json', 'r') as f:
                 ref_dict = json.load(f)
             ref = [DE.DataEntry.from_dict(entry) for entry in ref_dict]
-            ref_mod = SearchPage.filter_query(self, ref)
-            message = ''
-            if (len(ref_mod) == 0):
-                message += 'No entries matched your query.\n\nTry expanding '
-                message += 'your search and note that the text fields above '
-                message += 'are case-sensitive.'
+            if ((self.id_input.get() != '') and
+                (int(self.id_input.get()) >= len(ref))):
+                self.id_warning = True
+                self.id_warning_lbl = Label(self,
+                                            text = "ID must be in range",
+                                            fg="red")
+                self.id_warning_lbl.grid(row = 3, column = 2)
             else:
-                message += 'Results: ' + str(len(ref_mod)) + '\n\n\n'
-            for entry in ref_mod:
-                message += DE.DataEntry.search_rep(entry,
-                                                   self.expanded_view.get())
-                message += '\n\n\n'
-            self.results_txt.delete(0.0, END)
-            self.results_txt.insert(0.0, message)
+                ref_mod = SearchPage.filter_query(self, ref)
+                message = ''
+                if (len(ref_mod) == 0):
+                    message += 'No entries matched your query.\n\nTry '
+                    message += 'expanding your search and note that the text '
+                    message += 'fields above are case-sensitive.'
+                else:
+                    message += 'Results: ' + str(len(ref_mod)) + '\n\n\n'
+                for entry in ref_mod:
+                    message += DE.DataEntry.search_rep(entry,
+                                                       self.expanded_view.get())
+                    message += '\n\n\n'
+                self.results_txt.delete(0.0, END)
+                self.results_txt.insert(0.0, message)
+                self.has_been_executed = True
 
 
     # clear the entry and text boxes of any data from previous uses
@@ -524,3 +539,4 @@ class SearchPage(Frame):
         if (self.date_warning_chrono):
             self.date_warning_chrono = False
             self.date_warning_lbl_chrono.grid_remove()
+        self.has_been_executed = False
