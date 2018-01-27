@@ -28,51 +28,31 @@ Alternatively, follow the instructions below to download to a hard drive:
 
 
 ### Design
-The application begins with the menu shown above. All other page frames have return buttons back to this page. Clicking the "Look Up An Entry" button brings you to the following frame:
+The application begins with the menu shown above. All other page frames have return buttons back to this page. Clicking the "Look Up An Entry" button brings you to the following frame on the left below. As mentioned above, there are options to make queries based on ID in the database, tags (keywords), topic, source, date, difficulty, and mentioned words. When the corresponding check box is clicked, an entry widget appears to input data. Aside from the date and difficulty fields, a checked item without corresponding data will be interpreted as if the no filtering by that item were considered. If no items match the search conditions, then a message to this effect appears in the following text box. Otherwise, a series of search results appears, prefaced by a statement with the number of search results, as seen on right below. An "expanded view" check button can be used to toggle between abridged and complete forms of data entries. Warnings will be given for invalid or out of range IDs or dates. Note that the "mentioned words" and "source" fields will select entries which match any single searched word (even among many).
 
 <p align="center">
   <img src="img/database-search-blank.png" alt="The Blank Database Search Page">
-</p>
-
-As mentioned above, there are options to make queries based on ID in the database, tags (keywords), topic, source, date, difficulty, and mentioned words. When the corresponding check box is clicked, an entry widget appears to input data. Aside from the date and difficulty fields, a checked item without corresponding data will be interpreted as if the no filtering by that item were considered. If no items match the search conditions, then a message to this effect appears in the following text box. Otherwise, a series of search results appears, prefaced by a statement with the number of search results. An "expanded view" check button can be used to toggle between abridged and complete forms of data entries. Warnings will be given for invalid or out of range IDs or dates. Note that the "mentioned words" and "source" fields will select entries which match any single searched word (even among many).
-
-<p align="center">
   <img src="img/database-search-data.png" alt="The Database Search Page After A Query">
 </p>
 
-Clicking the "Browse Entries" button brings you to the following frame:
+Clicking the "Browse Entries" button brings you to the following frame on the left below. Clicking the browse button will provide a list of all entries in the database as seen on the right below. Similar to the search page, clicking the "expanded view" button will provide more information about items (though not all available information).
 
 <p align="center">
   <img src="img/database-browse-blank.png" alt = "The Blank Database Browse Page">
-</p>
-
-Clicking the browse button will provide a list of all entries in the database. Similarly to the search page, clicking the "expanded view" button will provide more information about items (though not all available information).
-
-<p align="center">
   <img src="img/database-browse-data.png" alt = "The Database Browse Page After Browsing">
 </p>
 
-Clicking the "Add An Entry" button brings you to the following frame:
+Clicking the "Add An Entry" button brings you to the following frame on the left below. New entry data is filled in as matches the information on the search page as shown on the right below (aside from the ID, which the user has no control over). The entry can be cancelled or saved, after which time the user returns to the menu. Warnings are provided for invalid date entries. The collection of all data entries is kept in a JSON file as a Python list of "DataEntry" objects (which is stored in the form of a list of dictionaries for serialization).
 
 <p align="center">
   <img src="img/database-write-blank.png" alt = "The Blank Database Write Page">
-</p>
-
-New entry data is filled in as matches the information on the search page (aside from the ID, which the user has no control over). The entry can be cancelled or saved, after which time the user returns to the menu. Warnings are provided for invalid date entries. The collection of all data entries is kept in a JSON file as a Python list of "DataEntry" objects (which is stored in the form of a list of dictionaries for serialization).
-
-<p align="center">
   <img src="img/database-write-data.png" alt = "The Database Write Page After Inputting An Entry">
 </p>
 
-Clicking the "Edit An Entry" page brings you to the following frame:
+Clicking the "Edit An Entry" page brings you to the following frame on the left below. Input an ID and click the edit button to update an entry. The fields will be populated with the corresponding data for the entry with the provided ID as shown below in the right. If the ID is invalid or out of range then a warning appears. Similarly, warnings appear for updating a date to an invalid choice. When finished updating, click the save button. If you do not wish to keep the changes, cancel. In both cases you will return to the menu page.
 
 <p align="center">
   <img src="img/database-edit-blank.png" alt = "The Blank Database Edit Page">
-</p>
-
-Input an ID and click the edit button to update an entry. The fields will be populated with the corresponding data for the entry with the provided ID. If the ID is invalid or out of range then a warning appears. Similarly, warnings appear for updating a date to an invalid choice. When finished updating, click the save button. If you do not wish to keep the changes, cancel. In both cases you will return to the menu page.
-
-<p align="center">
   <img src="img/database-edit-data.png" alt = "The Database Edit Page After Choosing An Entry To Edit">
 </p>
 
