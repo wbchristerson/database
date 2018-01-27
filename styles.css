@@ -1,7 +1,7 @@
 img[src*='#left'] {
-  padding-right: 10px;
+  float: left;
 }
 
 img[src*='#right'] {
-  padding-left: 10px;
+  float: right;
 }

@@ -4,7 +4,7 @@
   <img src="img/database-home.png" alt="Menu Page">
 </p>
 
-### Running The Applicat
+### Running The Applicati
 To download, you can clone the repository using this terminal command:
 ```
 git clone https://github.com/wbchristerson/database.git
