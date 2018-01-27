@@ -1,0 +1,7 @@
+img[src*='#left'] {
+  padding-right: 10px;
+}
+
+img[src*='#right'] {
+  padding-left: 10px;
+}

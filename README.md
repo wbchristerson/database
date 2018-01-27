@@ -1,10 +1,8 @@
 # Database
 
-<table><tr><td>
-  <p align="center">
-    <img src="img/database-home.png" alt="Menu Page">
-  </p>
-</td></tr></table>
+<p align="center">
+  <img src="img/database-home.png" alt="Menu Page">
+</p>
 
 ### Running The Application
 To download, you can clone the repository using this terminal command:
@@ -31,8 +29,8 @@ Alternatively, follow the instructions below to download to a hard drive:
 The application begins with the menu shown above. All other page frames have return buttons back to this page. Clicking the "Look Up An Entry" button brings you to the following frame on the left below. As mentioned above, there are options to make queries based on ID in the database, tags (keywords), topic, source, date, difficulty, and mentioned words. When the corresponding check box is clicked, an entry widget appears to input data. Aside from the date and difficulty fields, a checked item without corresponding data will be interpreted as if the no filtering by that item were considered. If no items match the search conditions, then a message to this effect appears in the following text box. Otherwise, a series of search results appears, prefaced by a statement with the number of search results, as seen on right below. An "expanded view" check button can be used to toggle between abridged and complete forms of data entries. Warnings will be given for invalid or out of range IDs or dates. Note that the "mentioned words" and "source" fields will select entries which match any single searched word (even among many).
 
 <p align="center">
-  <img src="img/database-search-blank.png" alt="The Blank Database Search Page">
-  <img src="img/database-search-data.png" alt="The Database Search Page After A Query">
+  <img src="img/database-search-blank.png#left" alt="The Blank Database Search Page">
+  <img src="img/database-search-data.png#right" alt="The Database Search Page After A Query">
 </p>
 
 Clicking the "Browse Entries" button brings you to the following frame on the left below. Clicking the browse button will provide a list of all entries in the database as seen on the right below. Similar to the search page, clicking the "expanded view" button will provide more information about items (though not all available information).
