@@ -170,9 +170,9 @@ class DataEntry():
         message = DataEntry.small_string_rep(self)
         message += 'Source: ' + self.source + '\n'
         message += 'Date: ' + self.date + '\n\n'
+        message += 'Difficulty: ' + self.difficulty + '\n\n'
         message += 'Statement (No LaTeX): ' + self.stnl + '\n\n'
         message += 'Statement (With LaTeX): ' + self.stwl + '\n\n'
-        message += 'Difficulty: ' + self.difficulty + '\n\n'
         message += 'Solution (No LaTeX): ' + self.sonl + '\n\n'
         message += 'Solution (With LaTeX): ' + self.sowl + '\n\n'
         message += 'Notes: ' + self.notes + '\n\n\n'

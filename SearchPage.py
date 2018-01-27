@@ -471,7 +471,7 @@ class SearchPage(Frame):
             with open('resources.json', 'r') as f:
                 ref_dict = json.load(f)
             ref = [DE.DataEntry.from_dict(entry) for entry in ref_dict]
-            if ((self.id_input.get() != '') and
+            if ((self.by_id.get()) and (self.id_input.get() != '') and
                 (int(self.id_input.get()) >= len(ref))):
                 self.id_warning = True
                 self.id_warning_lbl = Label(self,
