@@ -1,10 +1,10 @@
 # Database
 
-<p align="center">
-  <table><tr><td>
+<table><tr><td>
+  <p align="center">
     <img src="img/database-home.png" alt="Menu Page">
-  </td></tr></table>
-</p>
+  </p>
+</td></tr></table>
 
 ### Running The Application
 To download, you can clone the repository using this terminal command:
