@@ -30,7 +30,7 @@ The application begins with the menu shown above. All other page frames have ret
 
 <p align="center">
   <img src="img/database-search-blank.png" alt = "The Blank Database Search Page">
-  <img src="img/database-search-data.png.png" alt = "The Database Search Page After A Query">
+  <img src="img/database-search-data.png" alt = "The Database Search Page After A Query">
 </p>
 
 Clicking the "Browse Entries" button brings you to the following frame on the left below. Clicking the browse button will provide a list of all entries in the database as seen on the right below. Similar to the search page, clicking the "expanded view" button will provide more information about items (though not all available information).
