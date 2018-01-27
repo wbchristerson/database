@@ -9,7 +9,9 @@ class EditPage(Frame):
         Frame.__init__(self, parent)
         #e6ef64
         #e3e5a9
-        self.config(bg="#fcffba")
+        #fcffba
+        #fafccf
+        self.config(bg="#fafccf")
         self.grid_columnconfigure(1, weight=1)
         self.grid()
         self.set_format(controller)
@@ -21,7 +23,7 @@ class EditPage(Frame):
     def set_format(self, controller):
         # Page title
         lbl = Label(self, text = "Edit An Entry", font= ("Verdana", 14),
-                    bg="#fcffba")
+                    bg="#fafccf")
         lbl.grid(row = 0, column = 1, sticky = W, padx = (70,0), pady = 5)
         
         # Menu return button
@@ -32,7 +34,7 @@ class EditPage(Frame):
                         pady = (0,5))
 
         # 'ID' label
-        Label(self, text = "ID", bg="#fcffba",
+        Label(self, text = "ID", bg="#fafccf",
               font = ("Verdana", 11)).grid(row = 2, column = 0, sticky = W,
                                            padx = 10, pady = (0,20))
 
@@ -52,26 +54,26 @@ class EditPage(Frame):
         WP.WritePage.set_format(self,controller, 3)
 
         # Alter coloration of page from default given by edit page
-        self.tag_lbl.config(bg="#fcffba")
+        self.tag_lbl.config(bg="#fafccf")
         self.tags_input.grid(padx = (32,0), pady = 2)
-        self.topic_lbl.config(bg="#fcffba")
+        self.topic_lbl.config(bg="#fafccf")
         self.topic_input.grid(padx = (32,0), pady = 2)
-        self.source_lbl.config(bg="#fcffba")
+        self.source_lbl.config(bg="#fafccf")
         self.source_input.grid(padx = (32,0), pady = 2)
-        self.date_lbl.config(bg="#fcffba")
+        self.date_lbl.config(bg="#fafccf")
         self.date_input.grid(padx = (32,0), pady = 2)
-        self.difficulty_lbl.config(bg="#fcffba")
-        self.rb_easy.config(bg="#fcffba", activebackground="#fcffba")
+        self.difficulty_lbl.config(bg="#fafccf")
+        self.rb_easy.config(bg="#fafccf", activebackground="#fafccf")
         self.rb_easy.grid(padx = (0,120))
-        self.rb_medium.config(bg="#fcffba", activebackground="#fcffba")
-        self.rb_hard.config(bg="#fcffba", activebackground="#fcffba")
+        self.rb_medium.config(bg="#fafccf", activebackground="#fafccf")
+        self.rb_hard.config(bg="#fafccf", activebackground="#fafccf")
         self.rb_hard.grid(padx = (0,120))
-        self.rb_no_rank.config(bg="#fcffba", activebackground="#fcffba")
-        self.stnl_lbl.config(bg="#fcffba")
-        self.stwl_lbl.config(bg="#fcffba")
-        self.sonl_lbl.config(bg="#fcffba")
-        self.sowl_lbl.config(bg="#fcffba")
-        self.notes_lbl.config(bg="#fcffba")
+        self.rb_no_rank.config(bg="#fafccf", activebackground="#fafccf")
+        self.stnl_lbl.config(bg="#fafccf")
+        self.stwl_lbl.config(bg="#fafccf")
+        self.sonl_lbl.config(bg="#fafccf")
+        self.sowl_lbl.config(bg="#fafccf")
+        self.notes_lbl.config(bg="#fafccf")
 
         self.stnl_lbl.grid(pady = (0,2))
         self.stwl_lbl.grid(pady = (0,2))

@@ -15,7 +15,8 @@ class WritePage(Frame):
         #dd9f9f
         #f79647
         #f45353
-        self.config(bg="#f45353")
+        #fc9999
+        self.config(bg="#fc9999")
         self.grid()
         self.set_intro(controller)
         # self.set_format(controller, 2)
@@ -40,7 +41,7 @@ class WritePage(Frame):
     def set_intro(self, controller):
         # Page title
         lbl = Label(self, text = "Add An Entry", font= ("Verdana", 14),
-                    bg = "#f45353")
+                    bg = "#fc9999")
         lbl.grid(row = 0, column = 1, pady = 5, sticky = W, padx = (60,0))
         
         # Menu return button
@@ -52,7 +53,7 @@ class WritePage(Frame):
 
     def set_format(self, controller, offset):
         # 'Tags' label
-        self.tag_lbl = Label(self, text = "Tags", bg = "#f45353",
+        self.tag_lbl = Label(self, text = "Tags", bg = "#fc9999",
                              font = ("Verdana", 11))
         self.tag_lbl.grid(row = offset, column = 0, sticky = W, padx = 10)
 
@@ -62,7 +63,7 @@ class WritePage(Frame):
                              padx = (20,0))
 
         # 'Topic' label
-        self.topic_lbl = Label(self, text = "Topic", bg = "#f45353",
+        self.topic_lbl = Label(self, text = "Topic", bg = "#fc9999",
                                font = ("Verdana", 11))
         self.topic_lbl.grid(row = 1 + offset, column = 0, sticky = W, padx = 10)
 
@@ -72,7 +73,7 @@ class WritePage(Frame):
                               sticky = W, padx = (20,0))
 
         # 'Source' label
-        self.source_lbl = Label(self, text = "Source", bg = "#f45353",
+        self.source_lbl = Label(self, text = "Source", bg = "#fc9999",
                                 font = ("Verdana", 11))
         self.source_lbl.grid(row = 2 + offset, column = 0, sticky = W,
                              padx = 10)
@@ -83,7 +84,7 @@ class WritePage(Frame):
                                sticky = W, padx = (20,0))
 
         # 'Date' label
-        self.date_lbl = Label(self, text = "Date (MM/DD/YYYY)", bg = "#f45353",
+        self.date_lbl = Label(self, text = "Date (MM/DD/YYYY)", bg = "#fc9999",
                               font = ("Verdana", 11))
         self.date_lbl.grid(row = 3 + offset, column = 0, sticky = W, padx = 10)
 
@@ -93,7 +94,7 @@ class WritePage(Frame):
                              padx = (20,0))
 
         # 'Difficulty' label
-        self.difficulty_lbl = Label(self, text = "Difficulty", bg = "#f45353",
+        self.difficulty_lbl = Label(self, text = "Difficulty", bg = "#fc9999",
                                     font = ("Verdana", 11))
         self.difficulty_lbl.grid(row = 4 + offset, column = 0, sticky = W,
                                  padx = 10)
@@ -103,40 +104,40 @@ class WritePage(Frame):
         self.difficulty.set(None)
 
         # 'Easy' radio button
-        self.rb_easy = Radiobutton(self, text = 'Easy', bg = "#f45353",
+        self.rb_easy = Radiobutton(self, text = 'Easy', bg = "#fc9999",
                                    variable = self.difficulty, value = 'easy',
                                    font = ("Verdana", 11),
-                                   activebackground = "#f45353")
+                                   activebackground = "#fc9999")
         self.rb_easy.grid(row = 4 + offset, column = 1, padx = (0,130),
                           sticky = E)
         
         # 'Medium' radio button
-        self.rb_medium = Radiobutton(self, text = 'Medium', bg = "#f45353",
+        self.rb_medium = Radiobutton(self, text = 'Medium', bg = "#fc9999",
                                      variable = self.difficulty,
                                      value = 'medium', font = ("Verdana", 11),
-                                     activebackground = "#f45353")
+                                     activebackground = "#fc9999")
         self.rb_medium.grid(row = 4 + offset, column = 2, sticky = W,
                             padx = (0,40))
 
         # 'Hard' radio button
         self.rb_hard = Radiobutton(self, text = 'Hard',
                                    variable = self.difficulty, value = 'hard',
-                                   bg = "#f45353", font = ("Verdana", 11),
-                                   activebackground = "#f45353")
+                                   bg = "#fc9999", font = ("Verdana", 11),
+                                   activebackground = "#fc9999")
         self.rb_hard.grid(row = 5 + offset, column = 1, sticky = E,
                           padx = (0,130))
 
         # 'No rank' radio button
-        self.rb_no_rank = Radiobutton(self, text = 'No Rank', bg = "#f45353",
+        self.rb_no_rank = Radiobutton(self, text = 'No Rank', bg = "#fc9999",
                                       variable = self.difficulty,
                                       value = 'no rank', font = ("Verdana", 11),
-                                      activebackground = "#f45353")
+                                      activebackground = "#fc9999")
         self.rb_no_rank.grid(row = 5 + offset, column = 2, sticky = W)
 
 
         # 'Statement (no latex)' label
         self.stnl_lbl = Label(self, text = "Statement (No LaTeX)",
-                              bg = "#f45353", font = ("Verdana", 11))
+                              bg = "#fc9999", font = ("Verdana", 11))
         self.stnl_lbl.grid(row = 6 + offset, column = 0, sticky = W, padx = 10,
                            pady = 3)
 
@@ -148,7 +149,7 @@ class WritePage(Frame):
 
         # 'Statement (latex)' label
         self.stwl_lbl = Label(self, text = "Statement (With LaTeX)",
-                              bg = "#f45353", font = ("Verdana", 11))
+                              bg = "#fc9999", font = ("Verdana", 11))
         self.stwl_lbl.grid(row = 6 + offset, column = 1, sticky = W, pady = 3,
                            columnspan = 2, padx = (150, 0))
 
@@ -160,7 +161,7 @@ class WritePage(Frame):
 
         # 'Solution' (without latex) label
         self.sonl_lbl = Label(self, text = "Solution (No LaTeX)",
-                              bg = "#f45353", font = ("Verdana", 11))
+                              bg = "#fc9999", font = ("Verdana", 11))
         self.sonl_lbl.grid(row = 8 + offset, column = 0, sticky = W, padx = 10,
                            pady = 3)
 
@@ -172,7 +173,7 @@ class WritePage(Frame):
 
         # 'Solution' (with latex) label
         self.sowl_lbl = Label(self, text = "Solution (With LaTeX)",
-                              bg = "#f45353", font = ("Verdana", 11))
+                              bg = "#fc9999", font = ("Verdana", 11))
         self.sowl_lbl.grid(row = 8 + offset, column = 1, sticky = W, pady = 3,
                            padx = (150,0))
 
@@ -183,7 +184,7 @@ class WritePage(Frame):
                        padx = (150,0))
 
         # 'Notes' label
-        self.notes_lbl = Label(self, text = "Notes", bg = "#f45353",
+        self.notes_lbl = Label(self, text = "Notes", bg = "#fc9999",
                                font = ("Verdana", 11))
         self.notes_lbl.grid(row = 10 + offset, column = 0, sticky = W,
                             padx = 10, pady = 3)
