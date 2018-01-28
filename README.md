@@ -4,6 +4,10 @@
   <img src="img/database-home.png" alt="Menu Page">
 </p>
 
+### Overview
+
+This project is a small-scale database built using Python and the graphical user interface package Tkinter. The database is meant to store solutions to challenging mathematical puzzles and problems drawn from various sources, including mathematical olympiads; however, it can easily be adapted to store other information. This seemed like a valuable tool to have for reference and was inspired by [this](https://artofproblemsolving.com/community/c5h1559064p9530694) post on the website Art of Problem Solving.
+
 ### Running The Application
 You will need to have Python installed on your computer. If you do not have it installed, you can download it for free. For details see [this](https://www.python.org/downloads/ "Python Foundation Software Download Page") page. For reference, this project was created using Python version 3.1.
 
