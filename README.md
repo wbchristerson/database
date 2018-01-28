@@ -7,7 +7,7 @@
 ### Running The Application
 You will need to have Python installed on your computer. If you do not have it installed, you can download it for free. For details see [this](https://www.python.org/downloads/ "Python Foundation Software Download Page") page. For reference, this project was created using Python version 3.1.
 
-If you are running an operating system other than Windows, then you may have to download and install additional software to accommodate the Tkinter toolkit. To learn more or trouble shoot, see these pages:
+If you are running an operating system other than Windows, then you may have to download and install additional software to accommodate the Tkinter toolkit. To learn more or to trouble shoot, see these pages:
 * [Tkinter on the Python Software Foundation Page](https://www.python.org/download/mac/tcltk/)
 * [Tkinter on the Python wiki](https://wiki.python.org/moin/TkInter)
 * [Why Didn't My Python Installation on Mac Include Tkinter?](https://stackoverflow.com/questions/36760839/why-my-python-installed-via-home-brew-not-include-tkinter)
@@ -23,7 +23,7 @@ Alternatively, follow the instructions below to download to a hard drive:
 * Right click and choose "Extract All".
 * Go to `database-master`, enter `database-master` again, then double click `database.py`. The menu page will appear.
 
-Note: The project comes with a sample of database entries so as to see how the application works. If you wish to delete these entries and begin with a completely blank database, then double click the file `delete_database.py`. A window will open prompting you to confirm that you wish to delete all existing entries. To continue, type 'y'. To cancel, type 'n'. For a more aesthetic view of the problems originally maintained in the database, see `problems.pdf`.
+Note: The project comes with a sample of database entries so as to see how the application works. If you wish to delete these entries and begin with a completely blank database, then double click the file `delete_database.py`. A window will open prompting you to confirm that you wish to delete all existing entries. To continue, type 'y'. To cancel, type 'n'. For a more aesthetic view of the problems originally maintained in the database, see `sample_problems.pdf`.
 
 
 ### Structure
