@@ -3,27 +3,17 @@ import DataEntry as DE
 import json
 
 class WritePage(Frame):
-#class WritePage(Canvas): #
     """ Add a database entry """
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
-        #self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
-        #self.grid_columnconfigure(2, weight=1)
-        #8ab4f7
-        #e55b39
-        #dd9f9f
-        #f79647
-        #f45353
-        #fc9999
         self.config(bg="#fc9999")
         self.grid()
         self.set_intro(controller)
-        # self.set_format(controller, 2)
         WritePage.set_format(self,controller, 2)
-        # Whether message about invalid input is visible
+        # whether message about invalid input is visible:
         self.input_warning = False
-        # Whether message about invalid date is visible
+        # whether message about invalid date is visible:
         self.date_warning = False
         
         # 'Add Entry' button
@@ -38,6 +28,7 @@ class WritePage(Frame):
                             width = 15, font = ("Verdana", 11))
         self.bttn3.grid(row = 14, column = 1, pady = 10, sticky = E)
 
+
     def set_intro(self, controller):
         # Page title
         lbl = Label(self, text = "Add An Entry", font= ("Verdana", 14),
@@ -50,6 +41,7 @@ class WritePage(Frame):
                             command=lambda: controller.return_home())
         self.bttn1.grid(row = 1, column = 1, pady = 5, sticky = W,
                         padx = (50,0))
+
 
     def set_format(self, controller, offset):
         # 'Tags' label
@@ -134,7 +126,6 @@ class WritePage(Frame):
                                       activebackground = "#fc9999")
         self.rb_no_rank.grid(row = 5 + offset, column = 2, sticky = W)
 
-
         # 'Statement (no latex)' label
         self.stnl_lbl = Label(self, text = "Statement (No LaTeX)",
                               bg = "#fc9999", font = ("Verdana", 11))
@@ -195,6 +186,7 @@ class WritePage(Frame):
         self.notes.grid(row = 11 + offset, column = 0, columnspan = 3,
                         sticky = W, padx = 10, rowspan = 2)
 
+
     # clear write page of inputs
     def clear(self):
         self.tags_input.delete(0, END)
@@ -213,8 +205,6 @@ class WritePage(Frame):
         if (self.input_warning):
             self.input_warning = False
             self.data_lbl.grid_remove()
-        #if (hasattr(self, 'data_lbl')):
-        #    self.data_lbl.grid_remove()
 
 
     # check that write page entry has some content
@@ -245,6 +235,7 @@ class WritePage(Frame):
             return True
         else:
             return False
+
 
     # if a trailing '\n' is present in the content of a text widget, then
     # remove it

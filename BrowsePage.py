@@ -13,7 +13,8 @@ class BrowsePage(Frame):
         self.config(bg="#74eef2")
         self.grid()
         self.set_format(controller)
-        self.executed = False # whether the user has clicked browse at all
+        self.executed = False # whether user has clicked browse at least once
+
 
     def set_format(self, controller):
         # Page title
@@ -45,15 +46,12 @@ class BrowsePage(Frame):
                             command=lambda: self.populate_browser(), width = 15)
         self.bttn2.grid(row = 2, column = 2, padx = 20)
 
-        # 'Items' label
-        #Label(self, text = "Results", bg="#74eef2",
-        #      font = ("Verdana", 11)).grid(row = 4, column = 1)
-
         # Items text box
         self.results_txt = Text(self, width = 60, height = 35, wrap = WORD,
                                 font= ("Verdana", 9))
         self.results_txt.grid(row = 4, column = 0, columnspan = 3, padx=20,
                               pady=20)
+
 
     def display(self):
         message = ""
@@ -68,6 +66,7 @@ class BrowsePage(Frame):
         f.close()
         return message
 
+
     def populate_browser(self):
         # assume that all dictionary entries have the same length
         self.results_txt.delete(0.0, END)
@@ -75,9 +74,11 @@ class BrowsePage(Frame):
         self.results_txt.insert(0.0, message)
         self.executed = True # mark as having used browsing button
 
+
     def update_view(self):
         if (self.executed):
             self.populate_browser()
+
 
     def clear(self):
         self.expanded_view.set(False)

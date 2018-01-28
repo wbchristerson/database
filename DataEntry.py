@@ -15,68 +15,90 @@ class DataEntry():
         self.sowl = solution_latex # 'solution with latex'
         self.notes = notes
 
+
     def set_id(self, new_id):
         self.id = new_id
+
 
     def set_tags(self, new_tags):
         self.tags = new_tags
 
+
     def get_tags(self):
         return self.tags
+
 
     def set_topic(self, new_topic):
         self.topic = new_topic
 
+
     def get_topic(self):
         return self.topic
+
 
     def set_source(self, new_source):
         self.source = new_source
 
+
     def get_source(self):
         return self.source
+
 
     def set_date(self, new_date):
         self.date = new_date
 
+
     def get_date(self):
         return self.date
+
 
     def set_difficulty(self, new_difficulty):
         self.difficulty = new_difficulty
 
+
     def get_difficulty(self):
         return self.difficulty
+
 
     def set_stnl(self, new_stat):
         self.stnl = new_stat
 
+
     def get_stnl(self):
         return self.stnl
+
 
     def set_stwl(self, new_stat):
         self.stwl = new_stat
 
+
     def get_stwl(self):
         return self.stwl
+
 
     def set_sonl(self, new_sol):
         self.sonl = new_sol
 
+
     def get_sonl(self):
         return self.sonl
+
 
     def set_sowl(self, new_sol):
         self.sowl = new_sol
 
+
     def get_sowl(self):
         return self.sowl
+
 
     def set_notes(self, new_notes):
         self.notes = new_notes
 
+
     def get_notes(self):
         return self.notes
+
 
     @staticmethod
     def check_for_int(s):
@@ -86,12 +108,14 @@ class DataEntry():
         except ValueError:
             return False
 
+
     @staticmethod
     def ret_difficulty(diff):
         if ((diff == 'easy') or (diff == 'medium') or (diff == 'hard') or
             (diff == 'no rank')):
             return diff
         return 'no rank'
+
 
     # given the tags listed with commas and possibly spaces, place pound signs
     # between them
@@ -112,6 +136,7 @@ class DataEntry():
             ans = '#' + ans
         return ans
 
+
     @staticmethod
     def detagify(tags_string):
         tags = ', '.join(tags_string.split('#'))
@@ -119,8 +144,10 @@ class DataEntry():
             tags = tags[2:]
         return tags
 
+
     # check whether date string is valid; a valid string is '' or a string of
-    # the form 'MM/DD/YYYY' where (MM,DD) is a valid month-day pair
+    # the form 'MM/DD/YYYY' where (MM,DD) is a valid month-day pair; February
+    # 29 in non-leap years is allowed
     @staticmethod
     def is_valid_date(ds):
         if ((len(ds) >= 2) and (ds[1] == '/')):
@@ -149,11 +176,13 @@ class DataEntry():
             return False
         return True
 
+
     def small_string_rep(self):
         message = 'ID: ' + str(self.id) + '\n'
         message += 'Tags: ' + DataEntry.detagify(self.tags) + '\n'
         message += 'Topic: ' + self.topic + '\n'
         return message
+
 
     def medium_string_rep(self):
         message = DataEntry.small_string_rep(self)
@@ -165,6 +194,7 @@ class DataEntry():
         else:
             message += self.stnl + '\n'
         return message
+
 
     def large_string_rep(self):
         message = DataEntry.small_string_rep(self)
@@ -178,17 +208,20 @@ class DataEntry():
         message += 'Notes: ' + self.notes + '\n\n\n'
         return message
 
+
     def browse_rep(self, expand):
         if (expand):
             return DataEntry.medium_string_rep(self)
         else:
             return DataEntry.small_string_rep(self)
 
+
     def search_rep(self, expand):
         if (expand):
             return DataEntry.large_string_rep(self)
         else:
             return DataEntry.medium_string_rep(self)
+
 
     # return a dictionary representation of the object for JSON serialization
     def to_dict(self):
@@ -205,6 +238,7 @@ class DataEntry():
         ent_dict['sowl'] = self.sowl
         ent_dict['notes'] = self.notes
         return ent_dict
+
 
     # return a DataEntry object representation of the dictionary
     @staticmethod

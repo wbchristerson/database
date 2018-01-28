@@ -5,7 +5,7 @@ import json
 # 'Y', 'yes', 'Yes', or 'YES', then all database entries will be deleted and
 # the database will be replaced with an empty list. If the user responds with
 # anything else, the proposed deletions will be canceled. A final status
-# statement will show up along with a request to close the file by pressing
+# statement will show up along with a request to close the window by pressing
 # 'enter'.
 
 confirm = input("\nAre you sure that you want to delete all entries from " \

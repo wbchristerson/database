@@ -7,17 +7,13 @@ class EditPage(Frame):
     """ Edit an entry based on the ID """
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
-        #e6ef64
-        #e3e5a9
-        #fcffba
-        #fafccf
         self.config(bg="#fafccf")
         self.grid_columnconfigure(1, weight=1)
         self.grid()
         self.set_format(controller)
         self.curr_id = -1
         self.warning_id = False # whether message about invalid id is visible
-        # whether message about invalid date is visible
+        # whether message about invalid date is visible:
         self.warning_date = False
 
     def set_format(self, controller):
@@ -111,6 +107,7 @@ class EditPage(Frame):
             self.red_date.grid_remove()
         self.curr_id = -1
 
+
     def populate_by_id(self):
         if (self.warning_id):
             self.warning_id = False
@@ -125,7 +122,6 @@ class EditPage(Frame):
             ref = [DE.DataEntry.from_dict(entry) for entry in ref_dict]
             int_id = int(rec_id)
             if ((int_id >= len(ref_dict)) or (int_id < 0)):
-                #self.id_input.delete(0, END)
                 if (self.warning_id):
                     self.warning_id = False
                     self.red_id.grid_remove()
@@ -152,7 +148,6 @@ class EditPage(Frame):
                 self.notes.insert(0.0, ref[int_id].get_notes())
             f.close()
         else:
-            #self.id_input.delete(0, END)
             if (self.warning_id):
                 self.warning_id = False
                 self.red_id.grid_remove()

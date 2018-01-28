@@ -7,8 +7,6 @@ class SearchPage(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.grid_columnconfigure(1, weight=1)
-        #6df241
-        #a2dba7
         self.config(bg="#a2dba7")
         self.grid()
         self.set_format(controller)
@@ -17,6 +15,7 @@ class SearchPage(Frame):
         self.date_warning_end = False
         self.date_warning_chrono = False # whether input dates occur in order
         self.has_been_executed = False
+
 
     def set_format(self, controller):
         # Page title
@@ -128,19 +127,17 @@ class SearchPage(Frame):
                             command = self.get_items, width = 15)
         self.bttn2.grid(row = 14, column = 1, pady = 10)
 
-        # 'Items' label
-        #Label(self, text = "Items", bg="#a2dba7",
-        #      font= ("Verdana", 11)).grid(row = 15, column = 1, pady = 10)
-
         # Items text box
         self.results_txt = Text(self, width = 65,
                                 height = 20, wrap = WORD,
                                 font= ("Verdana", 9))
         self.results_txt.grid(row = 15, column = 0, columnspan = 3)
 
+
     def alter_results(self):
         if (self.has_been_executed):
             self.get_items()
+
 
     def toggle_id_input(self):
         if (self.by_id.get()):
@@ -150,12 +147,14 @@ class SearchPage(Frame):
             self.id_input.grid_remove()
             self.reset_id_warning()
 
+
     def toggle_tags_input(self):
         if (self.by_tags.get()):
             self.tags_input = Entry(self, font= ("Verdana", 11))
             self.tags_input.grid(row = 4, column = 1, sticky = W)
         elif (hasattr(self, 'tags_input')):
             self.tags_input.grid_remove()
+
 
     def toggle_topic_input(self):
         if (self.by_topic.get()):
@@ -164,12 +163,14 @@ class SearchPage(Frame):
         elif (hasattr(self, 'topic_input')):
             self.topic_input.grid_remove()
 
+
     def toggle_source_input(self):
         if (self.by_source.get()):
             self.source_input = Entry(self, font= ("Verdana", 11))
             self.source_input.grid(row = 6, column = 1, sticky = W)
         elif (hasattr(self, 'source_input')):
             self.source_input.grid_remove()
+
 
     def toggle_date_input(self):
         if (self.by_date.get()):
@@ -372,7 +373,7 @@ class SearchPage(Frame):
             elif word in notes:
                 return True
         return False
-        
+
 
     # return list containing objects matching the query;
     # assumes that if ID box is checked, then the given ID is valid (possibly
@@ -415,15 +416,18 @@ class SearchPage(Frame):
             self.id_warning = False
             self.id_warning_lbl.grid_remove()
 
+
     def reset_date_warning_start(self):
         if (self.date_warning_start):
             self.date_warning_start = False
             self.date_warning_lbl_start.grid_remove()
 
+
     def reset_date_warning_end(self):
         if (self.date_warning_end):
             self.date_warning_end = False
             self.date_warning_lbl_end.grid_remove()
+
 
     def reset_date_warning_chrono(self):
         if (self.date_warning_chrono):
@@ -445,14 +449,16 @@ class SearchPage(Frame):
                                             text = "ID must be integer",
                                             fg="red")
                 self.id_warning_lbl.grid(row = 3, column = 2)
-        elif (self.by_date.get() and ((not DE.DataEntry.is_valid_date(self.start_date_input.get())) or (self.start_date_input.get() == ''))):
+        elif (self.by_date.get() and ((not DE.DataEntry.is_valid_date(self.start_date_input.get())) or
+                                      (self.start_date_input.get() == ''))):
             if (not (self.date_warning_start)):
                 self.date_warning_start = True
                 self.date_warning_lbl_start = Label(self,
                                                     text = "Start date must be valid",
                                                     fg="red")
                 self.date_warning_lbl_start.grid(row = 7, column = 1)
-        elif (self.by_date.get() and ((not DE.DataEntry.is_valid_date(self.end_date_input.get())) or (self.end_date_input.get() == ''))):
+        elif (self.by_date.get() and ((not DE.DataEntry.is_valid_date(self.end_date_input.get())) or
+                                      (self.end_date_input.get() == ''))):
             if (not (self.date_warning_end)):
                 self.date_warning_end = True
                 self.date_warning_lbl_end = Label(self,
