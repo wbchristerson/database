@@ -114,7 +114,7 @@ class SearchPage(Frame):
         # Expanded view check button
         self.expanded_view = BooleanVar()
         Checkbutton(self,
-                    text = "Expanded view",
+                    text = "Expanded View",
                     command = self.alter_results,
                     variable = self.expanded_view,
                     bg="#a2dba7",

@@ -32,7 +32,7 @@ class BrowsePage(Frame):
         # statements
         self.expanded_view = BooleanVar()
         Checkbutton(self,
-                    text = "Expanded view",
+                    text = "Expanded View",
                     variable = self.expanded_view,
                     # allow toggling of expanded view within the frame
                     command = self.update_view,
